@@ -54,7 +54,7 @@ const components: { title: string; href: string; description: string }[] = [
 
 export default function NavigationBar() {
   return (
-    <NavigationMenu className="mx-auto">
+    <NavigationMenu className="mx-auto py-2">
       <NavigationMenuList>
         <NavigationMenuItem>
           <Link href="/" legacyBehavior passHref>
