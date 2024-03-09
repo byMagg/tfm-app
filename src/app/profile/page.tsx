@@ -8,9 +8,9 @@ export default function Profile() {
       <h1 className="text-4xl font-bold">Profile</h1>
       <LinkTransition href="/">
         <Image
-          src={'https://picsum.photos/200'}
+          src={'/favicon.ico'}
           alt="Picture of the author"
-          className="profile-pic"
+          className="profile-pic rounded-full scale-150"
           width={200}
           height={200}
         />

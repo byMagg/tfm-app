@@ -23,7 +23,7 @@ export default function Home() {
       <h1>Home</h1>
       <LinkTransition href="/profile">
         <Image
-          src={'https://picsum.photos/200'}
+          src={'/favicon.ico'}
           alt="Picture of the author"
           className="profile-pic"
           width={200}
