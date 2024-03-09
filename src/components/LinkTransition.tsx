@@ -9,14 +9,9 @@ export default function LinkTransition(props: any) {
 
   const handleTransition = () => {
     // @ts-ignore
-    if (document.startViewTransition) {
-      // @ts-ignore
-      document.startViewTransition(() => {
-        flushSync(() => {
-          router.push(props.href)
-        })
-      })
-    }
+    document.startViewTransition(() => {
+      router.push(props.href)
+    })
   }
 
   return (

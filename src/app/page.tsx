@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center justify-between p-24">
       <h1>Home</h1>
-      <LinkTransition href="/profile">
+      <LinkTransition href="/traffic-crashes">
         <Image
           src={'/favicon.ico'}
           alt="Picture of the author"
