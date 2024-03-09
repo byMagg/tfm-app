@@ -88,3 +88,7 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.profile-pic {
+  view-transition-name: profile-pic;
+}
