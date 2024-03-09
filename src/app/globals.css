@@ -93,28 +93,28 @@ body {
   view-transition-name: profile-pic;
 }
 
-::view-transition-old(profile-pic) {
-  animation: 0.5s linear shrink;
+::view-transition-old(root) {
+  animation: 0.5s linear fade-out;
 }
 
-::view-transition-new(profile-pic) {
-  animation: 0.5s linear grow;
+::view-transition-new(root) {
+  animation: 0.5s linear fade-in;
 }
 
-@keyframes shrink {
+@keyframes fade-in {
   from {
-    transform: scale(1);
+    opacity: 0;
   }
   to {
-    transform: scale(0);
+    opacity: 1;
   }
 }
 
-@keyframes grow {
+@keyframes fade-out {
   from {
-    transform: scale(0);
+    opacity: 1;
   }
   to {
-    transform: scale(1);
+    opacity: 0;
   }
 }

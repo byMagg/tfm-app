@@ -4,13 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { flushSync } from 'react-dom'
 
-export default function LinkTransition({
-  children,
-  href,
-}: {
-  children: React.ReactNode
-  href: string
-}) {
+export default function LinkTransition(props: any) {
   const router = useRouter()
 
   const handleTransition = () => {
@@ -19,16 +13,15 @@ export default function LinkTransition({
       // @ts-ignore
       document.startViewTransition(() => {
         flushSync(() => {
-          console.log('Transition started')
-          router.push(href)
+          router.push(props.href)
         })
       })
     }
   }
 
   return (
-    <Link href={href} onClick={handleTransition}>
-      {children}
+    <Link href={props.href} onClick={handleTransition} {...props}>
+      {props.children}
     </Link>
   )
 }

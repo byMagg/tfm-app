@@ -13,6 +13,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
+import LinkTransition from './LinkTransition'
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -57,11 +58,11 @@ export default function NavigationBar() {
     <NavigationMenu className="mx-auto py-2">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link href="/" legacyBehavior passHref>
+          <LinkTransition href="/" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Home
             </NavigationMenuLink>
-          </Link>
+          </LinkTransition>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
