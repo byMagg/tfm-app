@@ -1,25 +1,32 @@
 import Image from 'next/image'
-import { Payment, columns } from './columns'
+import { TrafficCrash, columns } from './columns'
 import { DataTable } from './data-table'
 import LinkTransition from '@/components/LinkTransition'
 
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: '728ed52f',
-      amount: 100,
-      status: 'pending',
-      email: 'm@example.com',
+async function getData(): Promise<TrafficCrash[]> {
+  const response = await fetch('http://localhost:4321/api/graphql', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-    {
-      id: '728ed52g',
-      amount: 200,
-      status: 'processing',
-      email: 'm@example.com',
-    },
-    // ...
-  ]
+    body: JSON.stringify({
+      query: `
+          query GetCrashes{
+            getCrashes(limit: 10) {
+              CRASH_RECORD_ID
+              LOCATION
+              WEATHER_CONDITION
+              CRASH_DATE
+            }
+          }
+        `,
+    }),
+  })
+
+  if (!response.ok) throw new Error('Failed to fetch data')
+
+  const { data } = await response.json()
+  return data.getCrashes
 }
 
 export default async function TrafficCrashes() {
@@ -36,7 +43,8 @@ export default async function TrafficCrashes() {
           height={200}
         />
       </LinkTransition>
-      <DataTable columns={columns} data={data} />
+
+      {data && <DataTable columns={columns} data={data} />}
     </div>
   )
 }
