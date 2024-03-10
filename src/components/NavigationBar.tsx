@@ -111,7 +111,7 @@ export default function NavigationBar() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/docs" legacyBehavior passHref>
+          <Link href="/traffic-crashes" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Documentation
             </NavigationMenuLink>
