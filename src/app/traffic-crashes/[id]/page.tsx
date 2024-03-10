@@ -1,5 +1,4 @@
 import { TrafficCrash } from '../columns'
-import { useEffect, useState } from 'react'
 
 async function getCrashById({
   trafficCrashId,
