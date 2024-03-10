@@ -1,5 +1,5 @@
 import { fetchAPI } from '@/utils/API'
-import { TrafficCrash } from '../columns'
+import { TrafficCrash } from '@/constants/types'
 
 async function getCrashById({
   trafficCrashId,

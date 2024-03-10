@@ -1,5 +1,3 @@
-import { TrafficCrash } from '@/app/traffic-crashes/columns'
-
 export async function fetchAPI(query: string): Promise<any> {
   try {
     const response = await fetch('http://localhost:4321/api/graphql', {
