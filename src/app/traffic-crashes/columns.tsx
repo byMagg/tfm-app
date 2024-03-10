@@ -1,13 +1,7 @@
 'use client'
 
+import { TrafficCrash } from '@/constants/types'
 import { ColumnDef } from '@tanstack/react-table'
-
-export type TrafficCrash = {
-  CRASH_RECORD_ID: string
-  LOCATION: string
-  WEATHER_CONDITION: string
-  CRASH_DATE: string
-}
 
 export const columns: ColumnDef<TrafficCrash>[] = [
   {

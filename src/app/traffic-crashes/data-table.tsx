@@ -17,15 +17,14 @@ import {
 } from '@/components/ui/table'
 import Link from 'next/link'
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+import { TrafficCrash } from '@/constants/types'
+
+interface DataTableProps {
+  columns: ColumnDef<TrafficCrash>[]
+  data: TrafficCrash[]
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+export function DataTable({ columns, data }: DataTableProps) {
   const table = useReactTable({
     data,
     columns,
@@ -58,7 +57,7 @@ export function DataTable<TData, TValue>({
             table.getRowModel().rows.map((row) => (
               <Link
                 href={`/traffic-crashes/${encodeURIComponent(
-                  '5f54a59fcb087b12ae5b1acff96a3caf4f2d37e79f8db4106558b34b8a6d2b81af02cf91b576ecd7ced08ffd10fcfd940a84f7613125b89d33636e6075064e22'
+                  row.original.CRASH_RECORD_ID
                 )}`}
                 key={row.id}>
                 <TableRow data-state={row.getIsSelected() && 'selected'}>
