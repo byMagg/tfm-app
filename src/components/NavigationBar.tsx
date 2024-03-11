@@ -51,8 +51,15 @@ const components: { title: string; href: string; description: string }[] = [
 
 export function NavigationBar() {
   return (
-    <NavigationMenu>
+    <NavigationMenu className="mx-auto py-2">
       <NavigationMenuList>
+        <NavigationMenuItem>
+          <a href="/">
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Home
+            </NavigationMenuLink>
+          </a>
+        </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
           <NavigationMenuContent>
@@ -102,7 +109,7 @@ export function NavigationBar() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <a href="/">
+          <a href="/settings">
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Documentation
             </NavigationMenuLink>
