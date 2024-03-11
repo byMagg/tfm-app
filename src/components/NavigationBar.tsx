@@ -54,10 +54,8 @@ export function NavigationBar() {
     <NavigationMenu className="mx-auto py-2">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <a href="/">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Home
-            </NavigationMenuLink>
+          <a href="/" className={navigationMenuTriggerStyle()}>
+            Home
           </a>
         </NavigationMenuItem>
         <NavigationMenuItem>
@@ -109,10 +107,8 @@ export function NavigationBar() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <a href="/settings">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Documentation
-            </NavigationMenuLink>
+          <a href="/settings" className={navigationMenuTriggerStyle()}>
+            Settings
           </a>
         </NavigationMenuItem>
       </NavigationMenuList>
@@ -131,7 +127,7 @@ const ListItem = React.forwardRef<
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
+            className,
           )}
           {...props}
         >

@@ -1,12 +1,23 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Card from "../components/Card.astro";
 import { Button } from "@/components/ui/button";
+import { Image } from "astro:assets";
 ---
 
 <Layout title="Welcome to Astro.">
   <main>
     <h1>HOLA</h1>
-    <Button>CLICK</Button>
+
+    <a href="/settings">
+      <Button>CLICK</Button>
+    </a>
+
+    <Image
+      transition:name="profile"
+      src="/src/assets/images/profile.jpg"
+      alt="Random image"
+      width="200"
+      height="200"
+    />
   </main>
 </Layout>
