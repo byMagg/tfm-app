@@ -107,7 +107,7 @@ export function NavigationBar() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <a href="/crashes" className={navigationMenuTriggerStyle()}>
+          <a href="/traffic-crashes" className={navigationMenuTriggerStyle()}>
             Settings
           </a>
         </NavigationMenuItem>

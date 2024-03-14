@@ -1,9 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { columns, type Payment } from "./columns";
 import { DataTable as DT } from "./data-table";
 
 async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
   return [
     {
       id: "728ed52f",
@@ -11,27 +10,28 @@ async function getData(): Promise<Payment[]> {
       status: "pending",
       email: "m@example.com",
     },
-    // ...
   ];
 }
 
 export default function DataTable() {
-  const data = [
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    } as Payment,
-  ];
+  const [data, setData] = useState<Payment[]>([]);
 
   useEffect(() => {
-    console.log("HOLA", data);
+    const fetchData = async () => {
+      const data = await getData();
+      setData(data);
+    };
+
+    fetchData();
   }, []);
 
   return (
     <div className="container mx-auto py-10">
-      <DT columns={columns} data={data} />
+      {data.length > 0 ? (
+        <DT columns={columns} data={data} />
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 }
