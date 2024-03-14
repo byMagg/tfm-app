@@ -59,6 +59,6 @@ const data = await getData()
 
 <Layout title="Astro">
   <div class="container mx-auto py-10">
-    <DataTable columns={columns} data={data} />
+    <DataTable client:visible columns={columns} data={data} />
   </div>
 </Layout>
