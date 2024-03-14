@@ -1,33 +1,58 @@
 ---
 import Layout from '@/layouts/Layout.astro'
 import { DataTable } from '@/components/DataTable'
-import type { Payment } from '@/constants/types'
 import type { ColumnDef } from '@tanstack/react-table'
+import type { TrafficCrash } from '@/constants/types'
 
-export const columns: ColumnDef<Payment>[] = [
+const columns: ColumnDef<TrafficCrash>[] = [
   {
-    accessorKey: 'status',
-    header: 'Status',
+    accessorKey: 'CRASH_RECORD_ID',
+    header: 'ID',
   },
   {
-    accessorKey: 'email',
-    header: 'Email',
+    accessorKey: 'POSTED_SPEED_LIMIT',
+    header: 'Speed Limit',
   },
   {
-    accessorKey: 'amount',
-    header: 'Amount',
+    accessorKey: 'LOCATION',
+    header: 'Location',
+  },
+  {
+    accessorKey: 'CRASH_DATE',
+    header: 'Date',
+  },
+  {
+    accessorKey: 'WEATHER_CONDITION',
+    header: 'Weather',
   },
 ]
 
-async function getData(): Promise<Payment[]> {
-  return [
-    {
-      id: '728ed52f',
-      amount: 100,
-      status: 'pending',
-      email: 'm@example.com',
-    },
-  ]
+async function getData(): Promise<TrafficCrash[]> {
+  console.log('fetching data')
+  try {
+    const response = await fetch('http://localhost:3000', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: `
+        query GetCrashes {
+            getCrashes(limit: 10) {
+                CRASH_RECORD_ID
+                CRASH_DATE
+                WEATHER_CONDITION
+                LOCATION
+                POSTED_SPEED_LIMIT
+            }
+        }
+        `,
+      }),
+    })
+    const { data } = await response.json()
+    return data.getCrashes
+  } catch (error) {
+    console.error(error)
+  }
+  return []
 }
 
 const data = await getData()
