@@ -1,37 +1,12 @@
-import { useEffect, useState } from "react";
-import { columns, type Payment } from "./columns";
-import { DataTable as DT } from "./data-table";
+import { DataTable as DT, type DataTableProps } from "./data-table";
 
-async function getData(): Promise<Payment[]> {
-  return [
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-  ];
-}
-
-export default function DataTable() {
-  const [data, setData] = useState<Payment[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getData();
-      setData(data);
-    };
-
-    fetchData();
-  }, []);
-
+export default function DataTable<TData, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
   return (
     <div className="container mx-auto py-10">
-      {data.length > 0 ? (
-        <DT columns={columns} data={data} />
-      ) : (
-        <p>Loading...</p>
-      )}
+      <DT columns={columns} data={data} />
     </div>
   );
 }

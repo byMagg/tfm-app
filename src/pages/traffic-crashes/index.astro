@@ -1,8 +1,38 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import DataTable from "@/components/DataTable";
+import type { Payment } from "@/constants/types";
+import type { ColumnDef } from "@tanstack/react-table";
+
+export const columns: ColumnDef<Payment>[] = [
+  {
+    accessorKey: "status",
+    header: "Status",
+  },
+  {
+    accessorKey: "email",
+    header: "Email",
+  },
+  {
+    accessorKey: "amount",
+    header: "Amount",
+  },
+];
+
+async function getData(): Promise<Payment[]> {
+  return [
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "m@example.com",
+    },
+  ];
+}
+
+const data = await getData();
 ---
 
 <Layout title="Astro">
-  <DataTable client:visible />
+  <DataTable client:visible data={data} columns={columns} />
 </Layout>
