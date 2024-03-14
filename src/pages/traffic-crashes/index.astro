@@ -28,22 +28,21 @@ const columns: ColumnDef<TrafficCrash>[] = [
 ]
 
 async function getData(): Promise<TrafficCrash[]> {
-  console.log('fetching data')
   try {
     const response = await fetch('http://localhost:3000', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         query: `
-        query GetCrashes {
-            getCrashes(limit: 10) {
-                CRASH_RECORD_ID
-                CRASH_DATE
-                WEATHER_CONDITION
-                LOCATION
-                POSTED_SPEED_LIMIT
-            }
-        }
+          query GetCrashes {
+              getCrashes(limit: 10) {
+                  CRASH_RECORD_ID
+                  CRASH_DATE
+                  WEATHER_CONDITION
+                  LOCATION
+                  POSTED_SPEED_LIMIT
+              }
+          }
         `,
       }),
     })
