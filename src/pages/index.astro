@@ -1,16 +1,20 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import { Button } from "@/components/ui/button";
-import { Image } from "astro:assets";
+import Layout from '../layouts/Layout.astro'
+import { Button } from '@/components/ui/button'
+import type { loadApp } from 'astro/app/node'
+import { Image } from 'astro:assets'
+import { toast } from 'sonner'
+
+const handleClick = () => {
+  toast('Hello from Astro!')
+}
 ---
 
 <Layout title="Welcome to Astro.">
   <main>
     <h1>HOLA</h1>
 
-    <a href="/settings">
-      <Button>CLICK</Button>
-    </a>
+    <Button client:load id="button">CLICK</Button>
 
     <Image
       transition:name="profile"
@@ -21,3 +25,17 @@ import { Image } from "astro:assets";
     />
   </main>
 </Layout>
+
+<script>
+  import { toast } from 'sonner'
+
+  const button = document.getElementById('button')
+
+  if (!button) {
+    throw new Error('Button not found')
+  }
+
+  button.addEventListener('click', () => {
+    toast('Hello from Astro!')
+  })
+</script>
