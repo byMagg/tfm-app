@@ -4,6 +4,8 @@ import { DataTable } from '@/components/DataTable'
 import type { ColumnDef } from '@tanstack/react-table'
 import type { TrafficCrash } from '@/types'
 
+import { fetchAPI } from '@/utils'
+
 const columns: ColumnDef<TrafficCrash>[] = [
   {
     accessorKey: 'CRASH_RECORD_ID',
@@ -28,37 +30,23 @@ const columns: ColumnDef<TrafficCrash>[] = [
 ]
 
 async function getData(): Promise<TrafficCrash[]> {
-  try {
-    const response = await fetch('http://localhost:3000', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query: `
-          query GetCrashes {
-              getCrashes(limit: 10) {
-                  CRASH_RECORD_ID
-                  CRASH_DATE
-                  WEATHER_CONDITION
-                  LOCATION
-                  POSTED_SPEED_LIMIT
-              }
-          }
-        `,
-      }),
-    })
-
-    if (!response.ok) throw new Error('No se ha podido obtener los datos')
-
-    const { data } = await response.json()
-    return data.getCrashes
-  } catch (error) {
-    if (error instanceof Error) {
-      if (error.cause.code === 'ECONNREFUSED') {
-        console.error('No se ha podido conectar con el servidor')
-      }
+  const query = `
+    query GetCrashes {
+        getCrashes(limit: 10) {
+            CRASH_RECORD_ID
+            CRASH_DATE
+            WEATHER_CONDITION
+            LOCATION
+            POSTED_SPEED_LIMIT
+        }
     }
-  }
-  return []
+  `
+
+  const data = await fetchAPI(query)
+
+  if (!data) return []
+
+  return data.getCrashes
 }
 
 const data = await getData()
