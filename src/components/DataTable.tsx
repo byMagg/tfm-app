@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./ui/button";
 import { usePagination } from "@/hooks/usePagination";
+import { Input } from "./ui/input";
 
 export interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -96,7 +97,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-center space-x-2 py-4">
         <Button
           variant="outline"
           size="sm"
@@ -105,6 +106,17 @@ export function DataTable<TData, TValue>({
         >
           Previous
         </Button>
+        <Input
+          className="
+              w-fit
+              text-center
+          [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          value={table.getState().pagination.pageIndex + 1}
+          type="number"
+          onChange={(e) => {
+            table.setPageIndex(Number(e.target.value) - 1);
+          }}
+        />
         <Button
           variant="outline"
           size="sm"
