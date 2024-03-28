@@ -14,9 +14,7 @@ export async function fetchAPI(query: string) {
     return data;
   } catch (error) {
     if (error instanceof Error) {
-      if ((error as any).cause.code === "ECONNREFUSED") {
-        console.error("No se ha podido conectar con la API");
-      }
+      console.error(error.message);
     }
   }
 }

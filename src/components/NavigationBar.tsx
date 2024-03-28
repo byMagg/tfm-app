@@ -59,6 +59,11 @@ export function NavigationBar() {
           </a>
         </NavigationMenuItem>
         <NavigationMenuItem>
+          <a href="/accidents" className={navigationMenuTriggerStyle()}>
+            Historic
+          </a>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
           <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -105,11 +110,6 @@ export function NavigationBar() {
               ))}
             </ul>
           </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <a href="/traffic-crashes" className={navigationMenuTriggerStyle()}>
-            Settings
-          </a>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
