@@ -1,12 +1,10 @@
----
-import Layout from '@/layouts/Layout.astro'
-import { fetchAPI } from '@/utils'
+import { fetchAPI } from "@/utils";
+import { useEffect, useState } from "react";
 
-const { id } = Astro.params
-
-const query = `
+export function useAccident({ id }: { id: string }) {
+  const query = `
       query GetAccident {
-        getAccidentById(accidentId: "${id}") {
+        getAccident(accidentId: "${id}") {
           _id
           ID
           Source
@@ -56,13 +54,21 @@ const query = `
           Astronomical_Twilight
         }
       }
-  `
+  `;
 
-const accident = await fetchAPI(query)
-console.log(accident)
----
+  const [accident, setAccident] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-<Layout title={`${id}`}>
-  <h1>Post {id}</h1>
-  <pre>{JSON.stringify(accident, null, 2)}</pre>
-</Layout>
+  useEffect(() => {
+    const fetch = async () => {
+      setLoading(true);
+      const apiData = await fetchAPI(query);
+      const { getAccident } = apiData;
+      setAccident(getAccident);
+      setLoading(false);
+    };
+    fetch();
+  }, []);
+
+  return { accident, loading };
+}
