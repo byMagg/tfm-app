@@ -13,7 +13,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CloudyIcon } from "lucide-react";
+import {
+  CloudLightningIcon,
+  CloudSunIcon,
+  CloudSunRain,
+  CloudyIcon,
+  SunIcon,
+} from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
@@ -24,6 +30,26 @@ export interface DataTableProps<TData, TValue> {
   loading: boolean;
   onPaginationChange: (pagination: any) => void;
   pagination: any;
+}
+
+function getWeatherIcon(value: string) {
+  switch (value) {
+    case "Cloudy":
+    case "Mostly Cloudy":
+      return <CloudyIcon />;
+    case "Light Rain":
+      return <CloudSunRain />;
+    case "Partly Cloudy":
+      return <CloudSunIcon />;
+    case "Fair":
+      return <SunIcon />;
+    case "Light Rain with Thunder":
+    case "Thunder in the Vicinity":
+    case "Thunder":
+      return <CloudLightningIcon />;
+    default:
+      return null;
+  }
 }
 
 export function DataTable<TData, TValue>({
@@ -75,14 +101,15 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => {
                     if (cell.column.columnDef.header === "Weather Condition") {
-                      const value = cell.getValue();
-                      if (value === "Mostly Cloudy") {
-                        return (
-                          <TableCell key={cell.id}>
-                            <CloudyIcon />
-                          </TableCell>
-                        );
-                      }
+                      const value = cell.getValue() as string;
+                      return (
+                        <TableCell key={cell.id}>
+                          <div className="flex items-center space-x-2">
+                            {getWeatherIcon(value)}
+                            <span>{value}</span>
+                          </div>
+                        </TableCell>
+                      );
                     }
 
                     return (
