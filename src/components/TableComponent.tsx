@@ -8,26 +8,6 @@ import { Button } from "./ui/button";
 
 const columns: ColumnDef<Accident>[] = [
   {
-    id: "actions",
-    cell: ({ row }) => {
-      const { original } = row;
-      return (
-        <div className="flex items-center justify-center">
-          <Button
-            size="sm"
-            variant="link"
-            onClick={() => {
-              console.log(original.ID);
-              navigate(`/accidents/${original.ID}`);
-            }}
-          >
-            Edit
-          </Button>
-        </div>
-      );
-    },
-  },
-  {
     accessorKey: "ID",
     header: "ID",
   },
@@ -54,6 +34,26 @@ const columns: ColumnDef<Accident>[] = [
   {
     accessorKey: "Wind_Direction",
     header: "Wind Direction",
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const { original } = row;
+      return (
+        <div className="flex items-center justify-center">
+          <Button
+            size="sm"
+            variant="link"
+            onClick={() => {
+              console.log(original.ID);
+              navigate(`/accidents/${original.ID}`);
+            }}
+          >
+            Detail
+          </Button>
+        </div>
+      );
+    },
   },
 ];
 

@@ -1,8 +1,11 @@
 ---
-import Layout from '@/layouts/Layout.astro'
 import TableComponent from '@/components/TableComponent'
+import Layout from '@/layouts/Layout.astro'
+
+const { page } = Astro.params
+console.log(page)
 ---
 
-<Layout title="Astro">
-  <TableComponent client:visible />
+<Layout>
+  <TableComponent client:only />
 </Layout>
