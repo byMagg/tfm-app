@@ -3,7 +3,6 @@ import { NavigationBar } from '@/components/NavigationBar'
 import { Toaster } from '@/components/ui/sonner'
 import '@/styles/globals.css'
 import { ViewTransitions } from 'astro:transitions'
-
 interface Props {
   title: string
 }
@@ -23,10 +22,14 @@ const { title } = Astro.props
 
     <ViewTransitions />
   </head>
-  <body class="min-h-screen dark">
-    <NavigationBar client:visible />
-    <Toaster client:load />
-    <slot />
+  <body class="dark">
+    <div
+      class="min-h-screen dark:bg-black bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2]"
+    >
+      <NavigationBar client:visible />
+      <Toaster client:load />
+      <slot />
+    </div>
     <style is:global>
       :root {
         --accent: 136, 58, 234;

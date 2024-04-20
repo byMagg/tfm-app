@@ -1,4 +1,5 @@
 ---
+import { HeroHighlight } from '@/components/ui/hero-highlight'
 import Layout from '../layouts/Layout.astro'
 import { Button } from '@/components/ui/button'
 import type { loadApp } from 'astro/app/node'
@@ -12,10 +13,8 @@ const handleClick = () => {
 
 <Layout title="Welcome to Astro.">
   <main>
-    <h1>HOLA</h1>
-
     <Button client:visible id="button">CLICK</Button>
-
+    <h1>HOLA</h1>
     <Image
       transition:name="profile"
       src="/src/assets/images/profile.jpg"

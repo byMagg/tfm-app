@@ -30,6 +30,7 @@ export function useAccidents({
 
   useEffect(() => {
     const fetch = async () => {
+      setLoading(true);
       const apiData = await fetchAPI(query);
       const { getAccidents, accidentCount } = apiData;
       setAccidents(getAccidents);
