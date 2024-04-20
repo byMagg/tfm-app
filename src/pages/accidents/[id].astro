@@ -1,0 +1,11 @@
+---
+import Layout from '@/layouts/Layout.astro'
+
+const { id } = Astro.params
+
+console.log(id)
+---
+
+<Layout title={`${id}`}>
+  <h1>Post {id}</h1>
+</Layout>

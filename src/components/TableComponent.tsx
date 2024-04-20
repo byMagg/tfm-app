@@ -1,10 +1,32 @@
 import { useAccidents } from "@/hooks/useFetchAPI";
 import { usePagination } from "@/hooks/usePagination";
-import { DataTable } from "./DataTable";
-import type { ColumnDef } from "@tanstack/react-table";
 import type { Accident } from "@/types";
+import type { ColumnDef } from "@tanstack/react-table";
+import { navigate } from "astro:transitions/client";
+import { DataTable } from "./DataTable";
+import { Button } from "./ui/button";
 
 const columns: ColumnDef<Accident>[] = [
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const { original } = row;
+      return (
+        <div className="flex items-center justify-center">
+          <Button
+            size="sm"
+            variant="link"
+            onClick={() => {
+              console.log(original.ID);
+              navigate(`/accidents/${original.ID}`);
+            }}
+          >
+            Edit
+          </Button>
+        </div>
+      );
+    },
+  },
   {
     accessorKey: "ID",
     header: "ID",
