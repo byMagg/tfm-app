@@ -1,4 +1,4 @@
-import { useAccidents } from "@/hooks/useFetchAPI";
+import { useAccidents } from "@/hooks/useAccidents";
 import { usePagination } from "@/hooks/usePagination";
 import type { Accident } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
