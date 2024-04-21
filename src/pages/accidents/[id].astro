@@ -58,10 +58,30 @@ const query = `
       }
   `
 
-const accident = await fetchAPI(query)
+const { getAccidentById: accident } = await fetchAPI(query)
+console.log(accident)
 ---
 
 <Layout title={`${id}`}>
   <h1>Post {id}</h1>
+
+  <h2>Accident Details</h2>
+  <p>Source: {accident.Source}</p>
+  <p>Severity: {accident.Severity}</p>
+  <p>
+    Start Time: {new Date(Number(accident.Start_Time))}
+  </p>
+  <p>End Time: {new Date(Number(accident.End_Time))}</p>
+  <p>Latitude: {accident.Start_Lat}</p>
+  <p>Longitude: {accident.Start_Lng}</p>
+
+  <iframe
+    src=`https://www.google.com/maps?q=${Number(accident.Start_Lat)},${Number(accident.Start_Lng)}&z=15&output=embed`
+    width="600"
+    height="450"
+    style="border:0;"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"></iframe>
   <pre>{JSON.stringify(accident, null, 2)}</pre>
 </Layout>
