@@ -5,6 +5,7 @@ import { Image } from 'astro:assets'
 import { motion } from 'framer-motion'
 import Layout from '../layouts/Layout.astro'
 import { HeroScroll } from '@/components/HeroScroll'
+import { Lamp } from '@/components/ui/lamp'
 ---
 
 <Layout title="Welcome to Astro.">
@@ -35,6 +36,7 @@ import { HeroScroll } from '@/components/HeroScroll'
     </section>
     <section>
       <HeroScroll client:visible />
+      <Lamp client:visible />
       <Button client:visible id="button">CLICK</Button>
     </section>
   </main>
