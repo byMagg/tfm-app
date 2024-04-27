@@ -20,7 +20,7 @@
     "@types/react-dom": "^18.2.22",
     "astro": "^4.5.4",
     "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.0",
+    "clsx": "^2.1.1",
     "framer-motion": "^11.1.7",
     "lucide-react": "^0.358.0",
     "mini-svg-data-uri": "^1.4.4",

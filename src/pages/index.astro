@@ -4,6 +4,7 @@ import { Highlight } from '@/components/ui/hero-highlight'
 import { Image } from 'astro:assets'
 import { motion } from 'framer-motion'
 import Layout from '../layouts/Layout.astro'
+import { HeroScroll } from '@/components/HeroScroll'
 ---
 
 <Layout title="Welcome to Astro.">
@@ -33,14 +34,7 @@ import Layout from '../layouts/Layout.astro'
       </motion.h1>
     </section>
     <section>
-      <h1>HOLA</h1>
-      <Image
-        transition:name="profile"
-        src="/src/assets/images/profile.jpg"
-        alt="Random image"
-        width="200"
-        height="200"
-      />
+      <HeroScroll client:visible />
       <Button client:visible id="button">CLICK</Button>
     </section>
   </main>
