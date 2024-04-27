@@ -13,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Severity } from "@/types";
 import {
   CloudLightningIcon,
   CloudSunIcon,
@@ -51,6 +52,8 @@ function getWeatherIcon(value: string) {
       return null;
   }
 }
+
+function getCellData(cell: string) {}
 
 export function DataTable<TData, TValue>({
   columns,
@@ -100,16 +103,28 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => {
-                    if (cell.column.columnDef.header === "Weather Condition") {
-                      const value = cell.getValue() as string;
-                      return (
-                        <TableCell key={cell.id}>
-                          <div className="flex items-center space-x-2">
-                            {getWeatherIcon(value)}
-                            <span>{value}</span>
-                          </div>
-                        </TableCell>
-                      );
+                    const value = cell.getValue() as string;
+                    switch (cell.column.columnDef.header) {
+                      case "Weather Condition":
+                        return (
+                          <TableCell key={cell.id}>
+                            <div className="flex items-center space-x-2">
+                              {getWeatherIcon(value)}
+                              <span>{value}</span>
+                            </div>
+                          </TableCell>
+                        );
+                      case "Severity":
+                        const label =
+                          Severity[Number(value) as keyof typeof Severity];
+
+                        return (
+                          <TableCell key={cell.id}>
+                            <div className="flex items-center space-x-2">
+                              <span>{label}</span>
+                            </div>
+                          </TableCell>
+                        );
                     }
 
                     return (

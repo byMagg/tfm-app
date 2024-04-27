@@ -56,3 +56,10 @@ export interface Accident {
   Nautical_Twilight: string;
   Astronomical_Twilight: string;
 }
+
+export const Severity = {
+  1: "Low",
+  2: "Medium",
+  3: "High",
+  4: "Very High",
+};
