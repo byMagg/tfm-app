@@ -1,4 +1,5 @@
 ---
+import { getWeatherIcon } from '@/components/DataTable'
 import Layout from '@/layouts/Layout.astro'
 import { fetchAPI } from '@/utils'
 
@@ -60,10 +61,12 @@ const query = `
 
 const { getAccidentById: accident } = await fetchAPI(query)
 console.log(accident)
+
+console.log(getWeatherIcon(accident.Weather_Condition))
 ---
 
 <Layout title={`${id}`}>
-  <h1>Post {id}</h1>
+  <h1 transition:name={id}>Post {id}</h1>
 
   <h2>Accident Details</h2>
   <p>Source: {accident.Source}</p>
@@ -75,6 +78,15 @@ console.log(accident)
   <p>Latitude: {accident.Start_Lat}</p>
   <p>Longitude: {accident.Start_Lng}</p>
 
+  <p>Weather_Condition: {accident.Weather_Condition}</p>
+
+  <img
+    transition:name="sun-icon"
+    src="/src/assets/svgs/sun.svg"
+    alt="sun"
+    height="500"
+    width="500"
+  />
   <iframe
     src=`https://www.google.com/maps?q=${Number(accident.Start_Lat)},${Number(accident.Start_Lng)}&z=15&output=embed`
     width="600"
@@ -83,5 +95,6 @@ console.log(accident)
     allowfullscreen=""
     loading="lazy"
     referrerpolicy="no-referrer-when-downgrade"></iframe>
+
   <pre>{JSON.stringify(accident, null, 2)}</pre>
 </Layout>

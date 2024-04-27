@@ -33,7 +33,7 @@ export interface DataTableProps<TData, TValue> {
   pagination: any;
 }
 
-function getWeatherIcon(value: string) {
+export function getWeatherIcon(value: string) {
   switch (value) {
     case "Cloudy":
     case "Mostly Cloudy":
@@ -52,8 +52,6 @@ function getWeatherIcon(value: string) {
       return null;
   }
 }
-
-function getCellData(cell: string) {}
 
 export function DataTable<TData, TValue>({
   columns,
@@ -105,6 +103,20 @@ export function DataTable<TData, TValue>({
                   {row.getVisibleCells().map((cell) => {
                     const value = cell.getValue() as string;
                     switch (cell.column.columnDef.header) {
+                      case "ID":
+                        console.log(value);
+                        return (
+                          <TableCell
+                            style={{
+                              viewTransitionName: value,
+                            }}
+                            key={cell.id}
+                          >
+                            <div className="flex items-center space-x-2">
+                              <span>{value}</span>
+                            </div>
+                          </TableCell>
+                        );
                       case "Weather Condition":
                         return (
                           <TableCell key={cell.id}>
