@@ -1,11 +1,10 @@
 ---
 import { Button } from '@/components/ui/button'
 import { Highlight } from '@/components/ui/hero-highlight'
-import { Image } from 'astro:assets'
 import { motion } from 'framer-motion'
 import Layout from '../layouts/Layout.astro'
 import { HeroScroll } from '@/components/HeroScroll'
-import { Lamp } from '@/components/ui/lamp'
+import { TracingBeamDemo } from '@/components/TracingBeam'
 ---
 
 <Layout title="Welcome to Astro.">
@@ -36,7 +35,7 @@ import { Lamp } from '@/components/ui/lamp'
     </section>
     <section>
       <HeroScroll client:visible />
-      <Lamp client:visible />
+      <TracingBeamDemo client:visible />
       <Button client:visible id="button">CLICK</Button>
     </section>
   </main>
