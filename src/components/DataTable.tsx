@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Severity } from "@/types";
+import { Severity, type Accident } from "@/types";
 import {
   CloudLightningIcon,
   CloudSunIcon,
@@ -24,9 +24,9 @@ import {
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-export interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+export interface DataTableProps {
+  columns: ColumnDef<Accident>[];
+  data: Accident[];
   pageCount: number;
   loading: boolean;
   onPaginationChange: (pagination: any) => void;
@@ -53,14 +53,14 @@ export function getWeatherIcon(value: string) {
   }
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable({
   columns,
   data,
   pageCount,
   loading,
   onPaginationChange,
   pagination,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps) {
   const table = useReactTable({
     data,
     columns,
@@ -102,9 +102,9 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => {
                     const value = cell.getValue() as string;
+                    console.log(row.original);
                     switch (cell.column.columnDef.header) {
                       case "ID":
-                        console.log(value);
                         return (
                           <TableCell
                             style={{
@@ -121,7 +121,13 @@ export function DataTable<TData, TValue>({
                         return (
                           <TableCell key={cell.id}>
                             <div className="flex items-center space-x-2">
-                              {getWeatherIcon(value)}
+                              <div
+                                style={{
+                                  viewTransitionName: `weather-icon-${row.original.ID}`,
+                                }}
+                              >
+                                {getWeatherIcon(value)}
+                              </div>
                               <span>{value}</span>
                             </div>
                           </TableCell>

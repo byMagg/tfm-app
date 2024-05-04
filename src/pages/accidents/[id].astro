@@ -1,5 +1,4 @@
 ---
-import { getWeatherIcon } from '@/components/DataTable'
 import Layout from '@/layouts/Layout.astro'
 import { fetchAPI } from '@/utils'
 
@@ -61,8 +60,6 @@ const query = `
 
 const { getAccidentById: accident } = await fetchAPI(query)
 console.log(accident)
-
-console.log(getWeatherIcon(accident.Weather_Condition))
 ---
 
 <Layout title={`${id}`}>
@@ -81,7 +78,7 @@ console.log(getWeatherIcon(accident.Weather_Condition))
   <p>Weather_Condition: {accident.Weather_Condition}</p>
 
   <img
-    transition:name="sun-icon"
+    transition:name=`weather-icon-${id}`
     src="/src/assets/svgs/sun.svg"
     alt="sun"
     height="500"
