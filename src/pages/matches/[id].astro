@@ -105,8 +105,8 @@ console.log(parseDateString(match.tourney_date))
 
   <Image
     transition:name=`surface-${match._id}`
-    src="/src/assets/images/clay.webp"
-    alt="clay court"
+    src=`/src/assets/images/${match.surface.toLowerCase()}.webp`
+    alt=`${match.surface} court`
     width={500}
     height={500}
   />

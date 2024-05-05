@@ -119,6 +119,8 @@ export function DataTable({
                           </TableCell>
                         );
                       case "Surface":
+                        const surface = value.toLowerCase();
+
                         return (
                           <TableCell key={cell.id}>
                             <div className="flex items-center space-x-2">
@@ -126,7 +128,7 @@ export function DataTable({
                                 style={{
                                   viewTransitionName: `surface-${row.original._id}`,
                                 }}
-                                src="/src/assets/images/thumb-clay.webp"
+                                src={`/src/assets/images/thumb-${surface}.webp`}
                                 alt="clay court"
                                 width="50"
                                 height="50"
