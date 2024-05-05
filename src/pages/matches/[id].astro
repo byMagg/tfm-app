@@ -2,6 +2,7 @@
 import Layout from '@/layouts/Layout.astro'
 import type { Match } from '@/types'
 import { fetchAPI, parseDateString } from '@/utils'
+import { Image } from 'astro:assets'
 
 const { id } = Astro.params
 
@@ -102,11 +103,12 @@ console.log(parseDateString(match.tourney_date))
 <Layout title={`${id}`}>
   <h1 transition:name={id}>Post {id}</h1>
 
-  <img
+  <Image
     transition:name=`surface-${match._id}`
     src="/src/assets/images/clay.webp"
     alt="clay court"
-    width="500"
+    width={500}
+    height={500}
   />
 
   <h2>{match.score}</h2>
