@@ -1,39 +1,27 @@
-import { useAccidents } from "@/hooks/useAccidents";
+import { useMatches } from "@/hooks/useMatches";
 import { usePagination } from "@/hooks/usePagination";
-import type { Accident } from "@/types";
+import type { Match } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { navigate } from "astro:transitions/client";
 import { DataTable } from "./DataTable";
 import { Button } from "./ui/button";
 
-const columns: ColumnDef<Accident>[] = [
+const columns: ColumnDef<Match>[] = [
   {
-    accessorKey: "ID",
+    accessorKey: "_id",
     header: "ID",
   },
   {
-    accessorKey: "Severity",
-    header: "Severity",
+    accessorKey: "tourney_name",
+    header: "Tourney Name",
   },
   {
-    accessorKey: "Country",
-    header: "Country",
+    accessorKey: "surface",
+    header: "Surface",
   },
   {
-    accessorKey: "Zipcode",
-    header: "Zipcode",
-  },
-  {
-    accessorKey: "State",
-    header: "State",
-  },
-  {
-    accessorKey: "Weather_Condition",
-    header: "Weather Condition",
-  },
-  {
-    accessorKey: "Wind_Direction",
-    header: "Wind Direction",
+    accessorKey: "tourney_date",
+    header: "Tourney Date",
   },
   {
     id: "actions",
@@ -45,8 +33,8 @@ const columns: ColumnDef<Accident>[] = [
             size="sm"
             variant="link"
             onClick={() => {
-              console.log(original.ID);
-              navigate(`/accidents/${original.ID}`);
+              console.log(original._id);
+              navigate(`/accidents/${original._id}`);
             }}
           >
             Detail
@@ -60,7 +48,7 @@ const columns: ColumnDef<Accident>[] = [
 export default function TableComponent() {
   const { limit, onPaginationChange, offset, pagination } = usePagination();
 
-  const { accidents, count, loading } = useAccidents({ limit, offset });
+  const { matches, count, loading } = useMatches({ limit, offset });
 
   const pageCount = Math.round(count / limit);
 
@@ -68,7 +56,7 @@ export default function TableComponent() {
     <div className="container mx-auto py-10">
       <DataTable
         columns={columns}
-        data={accidents}
+        data={matches}
         pageCount={pageCount}
         loading={loading}
         onPaginationChange={onPaginationChange}

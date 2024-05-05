@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Severity, type Accident } from "@/types";
+import { Severity, type Match } from "@/types";
 import {
   CloudLightningIcon,
   CloudSunIcon,
@@ -25,8 +25,8 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
 export interface DataTableProps {
-  columns: ColumnDef<Accident>[];
-  data: Accident[];
+  columns: ColumnDef<Match>[];
+  data: Match[];
   pageCount: number;
   loading: boolean;
   onPaginationChange: (pagination: any) => void;
@@ -123,7 +123,7 @@ export function DataTable({
                             <div className="flex items-center space-x-2">
                               <div
                                 style={{
-                                  viewTransitionName: `weather-icon-${row.original.ID}`,
+                                  viewTransitionName: `weather-icon-${row.original._id}`,
                                 }}
                               >
                                 {getWeatherIcon(value)}
