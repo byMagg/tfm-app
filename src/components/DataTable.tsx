@@ -102,7 +102,9 @@ export function DataTable({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => {
-                    const value = cell.getValue() as string;
+                    const cellValue = cell.getValue();
+                    if (!cellValue) return null;
+                    const value = cellValue as string;
                     console.log(row.original);
                     switch (cell.column.columnDef.header) {
                       case "ID":
@@ -124,15 +126,18 @@ export function DataTable({
                         return (
                           <TableCell key={cell.id}>
                             <div className="flex items-center space-x-2">
-                              <img
-                                style={{
-                                  viewTransitionName: `surface-${row.original._id}`,
-                                }}
-                                src={`/src/assets/images/thumb-${surface}.webp`}
-                                alt="clay court"
-                                width="50"
-                                height="50"
-                              />
+                              {surface && (
+                                <img
+                                  style={{
+                                    viewTransitionName: `surface-${row.original._id}`,
+                                  }}
+                                  src={`/src/assets/images/thumb-${surface.toLowerCase()}.webp`}
+                                  alt="clay court"
+                                  width="50"
+                                  height="50"
+                                />
+                              )}
+
                               <span>{value}</span>
                             </div>
                           </TableCell>

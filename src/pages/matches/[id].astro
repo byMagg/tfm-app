@@ -103,13 +103,19 @@ console.log(parseDateString(match.tourney_date))
 <Layout title={`${id}`}>
   <h1 transition:name={id}>Post {id}</h1>
 
-  <Image
-    transition:name=`surface-${match._id}`
-    src=`/src/assets/images/${match.surface.toLowerCase()}.webp`
-    alt=`${match.surface} court`
-    width={500}
-    height={500}
-  />
+  {
+    match && match.surface && (
+      <Image
+        transition:name=`surface-${match._id}`
+        src=`/src/assets/images/${match.surface && match.surface.toLowerCase()}.webp`
+        alt=`${match.surface} court`
+        width={500}
+        height={500}
+      />
+    )
+  }
+
+
 
   <h2>{match.score}</h2>
   <h3>{match.winner_name} vs {match.loser_name}</h3>
