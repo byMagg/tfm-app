@@ -1,7 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro'
 import type { Match } from '@/types'
-import { fetchAPI } from '@/utils'
+import { fetchAPI, parseDateString } from '@/utils'
 
 const { id } = Astro.params
 
@@ -96,6 +96,7 @@ const query = `
 
 const { getMatchById } = (await fetchAPI(query)) || {}
 const match = getMatchById as Match
+console.log(parseDateString(match.tourney_date))
 ---
 
 <Layout title={`${id}`}>
@@ -111,7 +112,7 @@ const match = getMatchById as Match
   <h2>{match.score}</h2>
   <h3>{match.winner_name} vs {match.loser_name}</h3>
   <h4>{match.tourney_name}</h4>
-  <h5>{match.tourney_date}</h5>
+  <h5>{parseDateString(match.tourney_date).toLocaleDateString()}</h5>
 
   <pre>{JSON.stringify(match, null, 2)}</pre>
 </Layout>

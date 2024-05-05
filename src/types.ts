@@ -69,7 +69,7 @@ export interface Match {
   surface: string;
   draw_size: string;
   tourney_level: string;
-  tourney_date: string;
+  tourney_date: number;
   match_num: string;
   winner_id: string;
   winner_seed: string;

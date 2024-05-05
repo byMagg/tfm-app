@@ -13,7 +13,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Severity, type Match } from "@/types";
+import { type Match } from "@/types";
+import { parseDateString } from "@/utils";
 import {
   CloudLightningIcon,
   CloudSunIcon,
@@ -134,14 +135,15 @@ export function DataTable({
                             </div>
                           </TableCell>
                         );
-                      case "Severity":
-                        const label =
-                          Severity[Number(value) as keyof typeof Severity];
+                      case "Tourney Date":
+                        const date = parseDateString(
+                          Number(value),
+                        ).toLocaleDateString();
 
                         return (
                           <TableCell key={cell.id}>
                             <div className="flex items-center space-x-2">
-                              <span>{label}</span>
+                              <span>{date}</span>
                             </div>
                           </TableCell>
                         );
