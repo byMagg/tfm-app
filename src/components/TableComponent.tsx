@@ -34,7 +34,7 @@ const columns: ColumnDef<Match>[] = [
             variant="link"
             onClick={() => {
               console.log(original._id);
-              navigate(`/accidents/${original._id}`);
+              navigate(`/matches/${original._id}`);
             }}
           >
             Detail

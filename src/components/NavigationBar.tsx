@@ -59,7 +59,7 @@ export function NavigationBar() {
           </a>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <a href="/accidents" className={navigationMenuTriggerStyle()}>
+          <a href="/matches" className={navigationMenuTriggerStyle()}>
             Historic
           </a>
         </NavigationMenuItem>
