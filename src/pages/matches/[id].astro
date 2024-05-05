@@ -1,5 +1,6 @@
 ---
 import Layout from '@/layouts/Layout.astro'
+import type { Match } from '@/types'
 import { fetchAPI } from '@/utils'
 
 const { id } = Astro.params
@@ -93,12 +94,24 @@ const query = `
       }
   `
 
-const { getMatchById: match } = await fetchAPI(query)
-console.log(match)
+const { getMatchById } = (await fetchAPI(query)) || {}
+const match = getMatchById as Match
 ---
 
 <Layout title={`${id}`}>
   <h1 transition:name={id}>Post {id}</h1>
+
+  <img
+    transition:name=`surface-${match._id}`
+    src="/src/assets/images/clay.webp"
+    alt="clay court"
+    width="500"
+  />
+
+  <h2>{match.score}</h2>
+  <h3>{match.winner_name} vs {match.loser_name}</h3>
+  <h4>{match.tourney_name}</h4>
+  <h5>{match.tourney_date}</h5>
 
   <pre>{JSON.stringify(match, null, 2)}</pre>
 </Layout>

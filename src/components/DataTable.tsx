@@ -117,17 +117,19 @@ export function DataTable({
                             </div>
                           </TableCell>
                         );
-                      case "Weather Condition":
+                      case "Surface":
                         return (
                           <TableCell key={cell.id}>
                             <div className="flex items-center space-x-2">
-                              <div
+                              <img
                                 style={{
-                                  viewTransitionName: `weather-icon-${row.original._id}`,
+                                  viewTransitionName: `surface-${row.original._id}`,
                                 }}
-                              >
-                                {getWeatherIcon(value)}
-                              </div>
+                                src="/src/assets/images/thumb-clay.webp"
+                                alt="clay court"
+                                width="50"
+                                height="50"
+                              />
                               <span>{value}</span>
                             </div>
                           </TableCell>
