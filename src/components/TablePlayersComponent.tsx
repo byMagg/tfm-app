@@ -1,7 +1,6 @@
 import { usePagination } from "@/hooks/usePagination";
 import { usePlayers } from "@/hooks/usePlayers";
 import type { Match } from "@/types";
-import { parseDateString } from "@/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import { navigate } from "astro:transitions/client";
 import { DataTable } from "./DataTable";
@@ -13,42 +12,16 @@ const columns: ColumnDef<Match>[] = [
     header: "ID",
   },
   {
-    accessorKey: "tourney_name",
-    header: "Tourney Name",
+    accessorKey: "name_first",
+    header: "First Name",
   },
   {
-    accessorKey: "surface",
-    header: "Surface",
-    cell: ({ row }) => {
-      const { original } = row;
-      if (!original.surface) return null;
-      if (typeof original.surface !== "string") return null;
-
-      return (
-        <div className="flex items-center space-x-2">
-          <img
-            style={{
-              viewTransitionName: `surface-${row.original._id}`,
-            }}
-            src={`/src/assets/images/thumb-${original.surface.toLowerCase()}.webp`}
-            alt="clay court"
-            width="50"
-            height="50"
-          />
-
-          <span>{original.surface}</span>
-        </div>
-      );
-    },
+    accessorKey: "name_last",
+    header: "Last Name",
   },
   {
-    accessorKey: "tourney_date",
-    header: "Tourney Date",
-    cell: ({ row }) => {
-      const { original } = row;
-      const date = parseDateString(original.tourney_date);
-      return <span>{date.toLocaleDateString()}</span>;
-    },
+    accessorKey: "hand",
+    header: "Hand",
   },
   {
     id: "actions",

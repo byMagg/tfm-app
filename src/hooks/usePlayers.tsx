@@ -13,9 +13,10 @@ export function usePlayers({
         playersCount
         getPlayers(limit: ${limit}, offset: ${offset}) {
             _id
-            tourney_name
-            surface
-            tourney_date
+            name_first
+            name_last
+            hand
+            player_id
         }
       }
   `;
