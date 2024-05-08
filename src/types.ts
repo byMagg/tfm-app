@@ -116,5 +116,9 @@ export interface Player {
   name_first: string;
   name_last: string;
   hand: string;
-  player_id: string;
+  player_id: number;
+  dob: number;
+  ioc: string;
+  height: number;
+  wikidata_id: string;
 }
