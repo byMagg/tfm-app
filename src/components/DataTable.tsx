@@ -103,7 +103,7 @@ export function DataTable({
                 >
                   {row.getVisibleCells().map((cell) => {
                     const cellValue = cell.getValue();
-                    if (!cellValue) return null;
+
                     const value = cellValue as string;
                     switch (cell.column.columnDef.header) {
                       case "ID":
