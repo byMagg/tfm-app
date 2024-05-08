@@ -105,7 +105,6 @@ export function DataTable({
                     const cellValue = cell.getValue();
                     if (!cellValue) return null;
                     const value = cellValue as string;
-                    console.log(row.original);
                     switch (cell.column.columnDef.header) {
                       case "ID":
                         return (

@@ -97,7 +97,6 @@ const query = `
 
 const { getMatchById } = (await fetchAPI(query)) || {}
 const match = getMatchById as Match
-console.log(parseDateString(match.tourney_date))
 ---
 
 <Layout title={`${id}`}>
