@@ -1,6 +1,7 @@
 import { useMatches } from "@/hooks/useMatches";
 import { usePagination } from "@/hooks/usePagination";
 import type { Match } from "@/types";
+import { parseDateString } from "@/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import { navigate } from "astro:transitions/client";
 import { DataTable } from "./DataTable";
@@ -18,10 +19,36 @@ const columns: ColumnDef<Match>[] = [
   {
     accessorKey: "surface",
     header: "Surface",
+    cell: ({ row }) => {
+      const { original } = row;
+      if (!original.surface) return null;
+      if (typeof original.surface !== "string") return null;
+
+      return (
+        <div className="flex items-center space-x-2">
+          <img
+            style={{
+              viewTransitionName: `surface-${row.original._id}`,
+            }}
+            src={`/src/assets/images/thumb-${original.surface.toLowerCase()}.webp`}
+            alt="clay court"
+            width="50"
+            height="50"
+          />
+
+          <span>{original.surface}</span>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "tourney_date",
     header: "Tourney Date",
+    cell: ({ row }) => {
+      const { original } = row;
+      const date = parseDateString(original.tourney_date);
+      return <span>{date.toLocaleDateString()}</span>;
+    },
   },
   {
     id: "actions",
@@ -45,7 +72,7 @@ const columns: ColumnDef<Match>[] = [
   },
 ];
 
-export default function TableComponent() {
+export default function TableMatchComponent() {
   const { limit, onPaginationChange, offset, pagination } = usePagination();
 
   const { matches, count, loading } = useMatches({ limit, offset });

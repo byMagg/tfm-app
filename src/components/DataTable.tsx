@@ -13,8 +13,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { type Match } from "@/types";
-import { parseDateString } from "@/utils";
 import {
   CloudLightningIcon,
   CloudSunIcon,
@@ -25,9 +23,9 @@ import {
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-export interface DataTableProps {
-  columns: ColumnDef<Match>[];
-  data: Match[];
+export interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
   pageCount: number;
   loading: boolean;
   onPaginationChange: (pagination: any) => void;
@@ -54,14 +52,14 @@ export function getWeatherIcon(value: string) {
   }
 }
 
-export function DataTable({
+export function DataTable<TData, TValue>({
   columns,
   data,
   pageCount,
   loading,
   onPaginationChange,
   pagination,
-}: DataTableProps) {
+}: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
@@ -102,59 +100,6 @@ export function DataTable({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => {
-                    const cellValue = cell.getValue();
-
-                    const value = cellValue as string;
-                    switch (cell.column.columnDef.header) {
-                      case "ID":
-                        return (
-                          <TableCell
-                            style={{
-                              viewTransitionName: value,
-                            }}
-                            key={cell.id}
-                          >
-                            <div className="flex items-center space-x-2">
-                              <span>{value}</span>
-                            </div>
-                          </TableCell>
-                        );
-                      case "Surface":
-                        const surface = value.toLowerCase();
-
-                        return (
-                          <TableCell key={cell.id}>
-                            <div className="flex items-center space-x-2">
-                              {surface && (
-                                <img
-                                  style={{
-                                    viewTransitionName: `surface-${row.original._id}`,
-                                  }}
-                                  src={`/src/assets/images/thumb-${surface.toLowerCase()}.webp`}
-                                  alt="clay court"
-                                  width="50"
-                                  height="50"
-                                />
-                              )}
-
-                              <span>{value}</span>
-                            </div>
-                          </TableCell>
-                        );
-                      case "Tourney Date":
-                        const date = parseDateString(
-                          Number(value),
-                        ).toLocaleDateString();
-
-                        return (
-                          <TableCell key={cell.id}>
-                            <div className="flex items-center space-x-2">
-                              <span>{date}</span>
-                            </div>
-                          </TableCell>
-                        );
-                    }
-
                     return (
                       <TableCell key={cell.id}>
                         {flexRender(
