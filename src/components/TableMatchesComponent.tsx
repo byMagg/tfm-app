@@ -72,7 +72,7 @@ const columns: ColumnDef<Match>[] = [
   },
 ];
 
-export default function TableMatchComponent() {
+export default function TableMatchesComponent() {
   const { limit, onPaginationChange, offset, pagination } = usePagination();
 
   const { matches, count, loading } = useMatches({ limit, offset });
