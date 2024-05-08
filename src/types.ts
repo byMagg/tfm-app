@@ -110,3 +110,11 @@ export interface Match {
   l_bpSaved: string;
   l_bpFaced: string;
 }
+
+export interface Player {
+  _id: string;
+  name_first: string;
+  name_last: string;
+  hand: string;
+  player_id: string;
+}
