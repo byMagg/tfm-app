@@ -1,7 +1,8 @@
 ---
 import Layout from '@/layouts/Layout.astro'
 import type { Player } from '@/types'
-import { fetchAPI } from '@/utils'
+import { fetchAPI, fetchWikidata } from '@/utils'
+import { md5 } from 'js-md5'
 
 const { id } = Astro.params
 
@@ -23,6 +24,15 @@ const query = `
 
 const { getPlayerById } = (await fetchAPI(query)) || {}
 const player = getPlayerById as Player
+
+const wikidata = await fetchWikidata('/entities/items/' + player.wikidata_id)
+const imgFilename = wikidata.statements.P18[0].value.content.replace(/ /g, '_')
+const imgHash = md5(imgFilename)
+
+const a = imgHash.slice(0, 1)
+const b = imgHash.slice(0, 2)
+
+const imgSrc = `https://upload.wikimedia.org/wikipedia/commons/${a}/${b}/${imgFilename}`
 ---
 
 <Layout title={`${id}`}>
@@ -45,6 +55,8 @@ const player = getPlayerById as Player
   <h2>{player.score}</h2>
   <h3>{player.winner_name} vs {player.loser_name}</h3>
   <h4>{player.tourney_name}</h4> -->
+
+  <img src={imgSrc} alt="player" />
 
   <pre>{JSON.stringify(player, null, 2)}</pre>
 </Layout>
