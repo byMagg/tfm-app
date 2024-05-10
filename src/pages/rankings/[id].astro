@@ -1,0 +1,50 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import type { Player } from '@/types'
+import { fetchAPI } from '@/utils'
+
+const { id } = Astro.params
+
+const query = `
+      query GetPlayer {
+        getPlayerById(playerId: "${id}") {
+          _id
+          player_id
+          name_first
+          name_last
+          hand
+          dob
+          ioc
+          height
+          wikidata_id
+        }
+      }
+  `
+
+const { getPlayerById } = (await fetchAPI(query)) || {}
+const player = getPlayerById as Player
+---
+
+<Layout title={`${id}`}>
+  <h1 transition:name={id}>Post {id}</h1>
+
+  <!-- {
+    player && player.surface && (
+      <Image
+        transition:name=`surface-${player._id}`
+        src=`/src/assets/images/${player.surface && player.surface.toLowerCase()}.webp`
+        alt=`${player.surface} court`
+        width={500}
+        height={500}
+      />
+    )
+  }
+
+
+
+  <h2>{player.score}</h2>
+  <h3>{player.winner_name} vs {player.loser_name}</h3>
+  <h4>{player.tourney_name}</h4> -->
+
+  <pre>{JSON.stringify(player, null, 2)}</pre>
+</Layout>
