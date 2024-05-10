@@ -84,7 +84,7 @@ export function NavigationBar() {
               <ListItem href="/players" title="Players">
                 How to install dependencies and structure your app.
               </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
+              <ListItem href="/rankings" title="Rankings">
                 Styles for headings, paragraphs, lists...etc
               </ListItem>
             </ul>
