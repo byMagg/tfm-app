@@ -25,6 +25,13 @@ const query = `
 const { getPlayerById } = (await fetchAPI(query)) || {}
 const player = getPlayerById as Player
 
+if (!player) {
+  return {
+    status: 404,
+    error: new Error(`Post with id: ${id} not found`),
+  }
+}
+
 const wikidata = await fetchWikidata('/entities/items/' + player.wikidata_id)
 const imageObject = wikidata.statements.P18
 

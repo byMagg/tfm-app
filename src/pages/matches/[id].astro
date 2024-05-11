@@ -115,11 +115,16 @@ const match = getMatchById as Match
   }
 
 
-
-  <h2>{match.score}</h2>
-  <h3>{match.winner_name} vs {match.loser_name}</h3>
-  <h4>{match.tourney_name}</h4>
-  <h5>{parseDateString(match.tourney_date).toLocaleDateString()}</h5>
+  {
+    match && (
+      <div>
+        <h2>{match.winner_name} vs {match.loser_name}</h2>
+        <h3>{match.score}</h3>
+        <h4>{match.tourney_name}</h4>
+        <h5>{parseDateString(match.tourney_date).toLocaleDateString()}</h5>
+      </div>
+    )
+  }
 
   <pre>{JSON.stringify(match, null, 2)}</pre>
 </Layout>
