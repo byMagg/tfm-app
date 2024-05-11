@@ -30,7 +30,7 @@ const columns: ColumnDef<Match>[] = [
             style={{
               viewTransitionName: `surface-${row.original._id}`,
             }}
-            src={`/src/assets/images/thumb-${original.surface.toLowerCase()}.webp`}
+            src={`/public/images/thumb-${original.surface.toLowerCase()}.webp`}
             alt="clay court"
             width="50"
             height="50"

@@ -106,7 +106,7 @@ const match = getMatchById as Match
     match && match.surface && (
       <Image
         transition:name=`surface-${match._id}`
-        src=`/src/assets/images/${match.surface && match.surface.toLowerCase()}.webp`
+        src=`/public/images/${match.surface && match.surface.toLowerCase()}.webp`
         alt=`${match.surface} court`
         width={500}
         height={500}

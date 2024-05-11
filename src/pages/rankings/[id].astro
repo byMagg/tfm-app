@@ -32,7 +32,7 @@ const player = getPlayerById as Player
     player && player.surface && (
       <Image
         transition:name=`surface-${player._id}`
-        src=`/src/assets/images/${player.surface && player.surface.toLowerCase()}.webp`
+        src=`/public/images/${player.surface && player.surface.toLowerCase()}.webp`
         alt=`${player.surface} court`
         width={500}
         height={500}
