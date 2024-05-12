@@ -17,6 +17,7 @@ export function usePlayers({
             name_last
             hand
             player_id
+            ioc
         }
       }
   `;

@@ -8,16 +8,17 @@ import { Button } from "./ui/button";
 
 const columns: ColumnDef<Match>[] = [
   {
-    accessorKey: "_id",
-    header: "ID",
-  },
-  {
     accessorKey: "name_first",
     header: "First Name",
   },
   {
     accessorKey: "name_last",
     header: "Last Name",
+  },
+
+  {
+    accessorKey: "ioc",
+    header: "IOC",
   },
   {
     accessorKey: "hand",
