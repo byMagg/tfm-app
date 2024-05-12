@@ -26,7 +26,7 @@ const columns: ColumnDef<Player>[] = [
       return (
         <div className="flex items-center">
           <img
-            src={`svgs/${countryCode}.svg`}
+            src={`/svgs/${countryCode}.svg`}
             alt={original.ioc}
             height={30}
             width={30}

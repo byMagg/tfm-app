@@ -1,6 +1,6 @@
 ---
 import Layout from '@/layouts/Layout.astro'
-import type { Player } from '@/types'
+import { Country, type Player } from '@/types'
 import { fetchAPI, fetchWikidata } from '@/utils'
 import { md5 } from 'js-md5'
 
@@ -49,6 +49,8 @@ if (imageObject) {
 const imgSrc = imgFilename
   ? `https://upload.wikimedia.org/wikipedia/commons/${a}/${b}/${imgFilename}`
   : undefined
+
+const countryCode = Country[player.ioc as keyof typeof Country]
 ---
 
 <Layout title={`${id}`}>
@@ -73,6 +75,25 @@ const imgSrc = imgFilename
   <h4>{player.tourney_name}</h4> -->
 
   {imgSrc && <img src={imgSrc} alt="player" width="200" height="200" />}
+
+  {
+    player && (
+      <div>
+        <h2>
+          {player.name_first} {player.name_last}
+        </h2>
+        <p>{player.dob}</p>
+        <p>{player.hand}</p>
+        <img
+          src={`/svgs/${countryCode}.svg`}
+          alt={player.ioc}
+          height={30}
+          width={30}
+        />{' '}
+        <p>{player.height}</p>
+      </div>
+    )
+  }
 
   <pre>{JSON.stringify(player, null, 2)}</pre>
 </Layout>
