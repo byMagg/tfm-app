@@ -1,12 +1,12 @@
 import { usePagination } from "@/hooks/usePagination";
 import { useRankings } from "@/hooks/useRankings";
-import type { Match } from "@/types";
+import type { Ranking } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { navigate } from "astro:transitions/client";
 import { DataTable } from "./DataTable";
 import { Button } from "./ui/button";
 
-const columns: ColumnDef<Match>[] = [
+const columns: ColumnDef<Ranking>[] = [
   {
     accessorKey: "_id",
     header: "ID",

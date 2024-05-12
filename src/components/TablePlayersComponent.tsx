@@ -1,12 +1,12 @@
 import { usePagination } from "@/hooks/usePagination";
 import { usePlayers } from "@/hooks/usePlayers";
-import type { Match } from "@/types";
+import type { Player } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { navigate } from "astro:transitions/client";
 import { DataTable } from "./DataTable";
 import { Button } from "./ui/button";
 
-const columns: ColumnDef<Match>[] = [
+const columns: ColumnDef<Player>[] = [
   {
     accessorKey: "name_first",
     header: "First Name",
@@ -15,10 +15,19 @@ const columns: ColumnDef<Match>[] = [
     accessorKey: "name_last",
     header: "Last Name",
   },
-
   {
     accessorKey: "ioc",
     header: "IOC",
+    cell: ({ row }) => {
+      const { original } = row;
+      console.log();
+      return (
+        <div className="flex items-center">
+          <img src="svgs/us.svg" alt={original.ioc} height={30} width={30} />
+          <span className="ml-2">{original.ioc}</span>
+        </div>
+      );
+    },
   },
   {
     accessorKey: "hand",
