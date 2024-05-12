@@ -1,6 +1,6 @@
 import { usePagination } from "@/hooks/usePagination";
 import { usePlayers } from "@/hooks/usePlayers";
-import type { Player } from "@/types";
+import { Country, type Player } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { navigate } from "astro:transitions/client";
 import { DataTable } from "./DataTable";
@@ -20,10 +20,17 @@ const columns: ColumnDef<Player>[] = [
     header: "IOC",
     cell: ({ row }) => {
       const { original } = row;
-      console.log();
+
+      const countryCode = Country[original.ioc as keyof typeof Country];
+      console.log(countryCode);
       return (
         <div className="flex items-center">
-          <img src="svgs/us.svg" alt={original.ioc} height={30} width={30} />
+          <img
+            src={`svgs/${countryCode}.svg`}
+            alt={original.ioc}
+            height={30}
+            width={30}
+          />
           <span className="ml-2">{original.ioc}</span>
         </div>
       );
