@@ -23,57 +23,35 @@ const query = `
   `
 
 const { getPlayerById } = (await fetchAPI(query)) || {}
-const player = getPlayerById as Player
-
-if (!player) {
-  return {
-    status: 404,
-    error: new Error(`Post with id: ${id} not found`),
-  }
-}
-
-const wikidata = await fetchWikidata('/entities/items/' + player.wikidata_id)
-const imageObject = wikidata.statements.P18
+const player = getPlayerById as Player | undefined
 
 let imgFilename,
+  countryCode,
   a,
   b = undefined
 
-if (imageObject) {
-  imgFilename = wikidata.statements.P18[0].value.content.replace(/ /g, '_')
-  const imgHash = md5(imgFilename)
-  a = imgHash.slice(0, 1)
-  b = imgHash.slice(0, 2)
+if (player) {
+  const wikidata = await fetchWikidata('/entities/items/' + player.wikidata_id)
+  const imageObject = wikidata.statements.P18
+
+  countryCode = player ? Country[player.ioc as keyof typeof Country] : undefined
+
+  if (imageObject) {
+    imgFilename = wikidata.statements.P18[0].value.content.replace(/ /g, '_')
+    const imgHash = md5(imgFilename)
+    a = imgHash.slice(0, 1)
+    b = imgHash.slice(0, 2)
+  }
 }
 
 const imgSrc = imgFilename
   ? `https://upload.wikimedia.org/wikipedia/commons/${a}/${b}/${imgFilename}`
   : undefined
-
-const countryCode = Country[player.ioc as keyof typeof Country]
 ---
 
-<Layout title={`${id}`}>
-  <h1 transition:name={id}>Post {id}</h1>
-
-  <!-- {
-    player && player.surface && (
-      <Image
-        transition:name=`surface-${player._id}`
-        src=`/images/${player.surface && player.surface.toLowerCase()}.webp`
-        alt=`${player.surface} court`
-        width={500}
-        height={500}
-      />
-    )
-  }
-
-
-
-  <h2>{player.score}</h2>
-  <h3>{player.winner_name} vs {player.loser_name}</h3>
-  <h4>{player.tourney_name}</h4> -->
-
+<Layout
+  title={`${player ? `${player.name_first} ${player.name_last}` : 'Player'}`}
+>
   {imgSrc && <img src={imgSrc} alt="player" width="200" height="200" />}
 
   {
@@ -84,13 +62,22 @@ const countryCode = Country[player.ioc as keyof typeof Country]
         </h2>
         <p>{player.dob}</p>
         <p>{player.hand}</p>
-        <img
-          src={`/svgs/${countryCode}.svg`}
-          alt={player.ioc}
-          height={30}
-          width={30}
-        />{' '}
-        <p>{player.height}</p>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+          }}
+        >
+          <img
+            src={`/svgs/${countryCode}.svg`}
+            alt={player.ioc}
+            height={30}
+            width={30}
+          />
+          <p>{player.ioc}</p>
+        </div>
+        <p>{player.height} cm</p>
       </div>
     )
   }
