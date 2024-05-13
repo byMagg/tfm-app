@@ -1,7 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro'
-import type { Match } from '@/types'
-import { fetchAPI, parseDateString } from '@/utils'
+import { Country, type Match } from '@/types'
+import { fetchAPI, getPlayerImage, parseDateString } from '@/utils'
 import { Image } from 'astro:assets'
 
 const { id } = Astro.params
@@ -96,35 +96,78 @@ const query = `
   `
 
 const { getMatchById } = (await fetchAPI(query)) || {}
-const match = getMatchById as Match
+const match = getMatchById as Match | undefined
+
+let loserCountryCode,
+  winnerCountryCode = undefined
+
+let winnerImg = ''
+let loserImg = ''
+
+if (match) {
+  loserCountryCode = Country[match.loser_ioc as keyof typeof Country]
+  winnerCountryCode = Country[match.winner_ioc as keyof typeof Country]
+
+  winnerImg = (await getPlayerImage(match.winner_id)) || '/images/carpet.webp'
+  loserImg = (await getPlayerImage(match.loser_id)) || '/images/carpet.webp'
+}
 ---
 
 <Layout title={`${id}`}>
-  <h1 transition:name={id}>Post {id}</h1>
-
-  {
-    match && match.surface && (
-      <Image
-        transition:name=`surface-${match._id}`
-        src=`/images/${match.surface && match.surface.toLowerCase()}.webp`
-        alt=`${match.surface} court`
-        width={500}
-        height={500}
-      />
-    )
-  }
-
-
   {
     match && (
-      <div>
-        <h2>{match.winner_name} vs {match.loser_name}</h2>
+      <div class="z-10 relative">
+        <div class="flex gap-3">
+          <div>
+            <Image
+              src={winnerImg}
+              alt={match.winner_name}
+              width={100}
+              height={100}
+            />
+            <h2>{match.winner_name}</h2>
+            <img
+              src={`/svgs/${winnerCountryCode}.svg`}
+              alt={match.winner_ioc}
+              width="50"
+              height="50"
+            />
+            <h3>{match.winner_ioc}</h3>
+          </div>
+          <div>
+            <Image
+              src={loserImg}
+              alt={match.loser_name}
+              width={100}
+              height={100}
+            />
+            <h2>{match.loser_name}</h2>
+            <img
+              src={`/svgs/${loserCountryCode}.svg`}
+              alt={match.loser_ioc}
+              width="50"
+              height="50"
+            />
+            <h3>{match.loser_ioc}</h3>
+          </div>
+        </div>
         <h3>{match.score}</h3>
         <h4>{match.tourney_name}</h4>
         <h5>{parseDateString(match.tourney_date).toLocaleDateString()}</h5>
       </div>
     )
   }
-
-  <pre>{JSON.stringify(match, null, 2)}</pre>
+  {
+    match && match.surface && (
+      <Image
+        class="absolute top-0 left-0 z-0 h-full w-full object-cover"
+        style="mask-image: linear-gradient(transparent 40%, black);"
+        transition:name={`surface-${match._id}`}
+        src={`/images/${match.surface && match.surface.toLowerCase()}.webp`}
+        alt={`${match.surface} court`}
+        width={500}
+        height={500}
+      />
+    )
+  }
 </Layout>

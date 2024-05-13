@@ -1,3 +1,5 @@
+import { md5 } from "js-md5";
+
 export async function fetchAPI(query: string) {
   try {
     const response = await fetch("http://localhost:3000", {
@@ -56,4 +58,39 @@ export function parseDateString(date: number) {
   const day = dateString.slice(6, 8);
 
   return new Date(`${year}-${month}-${day}`);
+}
+
+export async function getPlayerImage(playerId: string) {
+  const query = `
+    query GetPlayerByPlayerId {
+      getPlayerByPlayerId(playerId: "${playerId}") {
+          wikidata_id
+        }
+      }
+  `;
+
+  const data = await fetchAPI(query);
+  const player = data.getPlayerByPlayerId;
+
+  let imgFilename,
+    a,
+    b = undefined;
+
+  const wikidata = await fetchWikidata("/entities/items/" + player.wikidata_id);
+
+  if (!wikidata) return "/images/placeholder.jpg";
+  const imageObject = wikidata.statements.P18;
+
+  if (imageObject) {
+    imgFilename = wikidata.statements.P18[0].value.content.replace(/ /g, "_");
+    const imgHash = md5(imgFilename);
+    a = imgHash.slice(0, 1);
+    b = imgHash.slice(0, 2);
+  }
+
+  const imgSrc = imgFilename
+    ? `https://upload.wikimedia.org/wikipedia/commons/${a}/${b}/${imgFilename}`
+    : undefined;
+
+  return imgSrc;
 }
