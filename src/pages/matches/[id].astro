@@ -108,8 +108,8 @@ if (match) {
   loserCountryCode = Country[match.loser_ioc as keyof typeof Country]
   winnerCountryCode = Country[match.winner_ioc as keyof typeof Country]
 
-  winnerImg = (await getPlayerImage(match.winner_id)) || '/images/carpet.webp'
-  loserImg = (await getPlayerImage(match.loser_id)) || '/images/carpet.webp'
+  winnerImg = await getPlayerImage(match.winner_id)
+  loserImg = await getPlayerImage(match.loser_id)
 }
 ---
 
