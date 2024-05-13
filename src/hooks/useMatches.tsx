@@ -15,6 +15,8 @@ export function useMatches({
             _id
             tourney_name
             surface
+            score
+            tourney_level
             tourney_date
         }
       }

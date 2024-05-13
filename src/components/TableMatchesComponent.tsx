@@ -47,6 +47,14 @@ const columns: ColumnDef<Match>[] = [
     },
   },
   {
+    accessorKey: "score",
+    header: "Score",
+  },
+  {
+    accessorKey: "tourney_level",
+    header: "Tourney Level",
+  },
+  {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
