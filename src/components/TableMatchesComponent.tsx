@@ -9,10 +9,6 @@ import { Button } from "./ui/button";
 
 const columns: ColumnDef<Match>[] = [
   {
-    accessorKey: "_id",
-    header: "ID",
-  },
-  {
     accessorKey: "tourney_name",
     header: "Tourney Name",
   },
@@ -52,6 +48,7 @@ const columns: ColumnDef<Match>[] = [
   },
   {
     id: "actions",
+    enableHiding: false,
     cell: ({ row }) => {
       const { original } = row;
       return (
