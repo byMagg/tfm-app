@@ -1,8 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro'
 import { Country, type Player } from '@/types'
-import { fetchAPI, fetchWikidata } from '@/utils'
-import { md5 } from 'js-md5'
+import { fetchAPI, getPlayerImage } from '@/utils'
 
 const { id } = Astro.params
 
@@ -25,28 +24,13 @@ const query = `
 const { getPlayerById } = (await fetchAPI(query)) || {}
 const player = getPlayerById as Player | undefined
 
-let imgFilename,
-  countryCode,
-  a,
-  b = undefined
+const imgSrc = await getPlayerImage(player?.player_id ?? 0)
+
+let countryCode: string | undefined
 
 if (player) {
-  const wikidata = await fetchWikidata('/entities/items/' + player.wikidata_id)
-  const imageObject = wikidata.statements.P18
-
   countryCode = player ? Country[player.ioc as keyof typeof Country] : undefined
-
-  if (imageObject) {
-    imgFilename = wikidata.statements.P18[0].value.content.replace(/ /g, '_')
-    const imgHash = md5(imgFilename)
-    a = imgHash.slice(0, 1)
-    b = imgHash.slice(0, 2)
-  }
 }
-
-const imgSrc = imgFilename
-  ? `https://upload.wikimedia.org/wikipedia/commons/${a}/${b}/${imgFilename}`
-  : undefined
 ---
 
 <Layout

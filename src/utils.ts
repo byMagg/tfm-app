@@ -60,7 +60,7 @@ export function parseDateString(date: number) {
   return new Date(`${year}-${month}-${day}`);
 }
 
-export async function getPlayerImage(playerId: string): Promise<string> {
+export async function getPlayerImage(playerId: number): Promise<string> {
   const query = `
     query GetPlayerByPlayerId {
       getPlayerByPlayerId(playerId: "${playerId}") {
@@ -69,6 +69,8 @@ export async function getPlayerImage(playerId: string): Promise<string> {
       }
   `;
 
+  let imgSrc = "/images/placeholder.jpg";
+
   const data = await fetchAPI(query);
   const player = data.getPlayerByPlayerId;
 
@@ -76,9 +78,11 @@ export async function getPlayerImage(playerId: string): Promise<string> {
     a,
     b = undefined;
 
+  if (!player) return imgSrc;
+
   const wikidata = await fetchWikidata("/entities/items/" + player.wikidata_id);
 
-  if (!wikidata) return "/images/placeholder.jpg";
+  if (!wikidata) return imgSrc;
   const imageObject = wikidata.statements.P18;
 
   if (imageObject) {
@@ -88,7 +92,7 @@ export async function getPlayerImage(playerId: string): Promise<string> {
     b = imgHash.slice(0, 2);
   }
 
-  if (!imgFilename) return "/images/placeholder.jpg";
+  if (!imgFilename) return imgSrc;
 
   return `https://upload.wikimedia.org/wikipedia/commons/${a}/${b}/${imgFilename}`;
 }

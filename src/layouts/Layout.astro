@@ -2,12 +2,15 @@
 import { NavigationBar } from '@/components/NavigationBar'
 import { Toaster } from '@/components/ui/sonner'
 import '@/styles/globals.css'
+import { Image } from 'astro:assets'
 import { ViewTransitions } from 'astro:transitions'
 interface Props {
   title?: string
+  background?: string
+  backgroundTransitionName?: string
 }
 
-const { title } = Astro.props
+const { title, background, backgroundTransitionName } = Astro.props
 ---
 
 <!doctype html>
@@ -23,8 +26,22 @@ const { title } = Astro.props
     <ViewTransitions />
   </head>
   <body class="dark">
+    {
+      background && (
+        <Image
+          class="absolute top-0 left-0 h-full w-full object-cover"
+          style="mask-image: linear-gradient(transparent 40%, black);"
+          src={background}
+          transition:name={backgroundTransitionName || undefined}
+          alt={'clay'}
+          width={500}
+          height={500}
+        />
+      )
+    }
+
     <div
-      class="min-h-screen dark:bg-black bg-white dark:bg-dot-white/[0.2] bg-dot-black/[0.2]"
+      class="min-h-screen dark:bg-transparent z-10 relative dark:bg-dot-white/[0.2] bg-dot-black/[0.2]"
     >
       <NavigationBar client:visible />
       <Toaster client:load />
