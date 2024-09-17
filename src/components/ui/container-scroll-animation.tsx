@@ -76,9 +76,9 @@ export const Card = ({
         rotateX: rotate,
         scale,
       }}
-      src="/images/porsche.png"
+      src="/images/pure-drive.png"
       alt="hero"
-      className="max-w-xl -mt-12 mx-auto w-full p-2 md:p-6 rounded-[30px] shadow-2xl aspect-auto"
+      className="max-w-5xl -mt-12 mx-auto w-full p-2 md:p-6 rounded-[30px] shadow-2xl aspect-auto"
     ></motion.img>
   );
 };

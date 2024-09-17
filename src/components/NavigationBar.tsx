@@ -106,6 +106,11 @@ export function NavigationBar() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
+        <NavigationMenuItem>
+          <a href="/login" className={navigationMenuTriggerStyle()}>
+            Login
+          </a>
+        </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
   );
