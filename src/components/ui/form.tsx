@@ -1,13 +1,30 @@
 "use client";
 import { cn } from "@/lib/utils";
 import React from "react";
+import { toast } from "sonner";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
 export function SignupFormDemo() {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [error, setError] = React.useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted");
+
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(await response.text());
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
   return (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
@@ -19,7 +36,7 @@ export function SignupFormDemo() {
         yet
       </p>
 
-      <form className="my-8" action="/api/auth/register" method="POST">
+      <form className="my-8" onSubmit={handleSubmit}>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="name">Username</Label>
           <Input id="name" name="name" placeholder="Durden" type="text" />
