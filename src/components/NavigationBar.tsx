@@ -107,8 +107,8 @@ export function NavigationBar() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <a href="/login" className={navigationMenuTriggerStyle()}>
-            Login
+          <a href="/profile" className={navigationMenuTriggerStyle()}>
+            Profile
           </a>
         </NavigationMenuItem>
       </NavigationMenuList>

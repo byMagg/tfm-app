@@ -1,26 +1,52 @@
-"use client";
+import { app } from "@/firebase/client";
 import { cn } from "@/lib/utils";
+import {
+  getAuth,
+  inMemoryPersistence,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import React from "react";
 import { toast } from "sonner";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 
-export function SignupFormDemo() {
-  const [error, setError] = React.useState<string | null>(null);
+const auth = getAuth(app);
+auth.setPersistence(inMemoryPersistence);
 
+export function LoginForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
+    const email = formData.get("email")?.toString();
+    const password = formData.get("password")?.toString();
+
+    if (!email || !password) {
+      return;
+    }
+
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
+
+    const idToken = await userCredential.user.getIdToken();
 
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        body: formData,
+      const response = await fetch("/api/auth/signin", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
       });
 
       if (!response.ok) {
         throw new Error(await response.text());
+      }
+
+      if (response.redirected) {
+        window.location.assign(response.url);
       }
     } catch (error: any) {
       toast.error(error.message);
@@ -37,10 +63,6 @@ export function SignupFormDemo() {
       </p>
 
       <form className="my-8" onSubmit={handleSubmit}>
-        <LabelInputContainer className="mb-4">
-          <Label htmlFor="name">Username</Label>
-          <Input id="name" name="name" placeholder="Durden" type="text" />
-        </LabelInputContainer>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email Address</Label>
           <Input
@@ -64,7 +86,7 @@ export function SignupFormDemo() {
           className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
           type="submit"
         >
-          Sign up &rarr;
+          Sign in &rarr;
           <BottomGradient />
         </button>
       </form>
