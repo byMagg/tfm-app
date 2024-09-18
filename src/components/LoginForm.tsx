@@ -1,4 +1,4 @@
-import { app } from "@/firebase/client";
+import { app } from "@/lib/firebase/client";
 import { cn } from "@/lib/utils";
 import {
   getAuth,
