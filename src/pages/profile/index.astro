@@ -2,13 +2,9 @@
 import { LoginForm } from '@/components/LoginForm'
 import { SignoutButton } from '@/components/SignoutButton'
 import Layout from '@/layouts/Layout.astro'
-import { app } from '@/lib/firebase/serverrver'
-import { getAuth } from 'firebase-admin/auth'
+import { auth } from '@/lib/firebase/server'
 
 let showLogin = true
-
-/* Check if the user is authenticated */
-const auth = getAuth(app)
 
 if (Astro.cookies.has('__session')) {
   const sessionCookie = Astro.cookies.get('__session')?.value
