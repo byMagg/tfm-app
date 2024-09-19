@@ -110,6 +110,7 @@ export function NavigationBar({ isProfilePage }: { isProfilePage: boolean }) {
           {!isProfilePage && (
             <a href="/profile" className={navigationMenuTriggerStyle()}>
               <img
+                style={{ viewTransitionName: "profile-img" }}
                 src="/images/placeholder.jpg"
                 alt="Profile"
                 className="profile-img w-8 h-8 rounded-full"

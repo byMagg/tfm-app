@@ -74,7 +74,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-.profile-img {
-  view-transition-name: profile-img;
-}
