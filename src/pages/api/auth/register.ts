@@ -1,3 +1,4 @@
+import { setUserAdmin } from "@/lib/auth";
 import { auth } from "@/lib/firebase/server";
 import type { APIRoute } from "astro";
 
@@ -13,11 +14,13 @@ export const POST: APIRoute = async ({ request, redirect }) => {
 
   /* Crear un usuario */
   try {
-    await auth.createUser({
+    const user = await auth.createUser({
       email,
       password,
       displayName: name,
     });
+
+    setUserAdmin(user.uid);
   } catch (error: any) {
     if (error.code === "auth/email-already-exists") {
       return new Response("El correo ya está en uso", { status: 400 });

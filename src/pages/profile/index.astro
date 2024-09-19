@@ -1,5 +1,5 @@
 ---
-import { LoginForm } from '@/components/LoginForm'
+import { LoginFormContainer } from '@/components/LoginFormContainer'
 import { SignoutButton } from '@/components/SignoutButton'
 import Layout from '@/layouts/Layout.astro'
 import { auth } from '@/lib/firebase/server'
@@ -29,6 +29,12 @@ if (Astro.cookies.has('__session')) {
     transition:name="profile-img"
   />
   <section class="w-full flex justify-center my-3">
-    {showLogin ? <LoginForm client:load /> : <SignoutButton client:load />}
+    {
+      showLogin ? (
+        <LoginFormContainer client:load />
+      ) : (
+        <SignoutButton client:load />
+      )
+    }
   </section>
 </Layout>
