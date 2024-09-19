@@ -22,5 +22,11 @@ if (Astro.cookies.has('__session')) {
 ---
 
 <Layout title="Login">
+  <img
+    class="w-32 h-32 rounded-full mx-auto"
+    src="/images/placeholder.jpg"
+    alt="Profile Picture"
+    transition:name="profile-img"
+  />
   {showLogin ? <LoginForm client:load /> : <SignoutButton client:load />}
 </Layout>

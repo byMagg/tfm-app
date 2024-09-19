@@ -49,7 +49,7 @@ const components: { title: string; href: string; description: string }[] = [
   },
 ];
 
-export function NavigationBar() {
+export function NavigationBar({ isProfilePage }: { isProfilePage: boolean }) {
   return (
     <NavigationMenu className="mx-auto py-2">
       <NavigationMenuList>
@@ -107,9 +107,15 @@ export function NavigationBar() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <a href="/profile" className={navigationMenuTriggerStyle()}>
-            Profile
-          </a>
+          {!isProfilePage && (
+            <a href="/profile" className={navigationMenuTriggerStyle()}>
+              <img
+                src="/images/placeholder.jpg"
+                alt="Profile"
+                className="profile-img w-8 h-8 rounded-full"
+              />
+            </a>
+          )}
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>

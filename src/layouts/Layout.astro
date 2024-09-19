@@ -11,6 +11,8 @@ interface Props {
 }
 
 const { title, background, backgroundTransitionName } = Astro.props
+
+const isProfilePage = Astro.url.pathname === '/profile'
 ---
 
 <!doctype html>
@@ -43,7 +45,7 @@ const { title, background, backgroundTransitionName } = Astro.props
     <div
       class="min-h-screen dark:bg-transparent z-10 relative dark:bg-dot-white/[0.2] bg-dot-black/[0.2]"
     >
-      <NavigationBar client:visible />
+      <NavigationBar client:load isProfilePage={isProfilePage} />
       <Toaster client:load />
       <slot />
     </div>
@@ -63,17 +65,6 @@ const { title, background, backgroundTransitionName } = Astro.props
         font-family: system-ui, sans-serif;
         background: #13151a;
         background-size: 224px;
-      }
-      code {
-        font-family:
-          Menlo,
-          Monaco,
-          Lucida Console,
-          Liberation Mono,
-          DejaVu Sans Mono,
-          Bitstream Vera Sans Mono,
-          Courier New,
-          monospace;
       }
     </style>
   </body>
