@@ -1,0 +1,42 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import { type League } from '@/types'
+import { fetchAPI } from '@/utils'
+
+const { id } = Astro.params
+
+const query = `
+      query GetLeague {
+        getLeagueById(leagueId: "${id}") {
+          _id
+          name
+          players {
+            _id
+            player_id
+            name_first
+            name_last
+            hand
+            dob
+            ioc
+            height
+            wikidata_id
+          }
+        }
+      }
+  `
+
+const { getLeagueById } = (await fetchAPI(query)) || {}
+const league = getLeagueById as League | undefined
+---
+
+<Layout title={`${league ? `${league.name}` : 'League'}`}>
+  {
+    league && (
+      <div>
+        <h2>{league.name}</h2>
+      </div>
+    )
+  }
+
+  <pre>{JSON.stringify(league, null, 2)}</pre>
+</Layout>

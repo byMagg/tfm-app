@@ -107,6 +107,15 @@ export function NavigationBar({ isProfilePage }: { isProfilePage: boolean }) {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
+          <a
+            href="/leagues"
+            className={navigationMenuTriggerStyle()}
+            aria-label="Leagues"
+          >
+            Leagues
+          </a>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
           {!isProfilePage && (
             <a href="/profile" className={navigationMenuTriggerStyle()}>
               <img

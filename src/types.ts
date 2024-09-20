@@ -66,6 +66,12 @@ export interface Ranking {
   points: number;
 }
 
+export interface League {
+  _id: string;
+  name: string;
+  players: Array<Player>;
+}
+
 export enum Country {
   AFG = "af",
   AHO = "an",
