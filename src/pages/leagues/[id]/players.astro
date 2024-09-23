@@ -1,0 +1,32 @@
+---
+import { ComboboxForm, type ComboboxItem } from '@/components/ui/select-form'
+import Layout from '@/layouts/Layout.astro'
+
+const { id } = Astro.params
+
+console.log(`${Astro.url.host}/api/users`)
+console.log(`${Astro.url.protocol}//${Astro.url.host}/api/users`)
+
+let users: ComboboxItem[] = []
+
+try {
+  const response = await fetch(
+    `${Astro.url.protocol}//${Astro.url.host}/api/users`
+  )
+
+  const data = (await response.json()).user.users
+
+  users = data.map((user: any) => ({
+    label: user.providerData[0].displayName,
+    value: user.uid,
+  }))
+} catch (error) {
+  console.error(error)
+}
+---
+
+<Layout>
+  <ComboboxForm client:load items={users} />
+  <h1>Add Player</h1>
+  <pre>{JSON.stringify(users, null, 2)}</pre>
+</Layout>

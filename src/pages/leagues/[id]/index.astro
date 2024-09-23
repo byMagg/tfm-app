@@ -30,6 +30,9 @@ const league = getLeagueById as League | undefined
 ---
 
 <Layout title={`${league ? `${league.name}` : 'League'}`}>
+  <button>
+    <a href={`/leagues/${id}/players`}>Add Player</a>
+  </button>
   {
     league && (
       <div>
