@@ -10,23 +10,35 @@ const query = `
         getLeagueById(leagueId: "${id}") {
           _id
           name
-          players {
-            _id
-            player_id
-            name_first
-            name_last
-            hand
-            dob
-            ioc
-            height
-            wikidata_id
-          }
+          players
         }
       }
   `
 
 const { getLeagueById } = (await fetchAPI(query)) || {}
 const league = getLeagueById as League | undefined
+
+let players = []
+
+try {
+  const response = await fetch(
+    `${Astro.url.protocol}//${Astro.url.host}/api/users`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        ids: league?.players || [],
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  )
+
+  const data = (await response.json()).data.users
+  players = data
+} catch (error) {
+  console.error(error)
+}
 ---
 
 <Layout title={`${league ? `${league.name}` : 'League'}`}>
@@ -35,11 +47,22 @@ const league = getLeagueById as League | undefined
   </button>
   {
     league && (
-      <div>
-        <h2>{league.name}</h2>
-      </div>
+      <>
+        <div>
+          <h2>{league.name}</h2>
+        </div>
+        <div>
+          <h3>Players</h3>
+
+          <ul>
+            {players.map((player: any) => (
+              <li>
+                {player.displayName} - {player.email}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </>
     )
   }
-
-  <pre>{JSON.stringify(league, null, 2)}</pre>
 </Layout>

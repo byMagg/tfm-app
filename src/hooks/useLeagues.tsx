@@ -14,9 +14,7 @@ export function useLeagues({
         getLeagues(limit: ${limit}, offset: ${offset}) {
             _id
             name
-            players {
-              _id
-            }
+            players
         }
       }
   `;

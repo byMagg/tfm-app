@@ -7,12 +7,7 @@ export function useLeague({ id }: { id: string }) {
         getLeagueById(LeagueId: "${id}") {
           _id
           name
-          players {
-            _id
-            name_first
-            name_last
-            hand
-          }
+          players
         }
       }
   `;
