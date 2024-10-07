@@ -1,4 +1,5 @@
 ---
+import TableUsersComponent from '@/components/TableUsersComponent'
 import Layout from '@/layouts/Layout.astro'
 import { type League } from '@/types'
 import { fetchAPI } from '@/utils'
@@ -54,15 +55,11 @@ try {
         <div>
           <h3>Players</h3>
 
-          <ul>
-            {players.map((player: any) => (
-              <li>
-                {player.displayName} - {player.email}
-              </li>
-            ))}
-          </ul>
+          <TableUsersComponent client:load playerIds={league?.players || []} />
         </div>
       </>
     )
   }
 </Layout>
+
+<script></script>

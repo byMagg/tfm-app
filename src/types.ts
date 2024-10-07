@@ -69,7 +69,7 @@ export interface Ranking {
 export interface League {
   _id: string;
   name: string;
-  players: Array<Player>;
+  players: Array<string>;
 }
 
 export enum Country {
@@ -297,4 +297,10 @@ export enum Country {
   YUG = "cs",
   ZAM = "zm",
   ZIM = "zw",
+}
+
+export interface User {
+  uid: string;
+  email: string;
+  displayName: string;
 }
