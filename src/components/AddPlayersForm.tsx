@@ -14,12 +14,15 @@ export default function AddPlayersForm({
   useEffect(() => {
     const fetchPlayers = async () => {
       const res = await fetch("http://localhost:4321/api/users");
-      const data = (await res.json()).user.users;
+      const data = (await res.json()).users.users;
 
       const players = data.map((player: any) => ({
         label: player.providerData[0].displayName,
         value: player.uid,
       }));
+
+      console.log(data);
+      console.log(players);
 
       setPlayers(players);
     };

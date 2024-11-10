@@ -5,11 +5,11 @@ export const GET: APIRoute = async ({ params, request }) => {
   const { limit = 10, offset = 0 } = params;
 
   try {
-    const user = await auth.listUsers(Number(limit));
+    const users = await auth.listUsers(Number(limit));
 
     return new Response(
       JSON.stringify({
-        user,
+        users,
       }),
     );
   } catch (error) {
