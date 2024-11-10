@@ -27,46 +27,28 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { fetchAPI } from "@/utils";
-import { toast } from "sonner";
 
 export type ComboboxItem = {
   label: string;
   value: string;
 };
 
-const FormSchema = z.object({
+export const FormSchema = z.object({
   item: z.string({
     required_error: "Please select an item.",
   }),
 });
 
-export function ComboboxForm({ items }: { items: ComboboxItem[] }) {
+export function ComboboxForm({
+  items,
+  onSubmit,
+}: {
+  items: ComboboxItem[];
+  onSubmit: (data: z.infer<typeof FormSchema>) => void;
+}) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
-
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const query = `
-      query GetLeagueById {
-        addPlayersToLeague(leagueId: "${"66ed4a1f413c5a837792015e"}", playerIds: "${[data.item]}") {
-          _id
-          name
-          players
-        }
-      }
-  `;
-
-    try {
-      const response = await fetchAPI(query);
-
-      toast.success(`Item selected: ${data.item}`);
-
-      console.log(response);
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   return (
     <Form {...form}>

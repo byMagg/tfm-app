@@ -55,7 +55,11 @@ try {
         <div>
           <h3>Players</h3>
 
-          <TableUsersComponent client:load playerIds={league?.players || []} />
+          <TableUsersComponent
+            client:load
+            playerIds={league?.players || []}
+            leagueId={league._id}
+          />
         </div>
       </>
     )
