@@ -1,12 +1,13 @@
 import { md5 } from "js-md5";
 
-export async function fetchAPI(query: string) {
+export async function fetchAPI(query: string, variables?: any) {
   try {
     const response = await fetch("http://localhost:3000", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         query,
+        variables,
       }),
     });
 

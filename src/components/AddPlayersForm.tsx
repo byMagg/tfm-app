@@ -32,8 +32,8 @@ export default function AddPlayersForm({
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const query = `
-        query GetLeagueById {
-          addPlayersToLeague(leagueId: "${leagueId}", playerIds: "${[data.item]}") {
+        query GetLeagueById($leagueId: String!, $playerIds: [String]!) {
+          addPlayersToLeague(leagueId: $leagueId, playerIds: $playerIds) {
             _id
             name
             players
@@ -42,9 +42,12 @@ export default function AddPlayersForm({
     `;
 
     try {
-      const response = await fetchAPI(query);
+      const response = await fetchAPI(query, {
+        leagueId,
+        playerIds: data.items,
+      });
 
-      toast.success(`Item selected: ${data.item}`);
+      toast.success(`Item selected: ${data.items}`);
 
       console.log(response);
     } catch (error) {

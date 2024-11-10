@@ -34,9 +34,7 @@ export type ComboboxItem = {
 };
 
 export const FormSchema = z.object({
-  item: z.string({
-    required_error: "Please select an item.",
-  }),
+  items: z.array(z.string()).min(1, "Please select at least one item."),
 });
 
 export function ComboboxForm({
@@ -48,6 +46,7 @@ export function ComboboxForm({
 }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: { items: [] },
   });
 
   return (
@@ -55,10 +54,10 @@ export function ComboboxForm({
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="item"
+          name="items"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Item</FormLabel>
+              <FormLabel>Items</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -67,20 +66,26 @@ export function ComboboxForm({
                       role="combobox"
                       className={cn(
                         "w-[200px] justify-between",
-                        !field.value && "text-muted-foreground",
+                        field.value.length === 0 && "text-muted-foreground",
                       )}
                     >
-                      {field.value
-                        ? items.find((item) => item.value === field.value)
-                            ?.label
-                        : "Select item"}
+                      {field.value.length > 0
+                        ? field.value
+                            .map(
+                              (selectedValue) =>
+                                items.find(
+                                  (item) => item.value === selectedValue,
+                                )?.label || selectedValue,
+                            )
+                            .join(", ")
+                        : "Select items"}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] p-0">
                   <Command>
-                    <CommandInput placeholder="Search item..." />
+                    <CommandInput placeholder="Search items..." />
                     <CommandList>
                       <CommandEmpty>No item found.</CommandEmpty>
                       <CommandGroup>
@@ -89,13 +94,26 @@ export function ComboboxForm({
                             value={item.label}
                             key={item.value}
                             onSelect={() => {
-                              form.setValue("item", item.value);
+                              const currentValues = field.value || [];
+                              if (currentValues.includes(item.value)) {
+                                // Remove item if already selected
+                                form.setValue(
+                                  "items",
+                                  currentValues.filter((v) => v !== item.value),
+                                );
+                              } else {
+                                // Add item if not already selected
+                                form.setValue("items", [
+                                  ...currentValues,
+                                  item.value,
+                                ]);
+                              }
                             }}
                           >
                             <Check
                               className={cn(
                                 "mr-2 h-4 w-4",
-                                item.value === field.value
+                                field.value.includes(item.value)
                                   ? "opacity-100"
                                   : "opacity-0",
                               )}
@@ -109,7 +127,7 @@ export function ComboboxForm({
                 </PopoverContent>
               </Popover>
               <FormDescription>
-                This is the item that will be used in the dashboard.
+                These are the items that will be used in the dashboard.
               </FormDescription>
               <FormMessage />
             </FormItem>
