@@ -55,8 +55,27 @@ const usersToCreate = [
   { email: "pedro@gmail.com", password: "password", displayName: "Pedro" },
   { email: "javier@gmail.com", password: "password", displayName: "Javier" },
   { email: "silvia@gmail.com", password: "password", displayName: "Silvia" },
+  { email: "ana@gmail.com", password: "password", displayName: "Ana" },
+  { email: "carlos@gmail.com", password: "password", displayName: "Carlos" },
+  { email: "laura@gmail.com", password: "password", displayName: "Laura" },
+  { email: "maria@gmail.com", password: "password", displayName: "María" },
+  { email: "luis@gmail.com", password: "password", displayName: "Luis" },
+  { email: "sofia@gmail.com", password: "password", displayName: "Sofía" },
+  { email: "andres@gmail.com", password: "password", displayName: "Andrés" },
+  { email: "david@gmail.com", password: "password", displayName: "David" },
+  { email: "isabel@gmail.com", password: "password", displayName: "Isabel" },
+  { email: "mateo@gmail.com", password: "password", displayName: "Mateo" },
+  { email: "juan@gmail.com", password: "password", displayName: "Juan" },
+  { email: "claudia@gmail.com", password: "password", displayName: "Claudia" },
+  { email: "hector@gmail.com", password: "password", displayName: "Héctor" },
+  {
+    email: "fernanda@gmail.com",
+    password: "password",
+    displayName: "Fernanda",
+  },
+  { email: "roberto@gmail.com", password: "password", displayName: "Roberto" },
+  { email: "monica@gmail.com", password: "password", displayName: "Mónica" },
 ];
-
 // Eliminar todos los usuarios
 await deleteAllUsers();
 
