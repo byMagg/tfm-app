@@ -3,8 +3,10 @@ import { LoginFormContainer } from '@/components/LoginFormContainer'
 import { SignoutButton } from '@/components/SignoutButton'
 import Layout from '@/layouts/Layout.astro'
 import { auth } from '@/lib/firebase/server'
+import { fetchAPI } from '@/utils'
 
 let showLogin = true
+let league = null
 
 if (Astro.cookies.has('__session')) {
   const sessionCookie = Astro.cookies.get('__session')?.value
@@ -18,6 +20,19 @@ if (Astro.cookies.has('__session')) {
   if (decodedCookie) {
     showLogin = false
   }
+
+  console.log(decodedCookie.uid)
+
+  const query = `
+    query {
+      checkPlayerInLeague(playerId: "${decodedCookie.uid}") {
+        _id
+        name
+      }
+    }
+  `
+
+  league = await fetchAPI(query)
 }
 ---
 
@@ -37,4 +52,11 @@ if (Astro.cookies.has('__session')) {
       )
     }
   </section>
+  {
+    league && (
+      <div>
+        <p class="text-center">{league.checkPlayerInLeague.name}</p>
+      </div>
+    )
+  }
 </Layout>

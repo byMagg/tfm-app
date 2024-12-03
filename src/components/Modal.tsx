@@ -72,6 +72,7 @@ export function Modal({
               <Input
                 id="name"
                 name="name"
+                required
                 placeholder="Liga de Cáceres II"
                 className="col-span-3"
               />

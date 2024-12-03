@@ -1,6 +1,8 @@
 import { md5 } from "js-md5";
 
 export async function fetchAPI(query: string, variables?: any) {
+  console.log(query);
+
   try {
     const response = await fetch("http://localhost:3000", {
       method: "POST",
