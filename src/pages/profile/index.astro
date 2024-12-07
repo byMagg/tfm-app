@@ -21,8 +21,6 @@ if (Astro.cookies.has('__session')) {
     showLogin = false
   }
 
-  console.log(decodedCookie.uid)
-
   const query = `
     query {
       checkPlayerInLeague(playerId: "${decodedCookie.uid}") {
@@ -53,10 +51,10 @@ if (Astro.cookies.has('__session')) {
     }
   </section>
   {
-    league && (
-      <div>
+    league && league.checkPlayerInLeague && (
+      <section class="w-full flex justify-center my-3">
         <p class="text-center">{league.checkPlayerInLeague.name}</p>
-      </div>
+      </section>
     )
   }
 </Layout>
