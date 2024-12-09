@@ -43,9 +43,14 @@ try {
 ---
 
 <Layout title={`${league ? `${league.name}` : 'League'}`}>
-  <button>
-    <a href={`/leagues/${id}/players`}>Add Player</a>
-  </button>
+  <div>
+    <button>
+      <a href={`/leagues/${id}/players`}>Add Player</a>
+    </button>
+    <button>
+      <a>Start season</a>
+    </button>
+  </div>
   {
     league && (
       <>

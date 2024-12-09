@@ -1,4 +1,4 @@
-import { fetchAPI } from "@/utils";
+import { fetchAPI, fetchAstroAPI } from "@/utils";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -13,16 +13,16 @@ export default function AddPlayersForm({
 
   useEffect(() => {
     const fetchPlayers = async () => {
-      const res = await fetch("http://localhost:4321/api/users");
-      const data = (await res.json()).users.users;
+      const res = await fetchAstroAPI({
+        endpoint: "/users",
+      });
+
+      const data = res.users.users;
 
       const players = data.map((player: any) => ({
         label: player.providerData[0].displayName,
         value: player.uid,
       }));
-
-      console.log(data);
-      console.log(players);
 
       setPlayers(players);
     };

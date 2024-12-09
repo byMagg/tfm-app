@@ -1,6 +1,7 @@
 import { usePagination } from "@/hooks/usePagination";
 import { usePlayersFromLeague } from "@/hooks/usePlayersFromLeague";
 import { type User } from "@/types";
+import { fetchAstroAPI } from "@/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "./DataTable";
 import { Button } from "./ui/button";
@@ -12,14 +13,12 @@ async function handleDelete({
   id: string;
   leagueId: string;
 }) {
-  await fetch(`http://localhost:4321/api/leagues/${leagueId}`, {
+  await fetchAstroAPI({
+    endpoint: `/leagues/${leagueId}`,
     method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
+    body: {
       ids: [id],
-    }),
+    },
   });
 }
 
