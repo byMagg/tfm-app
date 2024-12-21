@@ -28,7 +28,19 @@ if (Astro.cookies.has('__session')) {
       checkPlayerInLeague(playerId: "${decodedCookie.uid}") {
         _id
         name
+        startedAt
         players
+        currentSeason {
+          _id
+          startedAt
+          matches {
+            _id
+            player1
+            player2
+            winner
+            score
+          }
+        }
       }
     }
   `
@@ -46,13 +58,6 @@ if (Astro.cookies.has('__session')) {
     })
 
     players = data.users
-    profileUser = players.find(
-      (user: { uid: string }) => user.uid === decodedCookie.uid
-    )
-
-    players = players.filter(
-      (player: { uid: string }) => player.uid !== decodedCookie.uid
-    )
   }
 }
 ---
@@ -81,11 +86,17 @@ if (Astro.cookies.has('__session')) {
         <article>
           <h2>Matches</h2>
           <ul>
-            {players.map((player: any) => (
+            {league.currentSeason.matches.map((match: any) => (
               <li>
-                <p>
-                  {player.displayName} - {profileUser.displayName}
-                </p>
+                {
+                  players.find((player: any) => player.uid === match.player1)
+                    .displayName
+                }
+                vs
+                {
+                  players.find((player: any) => player.uid === match.player2)
+                    .displayName
+                }
               </li>
             ))}
           </ul>
