@@ -86,16 +86,16 @@ if (Astro.cookies.has('__session')) {
         <article>
           <h2>Matches</h2>
           <ul>
-            {league.currentSeason.matches.map((match: any) => (
+            {league.currentSeason?.matches.map((match: any) => (
               <li>
                 {
                   players.find((player: any) => player.uid === match.player1)
-                    .displayName
+                    ?.displayName
                 }
                 vs
                 {
                   players.find((player: any) => player.uid === match.player2)
-                    .displayName
+                    ?.displayName
                 }
               </li>
             ))}
