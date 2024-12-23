@@ -44,33 +44,63 @@ try {
 ---
 
 <Layout title={`${league ? `${league.name}` : 'League'}`}>
+  {
+    league && (
+      <div>
+        <h1>{league.name}</h1>
+        {league.startedAt ? (
+          <h3>EN JUEGO</h3>
+        ) : (
+          <button id="start-season" data-league-id={league?._id}>
+            <a>Start season</a>
+          </button>
+        )}
+      </div>
+    )
+  }
   <div>
     <button>
       <a href={`/leagues/${id}/players`}>Add Player</a>
     </button>
-    <button>
-      <a>Start season</a>
-    </button>
   </div>
   {
     league && (
-      <>
-        <div>
-          <h2>{league.name}</h2>
-          {league.startedAt && <p>EN JUEGO</p>}
-        </div>
-        <div>
-          <h3>Players</h3>
+      <div>
+        <h3>Players</h3>
 
-          <TableUsersComponent
-            client:load
-            playerIds={league?.players || []}
-            leagueId={league._id}
-          />
-        </div>
-      </>
+        <TableUsersComponent
+          client:load
+          playerIds={league?.players || []}
+          leagueId={league._id}
+        />
+      </div>
     )
   }
 </Layout>
 
-<script></script>
+<script>
+  import { fetchAPI } from '@/utils'
+
+  const $startSeason = document.getElementById('start-season')
+
+  if ($startSeason) {
+    $startSeason.addEventListener('click', async () => {
+      const league = $startSeason.getAttribute('data-league-id')
+
+      const query = `
+        query {
+          startSeason(leagueId: "${league}") {
+            _id
+            startedAt
+          }
+        }
+      `
+
+      const { startSeason } = await fetchAPI(query)
+
+      if (startSeason) {
+        location.reload()
+      }
+    })
+  }
+</script>
