@@ -12,6 +12,7 @@ const query = `
           _id
           name
           players
+          startedAt
         }
       }
   `
@@ -56,6 +57,7 @@ try {
       <>
         <div>
           <h2>{league.name}</h2>
+          {league.startedAt && <p>EN JUEGO</p>}
         </div>
         <div>
           <h3>Players</h3>

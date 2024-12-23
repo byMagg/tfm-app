@@ -70,6 +70,7 @@ export interface League {
   _id: string;
   name: string;
   players: Array<string>;
+  startedAt: string;
 }
 
 export enum Country {
