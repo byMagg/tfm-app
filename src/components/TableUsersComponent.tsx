@@ -4,7 +4,7 @@ import { type User } from "@/types";
 import { fetchAstroAPI } from "@/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "./DataTable";
-import { Button } from "./ui/button";
+import { DeleteModal } from "./DeleteModal";
 
 async function handleDelete({
   id,
@@ -59,18 +59,14 @@ export default function TableUsersComponent({
 
         return (
           <div className="flex items-center justify-center">
-            <Button
-              size="sm"
-              variant="link"
-              onClick={() => {
+            <DeleteModal
+              onRemove={() => {
                 handleDelete({
                   id: original.uid,
                   leagueId: leagueId,
                 });
               }}
-            >
-              Remove
-            </Button>
+            />
           </div>
         );
       },
