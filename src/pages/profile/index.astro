@@ -88,15 +88,17 @@ if (Astro.cookies.has('__session')) {
           <ul>
             {league.currentSeason?.matches.map((match: any) => (
               <li>
-                {
-                  players.find((player: any) => player.uid === match.player1)
-                    ?.displayName
-                }
-                vs
-                {
-                  players.find((player: any) => player.uid === match.player2)
-                    ?.displayName
-                }
+                <a href={`/league-matches/${match._id}`}>
+                  {
+                    players.find((player: any) => player.uid === match.player1)
+                      ?.displayName
+                  }
+                  vs
+                  {
+                    players.find((player: any) => player.uid === match.player2)
+                      ?.displayName
+                  }
+                </a>
               </li>
             ))}
           </ul>

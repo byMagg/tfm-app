@@ -1,0 +1,73 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import { fetchAPI, fetchAstroAPI } from '@/utils'
+
+const { id } = Astro.params
+
+const query = `
+  query {
+    getLeagueMatchById(matchId: "${id}") {
+      _id
+      player1
+      player2
+      season_id
+      winner
+      score
+    }
+  }
+  `
+
+const { getLeagueMatchById } = await fetchAPI(query)
+
+let player1 = null
+let player2 = null
+
+if (getLeagueMatchById) {
+  const { data } = await fetchAstroAPI({
+    method: 'POST',
+    endpoint: '/users',
+    body: {
+      ids: [getLeagueMatchById.player1, getLeagueMatchById.player2],
+    },
+  })
+
+  player1 = data.users.find(
+    (user: any) => user.uid === getLeagueMatchById.player1
+  )
+  player2 = data.users.find(
+    (user: any) => user.uid === getLeagueMatchById.player2
+  )
+
+  console.log(player1, player2)
+  console.log(getLeagueMatchById.player1, getLeagueMatchById.player2)
+}
+---
+
+<Layout>
+  <div class="container mx-auto">
+    <h1 class="text-2xl font-bold">
+      {player1?.displayName} vs {player2?.displayName}
+    </h1>
+
+    {
+      !getLeagueMatchById.winner && (
+        <div>
+          <p>Match is not finished yet</p>
+          <a>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Report Score
+            </button>
+          </a>
+        </div>
+      )
+    }
+    {
+      getLeagueMatchById.winner && (
+        <p>
+          {player1?.displayName} {getLeagueMatchById.score[0]} -{' '}
+          {getLeagueMatchById.score[1]} {player2?.displayName}
+        </p>
+      )
+    }
+  </div>
+</Layout>
