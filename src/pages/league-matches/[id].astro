@@ -1,4 +1,5 @@
 ---
+import { Score } from '@/components/Score'
 import Layout from '@/layouts/Layout.astro'
 import { fetchAPI, fetchAstroAPI } from '@/utils'
 
@@ -53,11 +54,7 @@ if (getLeagueMatchById) {
       !getLeagueMatchById.winner && (
         <div>
           <p>Match is not finished yet</p>
-          <a>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Report Score
-            </button>
-          </a>
+          <Score client:load />
         </div>
       )
     }
