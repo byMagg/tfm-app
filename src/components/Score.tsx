@@ -21,6 +21,10 @@ const checkMatchWinner = (sets: { player1: number; player2: number }[]) => {
   if (player2Wins === 2) return "player2";
 };
 
+const toStringScore = (score: { player1: number; player2: number }[]) => {
+  return score.map((set) => `${set.player1}-${set.player2}`).join(" ");
+};
+
 const scoreSchema = z
   .object({
     player1: z.number(),
@@ -43,6 +47,9 @@ export function Score() {
     { player1: 0, player2: 0 },
     { player1: 0, player2: 0 },
   ]);
+
+  const [error, setError] = useState<string | null>(null);
+  const [winner, setWinner] = useState<any>(null);
 
   const incrementScore = (i: number, player: "player1" | "player2") => {
     setScore((prevScore) =>
@@ -71,13 +78,28 @@ export function Score() {
     });
     const isValid = results.every((result) => result.success);
 
-    if (!isValid && !checkMatchWinner(score)) return;
+    if (!isValid && !checkMatchWinner(score)) {
+      setError("El resultado no es válido");
+      return;
+    }
+
+    let submitScore = score;
+
+    if (results.some((result) => !result.success)) {
+      submitScore = score.slice(0, 2);
+    }
+
+    setWinner(checkMatchWinner(submitScore));
+    setError(null);
 
     console.log("Submit", results);
+    console.log(toStringScore(submitScore));
   };
 
   return (
     <form onSubmit={validateAndSubmit}>
+      {error && <p className="text-red-500">{error}</p>}
+      {winner && <p>El ganador es {winner}</p>}
       {score.map((set, i) => (
         <div key={i} className="flex items-center justify-center space-x-4">
           <span>Set {i + 1}</span>
