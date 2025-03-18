@@ -73,6 +73,15 @@ export interface League {
   startedAt: string;
 }
 
+export interface LeagueMatch {
+  _id: string;
+  player1: string;
+  player2: string;
+  season_id: string;
+  winner: string;
+  score: string;
+}
+
 export enum Country {
   AFG = "af",
   AHO = "an",

@@ -1,3 +1,4 @@
+import { fetchAPI } from "@/utils";
 import { useState } from "react";
 import { z } from "zod";
 import { Button } from "./ui/button";
@@ -41,7 +42,7 @@ const scoreSchema = z
     { message: "Resultado inválido. Debe ser 6-0 a 6-4 o 7-6." },
   );
 
-export function Score() {
+export function Score({ matchId }: { matchId: string | undefined }) {
   const [score, setScore] = useState([
     { player1: 0, player2: 0 },
     { player1: 0, player2: 0 },
@@ -65,7 +66,7 @@ export function Score() {
     );
   };
 
-  const validateAndSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const validateAndSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const results = score.map((set) => {
       const parse = scoreSchema.safeParse(set);
@@ -91,6 +92,23 @@ export function Score() {
 
     setWinner(checkMatchWinner(submitScore));
     setError(null);
+
+    const query = `
+      query {
+        setMatchScore(matchId: "${matchId}", score: "${toStringScore(submitScore)}", winner: "${checkMatchWinner(submitScore)}") {
+          _id
+          player1
+          player2
+          season_id
+          winner
+          score
+        }
+      }
+    `;
+
+    const response = await fetchAPI(query);
+
+    console.log(response);
 
     console.log("Submit", results);
     console.log(toStringScore(submitScore));

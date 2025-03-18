@@ -38,9 +38,6 @@ if (getLeagueMatchById) {
   player2 = data.users.find(
     (user: any) => user.uid === getLeagueMatchById.player2
   )
-
-  console.log(player1, player2)
-  console.log(getLeagueMatchById.player1, getLeagueMatchById.player2)
 }
 ---
 
@@ -54,16 +51,18 @@ if (getLeagueMatchById) {
       !getLeagueMatchById.winner && (
         <div>
           <p>Match is not finished yet</p>
-          <Score client:load />
+          <Score matchId={id} client:load />
         </div>
       )
     }
     {
       getLeagueMatchById.winner && (
-        <p>
-          {player1?.displayName} {getLeagueMatchById.score[0]} -{' '}
-          {getLeagueMatchById.score[1]} {player2?.displayName}
-        </p>
+        <>
+          <p>
+            {player1?.displayName} - {player2?.displayName}
+          </p>
+          <p>{getLeagueMatchById.score}</p>
+        </>
       )
     }
   </div>
