@@ -1,20 +1,32 @@
-import { md5 } from "js-md5";
+const API_URL = "http://localhost:3000/api";
 
-export async function fetchAPI(query: string, variables?: any) {
+export async function fetchAPI({
+  endpoint,
+  method = "GET",
+  limit,
+  page,
+  body,
+}: {
+  endpoint: string;
+  method?: string;
+  limit?: number;
+  page?: number;
+  body?: any;
+}) {
   try {
-    const response = await fetch("http://localhost:3000", {
-      method: "POST",
+    const url = page
+      ? `${API_URL}${endpoint}?limit=${limit}&page=${page}`
+      : `${API_URL}${endpoint}`;
+
+    const response = await fetch(url, {
+      method: method,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query,
-        variables,
-      }),
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) throw new Error("No se ha podido obtener los datos");
 
-    const { data } = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.message);
@@ -98,29 +110,30 @@ export async function getPlayerImage(playerId: number): Promise<string> {
   `;
 
   let imgSrc = "/images/placeholder.jpg";
+  return imgSrc;
 
-  const data = await fetchAPI(query);
-  const player = data.getPlayerByPlayerId;
+  // const data = await fetchAPI(query);
+  // const player = data.getPlayerByPlayerId;
 
-  let imgFilename,
-    a,
-    b = undefined;
+  // let imgFilename,
+  //   a,
+  //   b = undefined;
 
-  if (!player) return imgSrc;
+  // if (!player) return imgSrc;
 
-  const wikidata = await fetchWikidata("/entities/items/" + player.wikidata_id);
+  // const wikidata = await fetchWikidata("/entities/items/" + player.wikidata_id);
 
-  if (!wikidata) return imgSrc;
-  const imageObject = wikidata.statements.P18;
+  // if (!wikidata) return imgSrc;
+  // const imageObject = wikidata.statements.P18;
 
-  if (imageObject) {
-    imgFilename = wikidata.statements.P18[0].value.content.replace(/ /g, "_");
-    const imgHash = md5(imgFilename);
-    a = imgHash.slice(0, 1);
-    b = imgHash.slice(0, 2);
-  }
+  // if (imageObject) {
+  //   imgFilename = wikidata.statements.P18[0].value.content.replace(/ /g, "_");
+  //   const imgHash = md5(imgFilename);
+  //   a = imgHash.slice(0, 1);
+  //   b = imgHash.slice(0, 2);
+  // }
 
-  if (!imgFilename) return imgSrc;
+  // if (!imgFilename) return imgSrc;
 
-  return `https://upload.wikimedia.org/wikipedia/commons/${a}/${b}/${imgFilename}`;
+  // return `https://upload.wikimedia.org/wikipedia/commons/${a}/${b}/${imgFilename}`;
 }

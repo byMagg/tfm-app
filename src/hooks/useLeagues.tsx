@@ -1,24 +1,13 @@
-import { fetchAPI } from "@/utils";
+import { getLeagues } from "@/controllers";
 import { useEffect, useState } from "react";
 
 export function useLeagues({
   limit = 10,
-  offset,
+  page = 1,
 }: {
   limit?: number;
-  offset: number;
+  page: number;
 }) {
-  const query = `
-      query GetLeagues {
-        leaguesCount
-        getLeagues(limit: ${limit}, offset: ${offset}) {
-            _id
-            name
-            players
-        }
-      }
-  `;
-
   const [leagues, setLeagues] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -26,14 +15,16 @@ export function useLeagues({
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
-      const apiData = await fetchAPI(query);
-      const { getLeagues, leaguesCount } = apiData;
-      setLeagues(getLeagues);
-      setCount(leaguesCount);
+      const { data, total } = await getLeagues({
+        limit,
+        page,
+      });
+      setLeagues(data);
+      setCount(total);
       setLoading(false);
     };
     fetch();
-  }, [offset]);
+  }, [page]);
 
   return { leagues, count, loading };
 }

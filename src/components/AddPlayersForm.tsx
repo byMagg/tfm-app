@@ -1,4 +1,5 @@
-import { fetchAPI, fetchAstroAPI } from "@/utils";
+import { addPlayersToLeague } from "@/controllers";
+import { fetchAstroAPI } from "@/utils";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -31,18 +32,8 @@ export default function AddPlayersForm({
   }, []);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const query = `
-        query GetLeagueById($leagueId: String!, $playerIds: [String]!) {
-          addPlayersToLeague(leagueId: $leagueId, playerIds: $playerIds) {
-            _id
-            name
-            players
-          }
-        }
-    `;
-
     try {
-      const response = await fetchAPI(query, {
+      const response = await addPlayersToLeague({
         leagueId,
         playerIds: data.items,
       });

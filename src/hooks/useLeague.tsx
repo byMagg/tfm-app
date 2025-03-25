@@ -2,25 +2,15 @@ import { fetchAPI } from "@/utils";
 import { useEffect, useState } from "react";
 
 export function useLeague({ id }: { id: string }) {
-  const query = `
-      query GetLeague {
-        getLeagueById(LeagueId: "${id}") {
-          _id
-          name
-          players
-        }
-      }
-  `;
-
   const [league, setLeague] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
-      const apiData = await fetchAPI(query);
-      const { getLeague } = apiData;
-      setLeague(getLeague);
+      const { data } = await fetchAPI({ endpoint: `/leagues/${id}` });
+
+      setLeague(data);
       setLoading(false);
     };
     fetch();

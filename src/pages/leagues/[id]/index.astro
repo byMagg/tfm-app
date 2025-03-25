@@ -2,23 +2,13 @@
 import TableUsersComponent from '@/components/TableUsersComponent'
 import Layout from '@/layouts/Layout.astro'
 import { type League } from '@/types'
-import { fetchAPI } from '@/utils'
+import { getLeague } from '@/controllers'
 
 const { id } = Astro.params
 
-const query = `
-      query GetLeague {
-        getLeagueById(leagueId: "${id}") {
-          _id
-          name
-          players
-          startedAt
-        }
-      }
-  `
+const { data } = await getLeague(id)
 
-const { getLeagueById } = (await fetchAPI(query)) || {}
-const league = getLeagueById as League | undefined
+const league = data as League | undefined
 
 let players = []
 
