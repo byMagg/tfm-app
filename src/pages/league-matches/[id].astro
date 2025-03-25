@@ -25,6 +25,8 @@ if (match) {
   player1 = data.users.find((user: any) => user.uid === match.player1)
   player2 = data.users.find((user: any) => user.uid === match.player2)
 }
+
+console.log(match)
 ---
 
 <Layout>
@@ -34,7 +36,7 @@ if (match) {
     </h1>
 
     {
-      !getLeagueMatchById.winner && (
+      !match.winner && (
         <div>
           <p>Match is not finished yet</p>
           <Score matchId={id} client:load />
@@ -42,12 +44,9 @@ if (match) {
       )
     }
     {
-      getLeagueMatchById.winner && (
+      match.winner && (
         <>
-          <p>
-            {player1?.displayName} - {player2?.displayName}
-          </p>
-          <p>{getLeagueMatchById.score}</p>
+          <p>{match.score}</p>
         </>
       )
     }
