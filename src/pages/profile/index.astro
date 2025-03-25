@@ -1,14 +1,15 @@
 ---
 import { LoginFormContainer } from '@/components/LoginFormContainer'
 import { SignoutButton } from '@/components/SignoutButton'
+import { checkPlayerInLeague } from '@/controllers'
 import Layout from '@/layouts/Layout.astro'
 import { auth } from '@/lib/firebase/server'
-import { fetchAPI, fetchAstroAPI } from '@/utils'
+import { fetchAstroAPI } from '@/utils'
 
 let showLogin = true
 let league = null
 let players = []
-let profileUser = null
+let matches = []
 
 if (Astro.cookies.has('__session')) {
   const sessionCookie = Astro.cookies.get('__session')?.value
@@ -23,30 +24,10 @@ if (Astro.cookies.has('__session')) {
     showLogin = false
   }
 
-  const query = `
-    query {
-      checkPlayerInLeague(playerId: "${decodedCookie.uid}") {
-        _id
-        name
-        startedAt
-        players
-        currentSeason {
-          _id
-          startedAt
-          matches {
-            _id
-            player1
-            player2
-            winner
-            score
-          }
-        }
-      }
-    }
-  `
+  const { data } = await checkPlayerInLeague(decodedCookie.uid)
 
-  const { checkPlayerInLeague } = await fetchAPI(query)
-  league = checkPlayerInLeague
+  league = data.league
+  matches = data.matches
 
   if (league.players) {
     const { data } = await fetchAstroAPI({
@@ -86,7 +67,7 @@ if (Astro.cookies.has('__session')) {
         <article>
           <h2>Matches</h2>
           <ul>
-            {league.currentSeason?.matches.map((match: any) => (
+            {matches.map((match: any) => (
               <li>
                 <a href={`/league-matches/${match._id}`}>
                   {

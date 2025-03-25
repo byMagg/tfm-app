@@ -37,3 +37,11 @@ export const addPlayersToLeague = async ({
     },
   });
 };
+
+export const checkPlayerInLeague = async (playerId: string | undefined) => {
+  if (!playerId) return;
+
+  return await fetchAPI({
+    endpoint: `/leagues/players/${playerId}`,
+  });
+};
