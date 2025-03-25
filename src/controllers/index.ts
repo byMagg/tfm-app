@@ -30,7 +30,7 @@ export const addPlayersToLeague = async ({
   playerIds: string[];
 }) => {
   return await fetchAPI({
-    endpoint: "/leagues/:id/players",
+    endpoint: `/leagues/${leagueId}/players`,
     method: "POST",
     body: {
       playerIds,
