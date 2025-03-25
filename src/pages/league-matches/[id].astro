@@ -1,43 +1,29 @@
 ---
 import { Score } from '@/components/Score'
+import { getLeagueMatchById } from '@/controllers'
 import Layout from '@/layouts/Layout.astro'
-import { fetchAPI, fetchAstroAPI } from '@/utils'
+import { fetchAstroAPI } from '@/utils'
 
 const { id } = Astro.params
 
-const query = `
-  query {
-    getLeagueMatchById(matchId: "${id}") {
-      _id
-      player1
-      player2
-      season_id
-      winner
-      score
-    }
-  }
-  `
+const { data } = await getLeagueMatchById(id)
 
-const { getLeagueMatchById } = await fetchAPI(query)
+const match = data
 
 let player1 = null
 let player2 = null
 
-if (getLeagueMatchById) {
+if (match) {
   const { data } = await fetchAstroAPI({
     method: 'POST',
     endpoint: '/users',
     body: {
-      ids: [getLeagueMatchById.player1, getLeagueMatchById.player2],
+      ids: [match.player1, match.player2],
     },
   })
 
-  player1 = data.users.find(
-    (user: any) => user.uid === getLeagueMatchById.player1
-  )
-  player2 = data.users.find(
-    (user: any) => user.uid === getLeagueMatchById.player2
-  )
+  player1 = data.users.find((user: any) => user.uid === match.player1)
+  player2 = data.users.find((user: any) => user.uid === match.player2)
 }
 ---
 
