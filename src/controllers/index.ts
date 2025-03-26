@@ -53,3 +53,24 @@ export const getLeagueMatchById = async (id: string | undefined) => {
     endpoint: `/league-matches/${id}`,
   });
 };
+
+export const setMatchScore = async ({
+  matchId,
+  score,
+  winner,
+}: {
+  matchId: string | undefined;
+  score: string | undefined;
+  winner: string | undefined;
+}) => {
+  if (!matchId || !winner || !score) return;
+
+  return await fetchAPI({
+    endpoint: `/league-matches/${matchId}/score`,
+    method: "POST",
+    body: {
+      score,
+      winner,
+    },
+  });
+};

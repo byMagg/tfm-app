@@ -1,4 +1,4 @@
-import { fetchAPI } from "@/utils";
+import { setMatchScore } from "@/controllers";
 import { useState } from "react";
 import { z } from "zod";
 import { Button } from "./ui/button";
@@ -93,25 +93,11 @@ export function Score({ matchId }: { matchId: string | undefined }) {
     setWinner(checkMatchWinner(submitScore));
     setError(null);
 
-    const query = `
-      query {
-        setMatchScore(matchId: "${matchId}", score: "${toStringScore(submitScore)}", winner: "${checkMatchWinner(submitScore)}") {
-          _id
-          player1
-          player2
-          season_id
-          winner
-          score
-        }
-      }
-    `;
-
-    const response = await fetchAPI(query);
-
-    console.log(response);
-
-    console.log("Submit", results);
-    console.log(toStringScore(submitScore));
+    await setMatchScore({
+      matchId,
+      score: toStringScore(submitScore),
+      winner: checkMatchWinner(submitScore),
+    });
   };
 
   return (
