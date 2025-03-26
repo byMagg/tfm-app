@@ -71,6 +71,8 @@ export interface League {
   name: string;
   players: Array<string>;
   startedAt: string;
+  matches?: Array<LeagueMatch>;
+  // currentSeason?: Season;
 }
 
 export interface LeagueMatch {

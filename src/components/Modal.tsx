@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { fetchAPI } from "@/utils";
+import { createLeague } from "@/controllers";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -32,17 +32,9 @@ export function Modal({
     const name = formData.get("name")?.toString();
 
     try {
-      const query = `
-        query CreateLeague {
-          createLeague(name: "${name}") {
-            name
-          }
-        }
-      `;
+      const { data } = await createLeague({ name });
 
-      const res = await fetchAPI(query);
-
-      if (res.createLeague) {
+      if (data) {
         setIsOpen(false);
         toast.success("League created successfully");
       } else {

@@ -22,9 +22,43 @@ export const getLeague = async (id: string | undefined) => {
   });
 };
 
+export const createLeague = async ({ name }: { name: string | undefined }) => {
+  if (!name) return;
+
+  return await fetchAPI({
+    endpoint: "/leagues",
+    method: "POST",
+    body: {
+      name,
+    },
+  });
+};
+
+export const startSeason = async (leagueId: string | undefined) => {
+  if (!leagueId) return;
+
+  return await fetchAPI({
+    endpoint: `/leagues/${leagueId}/start`,
+    method: "POST",
+  });
+};
+
+export const initializeLeagueMatchesInSeason = async ({
+  leagueId,
+}: {
+  leagueId: string | undefined;
+}) => {
+  if (!leagueId) return;
+
+  return await fetchAPI({
+    endpoint: `/leagues/${leagueId}/matches`,
+    method: "POST",
+  });
+};
+
 export const addPlayersToLeague = async ({
   leagueId,
-  playerIds,
+  playerIds = [],
 }: {
   leagueId: string | undefined;
   playerIds: string[];

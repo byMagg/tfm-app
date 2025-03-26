@@ -4,10 +4,10 @@ import { SignoutButton } from '@/components/SignoutButton'
 import { checkPlayerInLeague } from '@/controllers'
 import Layout from '@/layouts/Layout.astro'
 import { auth } from '@/lib/firebase/server'
-import { fetchAstroAPI } from '@/utils'
+import type { League, LeagueMatch } from '@/types'
 
 let showLogin = true
-let league = null
+let leagues = null
 let players = []
 let matches = []
 
@@ -26,20 +26,19 @@ if (Astro.cookies.has('__session')) {
 
   const { data } = await checkPlayerInLeague(decodedCookie.uid)
 
-  league = data.league
-  matches = data.matches
+  leagues = data.leagues
 
-  if (league.players) {
-    const { data } = await fetchAstroAPI({
-      method: 'POST',
-      endpoint: '/users',
-      body: {
-        ids: league.players,
-      },
-    })
+  // if (league.players) {
+  //   const { data } = await fetchAstroAPI({
+  //     method: 'POST',
+  //     endpoint: '/users',
+  //     body: {
+  //       ids: league.players,
+  //     },
+  //   })
 
-    players = data.users
-  }
+  //   players = data.users
+  // }
 }
 ---
 
@@ -60,32 +59,35 @@ if (Astro.cookies.has('__session')) {
     }
   </section>
   {
-    league && (
-      <section class="w-full flex flex-col justify-center my-3">
-        <p class="text-center">{league.name}</p>
+    leagues &&
+      leagues.map((league: League) => (
+        <section class="w-full flex flex-col justify-center my-3">
+          <p class="text-center">{league.name}</p>
 
-        <article>
-          <h2>Matches</h2>
-          <ul>
-            {matches.map((match: any) => (
-              <li>
-                <a href={`/league-matches/${match._id}`}>
-                  {
-                    players.find((player: any) => player.uid === match.player1)
-                      ?.displayName
-                  }
-                  vs
-                  {
-                    players.find((player: any) => player.uid === match.player2)
-                      ?.displayName
-                  }
-                </a>
-                <span>{match.score}</span>
-              </li>
-            ))}
-          </ul>
-        </article>
-      </section>
-    )
+          <article>
+            <h2>Matches</h2>
+            <ul>
+              {league.matches?.map((match: LeagueMatch) => (
+                <li>
+                  <a href={`/league-matches/${match._id}`}>
+                    {
+                      players.find(
+                        (player: any) => player.uid === match.player1
+                      )?.displayName
+                    }
+                    vs
+                    {
+                      players.find(
+                        (player: any) => player.uid === match.player2
+                      )?.displayName
+                    }
+                  </a>
+                  <span>{match.score}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        </section>
+      ))
   }
 </Layout>

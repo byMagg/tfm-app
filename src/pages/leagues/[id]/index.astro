@@ -69,7 +69,7 @@ try {
 </Layout>
 
 <script>
-  import { fetchAPI } from '@/utils'
+  import { startSeason } from '@/controllers'
 
   const $startSeason = document.getElementById('start-season')
 
@@ -77,18 +77,11 @@ try {
     $startSeason.addEventListener('click', async () => {
       const league = $startSeason.getAttribute('data-league-id')
 
-      const query = `
-        query {
-          startSeason(leagueId: "${league}") {
-            _id
-            startedAt
-          }
-        }
-      `
+      if (!league) return
 
-      const { startSeason } = await fetchAPI(query)
+      const { data } = await startSeason(league)
 
-      if (startSeason) {
+      if (data) {
         location.reload()
       }
     })
