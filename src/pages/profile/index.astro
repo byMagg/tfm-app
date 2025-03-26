@@ -5,11 +5,11 @@ import { checkPlayerInLeague } from '@/controllers'
 import Layout from '@/layouts/Layout.astro'
 import { auth } from '@/lib/firebase/server'
 import type { League, LeagueMatch } from '@/types'
+import { fetchAstroAPI } from '@/utils'
 
 let showLogin = true
 let leagues = null
-let players = []
-let matches = []
+let players: any[] = []
 
 if (Astro.cookies.has('__session')) {
   const sessionCookie = Astro.cookies.get('__session')?.value
@@ -24,21 +24,37 @@ if (Astro.cookies.has('__session')) {
     showLogin = false
   }
 
-  const { data } = await checkPlayerInLeague(decodedCookie.uid)
+  try {
+    const { data } = await checkPlayerInLeague(decodedCookie.uid)
+    leagues = data.leagues
 
-  leagues = data.leagues
+    for (let league of leagues) {
+      if (league.players) {
+        const { data } = await fetchAstroAPI({
+          method: 'POST',
+          endpoint: '/users',
+          body: {
+            ids: league.players,
+          },
+        })
 
-  // if (league.players) {
-  //   const { data } = await fetchAstroAPI({
-  //     method: 'POST',
-  //     endpoint: '/users',
-  //     body: {
-  //       ids: league.players,
-  //     },
-  //   })
-
-  //   players = data.users
-  // }
+        league.players.forEach((playerId: any) => {
+          const player = data.users.find(
+            (player: any) => player.uid === playerId
+          )
+          players.push({
+            uid: player.uid,
+            displayName: player.displayName,
+            leagueId: league._id,
+          })
+        })
+      }
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message)
+    }
+  }
 }
 ---
 

@@ -28,9 +28,7 @@ export async function fetchAPI({
 
     return await response.json();
   } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    }
+    throw error;
   }
 }
 

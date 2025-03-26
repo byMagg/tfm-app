@@ -75,9 +75,13 @@ export const addPlayersToLeague = async ({
 export const checkPlayerInLeague = async (playerId: string | undefined) => {
   if (!playerId) return;
 
-  return await fetchAPI({
-    endpoint: `/leagues/players/${playerId}`,
-  });
+  try {
+    return await fetchAPI({
+      endpoint: `/leagues/players/${playerId}`,
+    });
+  } catch (error) {
+    throw new Error("Error al buscar el jugador en la liga");
+  }
 };
 
 export const getLeagueMatchById = async (id: string | undefined) => {
