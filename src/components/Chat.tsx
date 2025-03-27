@@ -1,19 +1,26 @@
+import { type ChatMessage } from "@/types";
 import { useEffect, useState, type FormEvent } from "react";
 import { io } from "socket.io-client";
+import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-const socket = io("http://localhost:3000");
+const socket = io(import.meta.env.PUBLIC_API_URL || "http://localhost:3000");
 
 socket.on("connect", () => {
   console.log("connected", socket.id);
 });
 
 const Chat = () => {
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<string[]>([]);
+  const [message, setMessage] = useState<ChatMessage>();
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   useEffect(() => {
-    socket.on("message", (newMessage: string) => {
+    socket.on("previousMessages", (prevMessages: ChatMessage[]) => {
+      console.log(typeof prevMessages[0].createdAt);
+      setMessages(prevMessages);
+    });
+
+    socket.on("message", (newMessage: ChatMessage) => {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
 
@@ -24,27 +31,37 @@ const Chat = () => {
 
   const handleSend = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (message.trim() === "") return;
+    if (message?.content.trim() === "") return;
+
     socket.emit("message", message);
-    setMessage("");
+    setMessage({
+      content: "",
+    });
   };
 
   return (
-    <section>
+    <section className="h-96">
       <h1>Chat</h1>
-      <ul>
+      <ul className="h-full overflow-y-auto">
         {messages.map((msg, index) => (
-          <li key={index}>{msg}</li>
+          <li key={index}>
+            {msg.content} -
+            {msg.createdAt && new Date(msg.createdAt).toLocaleTimeString()}
+          </li>
         ))}
       </ul>
       <form onSubmit={handleSend}>
         <Input
           type="text"
           autoComplete="off"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          value={message?.content}
+          onChange={(e) => {
+            setMessage({
+              content: e.target.value,
+            });
+          }}
         />
-        <button type="submit">Send</button>
+        <Button type="submit">Send</Button>
       </form>
     </section>
   );

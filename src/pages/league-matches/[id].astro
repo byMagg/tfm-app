@@ -29,27 +29,31 @@ if (match) {
 ---
 
 <Layout>
-  <div class="container mx-auto">
-    <h1 class="text-2xl font-bold">
-      {player1?.displayName} vs {player2?.displayName}
-    </h1>
+  <div class="container mx-auto flex">
+    <div class="w-1/2">
+      <h1 class="text-2xl font-bold">
+        {player1?.displayName} vs {player2?.displayName}
+      </h1>
 
-    {
-      !match.winner && (
-        <div>
-          <p>Match is not finished yet</p>
-          <Score matchId={id} client:load />
-        </div>
-      )
-    }
-    {
-      match.winner && (
-        <>
-          <p>{match.score}</p>
-        </>
-      )
-    }
+      {
+        !match.winner && (
+          <div>
+            <p>Match is not finished yet</p>
+            <Score matchId={id} client:load />
+          </div>
+        )
+      }
+      {
+        match.winner && (
+          <>
+            <p>{match.score}</p>
+          </>
+        )
+      }
+    </div>
 
-    <Chat client:load />
+    <div class="w-1/2">
+      <Chat client:load />
+    </div>
   </div>
 </Layout>
