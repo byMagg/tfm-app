@@ -10,7 +10,7 @@ socket.on("connect", () => {
   console.log("connected", socket.id);
 });
 
-const Chat = () => {
+const Chat = ({ userId }: { userId: string | null }) => {
   const [message, setMessage] = useState<ChatMessage>();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
@@ -31,11 +31,14 @@ const Chat = () => {
 
   const handleSend = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!userId) return;
     if (message?.content.trim() === "") return;
 
     socket.emit("message", message);
     setMessage({
       content: "",
+      from: userId,
     });
   };
 
@@ -45,7 +48,7 @@ const Chat = () => {
       <ul className="h-full overflow-y-auto">
         {messages.map((msg, index) => (
           <li key={index}>
-            {msg.content} -
+            {msg.content} {" - "}
             {msg.createdAt && new Date(msg.createdAt).toLocaleTimeString()}
           </li>
         ))}
@@ -56,8 +59,12 @@ const Chat = () => {
           autoComplete="off"
           value={message?.content}
           onChange={(e) => {
+            if (!userId) return;
+
             setMessage({
               content: e.target.value,
+              from: userId,
+              createdAt: new Date().toUTCString(),
             });
           }}
         />

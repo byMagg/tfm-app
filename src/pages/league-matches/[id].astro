@@ -3,6 +3,7 @@ import Chat from '@/components/Chat'
 import { Score } from '@/components/Score'
 import { getLeagueMatchById } from '@/controllers'
 import Layout from '@/layouts/Layout.astro'
+import { auth } from '@/lib/firebase/server'
 import { fetchAstroAPI } from '@/utils'
 
 const { id } = Astro.params
@@ -10,6 +11,8 @@ const { id } = Astro.params
 const { data } = await getLeagueMatchById(id)
 
 const match = data
+
+let userId = null
 
 let player1 = null
 let player2 = null
@@ -25,6 +28,17 @@ if (match) {
 
   player1 = data.users.find((user: any) => user.uid === match.player1)
   player2 = data.users.find((user: any) => user.uid === match.player2)
+}
+
+if (Astro.cookies.has('__session')) {
+  const sessionCookie = Astro.cookies.get('__session')?.value
+
+  if (!sessionCookie) {
+    return
+  }
+
+  const decodedCookie = await auth.verifySessionCookie(sessionCookie)
+  userId = decodedCookie.uid
 }
 ---
 
@@ -53,7 +67,7 @@ if (match) {
     </div>
 
     <div class="w-1/2">
-      <Chat client:load />
+      <Chat userId={userId} client:load />
     </div>
   </div>
 </Layout>

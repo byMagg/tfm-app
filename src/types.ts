@@ -319,5 +319,6 @@ export interface User {
 
 export interface ChatMessage {
   content: string;
+  from: string;
   createdAt?: string;
 }
