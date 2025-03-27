@@ -1,8 +1,10 @@
 import { type ChatMessage } from "@/types";
 import { useEffect, useState, type FormEvent } from "react";
 import { io } from "socket.io-client";
+import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { ScrollArea } from "./ui/scroll-area";
 
 const socket = io(import.meta.env.PUBLIC_API_URL || "http://localhost:3000");
 
@@ -43,16 +45,32 @@ const Chat = ({ userId }: { userId: string | null }) => {
   };
 
   return (
-    <section className="h-96">
+    <section>
       <h1>Chat</h1>
-      <ul className="h-full overflow-y-auto">
-        {messages.map((msg, index) => (
-          <li key={index}>
-            {msg.content} {" - "}
-            {msg.createdAt && new Date(msg.createdAt).toLocaleTimeString()}
-          </li>
-        ))}
-      </ul>
+      <ScrollArea className="h-72 rounded-md border">
+        {messages.map((msg, index) => {
+          if (msg.from === userId) {
+            return (
+              <li className="flex justify-end px-3 py-1" key={index}>
+                <Badge variant="secondary">
+                  {msg.content} {" - "}
+                  {msg.createdAt &&
+                    new Date(msg.createdAt).toLocaleTimeString()}
+                </Badge>
+              </li>
+            );
+          }
+
+          return (
+            <li className="flex justify-start" key={index}>
+              <span>
+                {msg.content} {" - "}
+                {msg.createdAt && new Date(msg.createdAt).toLocaleTimeString()}
+              </span>
+            </li>
+          );
+        })}
+      </ScrollArea>
       <form onSubmit={handleSend}>
         <Input
           type="text"
