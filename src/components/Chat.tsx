@@ -12,7 +12,7 @@ socket.on("connect", () => {
   console.log("connected", socket.id);
 });
 
-const Chat = ({ userId }: { userId: string | null }) => {
+export const Chat = ({ userId }: { userId: string | null }) => {
   const [message, setMessage] = useState<ChatMessage>();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
@@ -91,5 +91,3 @@ const Chat = ({ userId }: { userId: string | null }) => {
     </section>
   );
 };
-
-export default Chat;
