@@ -12,15 +12,22 @@ socket.on("connect", () => {
   console.log("connected", socket.id);
 });
 
-export const Chat = ({ userId }: { userId: string | null }) => {
+export const Chat = ({
+  from,
+  to,
+}: {
+  from: string | null;
+  to: string | null;
+}) => {
   const [message, setMessage] = useState<ChatMessage>();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
   useEffect(() => {
     socket.on("previousMessages", (prevMessages: ChatMessage[]) => {
-      console.log(typeof prevMessages[0].createdAt);
       setMessages(prevMessages);
     });
+
+    socket.emit("join", from);
 
     socket.on("message", (newMessage: ChatMessage) => {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -34,13 +41,20 @@ export const Chat = ({ userId }: { userId: string | null }) => {
   const handleSend = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!userId) return;
-    if (message?.content.trim() === "") return;
+    if (!from || !to) return;
+    if (!message) return;
+    if (message.content.trim() === "") return;
 
-    socket.emit("message", message);
+    socket.emit("message", {
+      content: message.content,
+      from,
+      to,
+    });
+
     setMessage({
       content: "",
-      from: userId,
+      from,
+      to,
     });
   };
 
@@ -49,7 +63,7 @@ export const Chat = ({ userId }: { userId: string | null }) => {
       <h1>Chat</h1>
       <ScrollArea className="h-72 rounded-md border">
         {messages.map((msg, index) => {
-          if (msg.from === userId) {
+          if (msg.from === from) {
             return (
               <li className="flex justify-end px-3 py-1" key={index}>
                 <Badge variant="secondary">
@@ -77,11 +91,12 @@ export const Chat = ({ userId }: { userId: string | null }) => {
           autoComplete="off"
           value={message?.content}
           onChange={(e) => {
-            if (!userId) return;
+            if (!from || !to) return;
 
             setMessage({
               content: e.target.value,
-              from: userId,
+              from: from,
+              to: to,
               createdAt: new Date().toUTCString(),
             });
           }}

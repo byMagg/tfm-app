@@ -72,7 +72,7 @@ if (Astro.cookies.has('__session')) {
       </div>
 
       <div class="w-1/2">
-        <Chat userId={userId} client:load />
+        <Chat from={match?.player2} to={match?.player1} client:load />
       </div>
     </div>
   </div>
