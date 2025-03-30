@@ -4,7 +4,6 @@ import { Chat } from '@/components/Chat'
 import { Score } from '@/components/Score'
 import { getLeagueMatchById } from '@/controllers'
 import Layout from '@/layouts/Layout.astro'
-import { auth } from '@/lib/firebase/server'
 import { fetchAstroAPI } from '@/utils'
 
 const { id } = Astro.params
@@ -39,8 +38,8 @@ if (Astro.cookies.has('__session')) {
     return
   }
 
-  const decodedCookie = await auth.verifySessionCookie(sessionCookie)
-  from = decodedCookie.uid
+  // const decodedCookie = await auth.verifySessionCookie(sessionCookie)
+  // from = decodedCookie.uid
   to = match?.player1 === from ? match?.player2 : match?.player1
 }
 ---

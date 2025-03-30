@@ -3,9 +3,8 @@ import { LoginFormContainer } from '@/components/LoginFormContainer'
 import { SignoutButton } from '@/components/SignoutButton'
 import { checkPlayerInLeague } from '@/controllers'
 import Layout from '@/layouts/Layout.astro'
-import { auth } from '@/lib/firebase/server'
+import { decodeJWT } from '@/lib/auth'
 import type { League, LeagueMatch } from '@/types'
-import { fetchAstroAPI } from '@/utils'
 
 let showLogin = true
 let leagues = null
@@ -19,37 +18,14 @@ if (Astro.cookies.has('__session')) {
     return
   }
 
-  const decodedCookie = await auth.verifySessionCookie(sessionCookie)
+  const decodedCookie = decodeJWT(sessionCookie)
   if (decodedCookie) {
     showLogin = false
   }
 
   try {
-    const { data } = await checkPlayerInLeague(decodedCookie.uid)
+    const { data } = await checkPlayerInLeague(decodedCookie.id)
     leagues = data.leagues
-
-    for (let league of leagues) {
-      if (league.players) {
-        const { data } = await fetchAstroAPI({
-          method: 'POST',
-          endpoint: '/users',
-          body: {
-            ids: league.players,
-          },
-        })
-
-        league.players.forEach((playerId: any) => {
-          const player = data.users.find(
-            (player: any) => player.uid === playerId
-          )
-          players.push({
-            uid: player.uid,
-            displayName: player.displayName,
-            leagueId: league._id,
-          })
-        })
-      }
-    }
   } catch (error) {
     if (error instanceof Error) {
       console.error(error.message)

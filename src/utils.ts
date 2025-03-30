@@ -2,12 +2,14 @@ const API_URL = "http://localhost:3000/api";
 
 export async function fetchAPI({
   endpoint,
+  token,
   method = "GET",
   limit,
   page,
   body,
 }: {
   endpoint: string;
+  token?: string;
   method?: string;
   limit?: number;
   page?: number;
@@ -20,8 +22,12 @@ export async function fetchAPI({
 
     const response = await fetch(url, {
       method: method,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token})}`,
+      },
       body: JSON.stringify(body),
+      credentials: "include",
     });
 
     if (!response.ok) throw new Error("No se ha podido obtener los datos");

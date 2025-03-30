@@ -323,3 +323,7 @@ export interface ChatMessage {
   to: string;
   createdAt?: string;
 }
+
+export interface JwtPayload {
+  id: string;
+}
