@@ -47,7 +47,7 @@ export function LoginForm() {
     try {
       await login({ email, password });
 
-      window.location.href = "/profile";
+      window.location.href = "/";
     } catch (error: any) {
       toast.error(error.message);
     }
