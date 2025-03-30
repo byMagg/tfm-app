@@ -42,11 +42,3 @@ export async function login({
 export function decodeJWT(token: string): JwtPayload {
   return jwtDecode(token);
 }
-
-// export async function setUserAdmin(uid: string) {
-//   try {
-//     await auth.setCustomUserClaims(uid, { admin: true });
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }

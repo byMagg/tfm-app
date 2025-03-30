@@ -40,7 +40,7 @@ const columns: ColumnDef<League>[] = [
 export default function TableLeaguesComponent() {
   const { limit, onPaginationChange, offset, pagination } = usePagination();
 
-  const { leagues, count, loading } = useLeagues({ limit, offset });
+  const { leagues, count, loading } = useLeagues({ limit, page: offset });
 
   const pageCount = Math.round(count / limit);
 
