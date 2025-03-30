@@ -9,28 +9,6 @@ const { id } = Astro.params
 const { data } = await getLeague(id)
 
 const league = data as League | undefined
-
-let players = []
-
-try {
-  const response = await fetch(
-    `${Astro.url.protocol}//${Astro.url.host}/api/users`,
-    {
-      method: 'POST',
-      body: JSON.stringify({
-        ids: league?.players || [],
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  )
-
-  const data = (await response.json()).data.users
-  players = data
-} catch (error) {
-  console.error(error)
-}
 ---
 
 <Layout title={`${league ? `${league.name}` : 'League'}`}>
