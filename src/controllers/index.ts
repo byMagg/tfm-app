@@ -1,5 +1,37 @@
 import { fetchAPI } from "@/utils";
 
+export const getUsers = async ({
+  limit = 10,
+  page = 1,
+  token,
+}: {
+  limit?: number;
+  page?: number;
+  token?: string;
+}) => {
+  return await fetchAPI({
+    endpoint: "/users",
+    token,
+  });
+};
+
+export const getUsersByIds = async ({
+  ids,
+  token,
+}: {
+  ids: string[];
+  token?: string;
+}) => {
+  return await fetchAPI({
+    endpoint: "/users",
+    method: "POST",
+    body: {
+      ids,
+    },
+    token,
+  });
+};
+
 export const getLeagues = async ({
   limit = 10,
   page = 1,
@@ -14,11 +46,18 @@ export const getLeagues = async ({
   });
 };
 
-export const getLeague = async (id: string | undefined) => {
+export const getLeague = async ({
+  id,
+  token,
+}: {
+  id: string | undefined;
+  token?: string;
+}) => {
   if (!id) return;
 
   return await fetchAPI({
     endpoint: `/leagues/${id}`,
+    token,
   });
 };
 

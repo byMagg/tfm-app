@@ -39,15 +39,15 @@ export default function TableUsersComponent({
 
   const columns: ColumnDef<User>[] = [
     {
-      accessorKey: "uid",
-      header: "UID",
+      accessorKey: "_id",
+      header: "ID",
     },
     {
       accessorKey: "email",
       header: "Email",
     },
     {
-      accessorKey: "displayName",
+      accessorKey: "name",
       header: "Display Name",
     },
     {

@@ -6,12 +6,14 @@ export async function fetchAPI({
   limit,
   page,
   body,
+  token,
 }: {
   endpoint: string;
   method?: string;
   limit?: number;
   page?: number;
   body?: any;
+  token?: string;
 }) {
   try {
     const url = page
@@ -22,6 +24,7 @@ export async function fetchAPI({
       method: method,
       headers: {
         "Content-Type": "application/json",
+        ...(token && { Authorization: `Bearer ${token}` }),
       },
       body: JSON.stringify(body),
       credentials: "include",

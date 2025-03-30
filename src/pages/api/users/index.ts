@@ -1,26 +1,21 @@
-import { auth } from "@/lib/firebase/server";
 import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async ({ params, request }) => {
   const { limit = 10, offset = 0 } = params;
 
-  try {
-    const users = await auth.listUsers(Number(limit));
+  // try {
+  //   const users = await auth.listUsers(Number(limit));
 
-    return new Response(
-      JSON.stringify({
-        users,
-      }),
-    );
-  } catch (error) {
-    console.error("Error fetching users:", error);
-  }
+  //   return new Response(
+  //     JSON.stringify({
+  //       users,
+  //     }),
+  //   );
+  // } catch (error) {
+  //   console.error("Error fetching users:", error);
+  // }
 
-  return new Response(
-    JSON.stringify({
-      message: "¡Esto es un GET!",
-    }),
-  );
+  return new Response(null, { status: 400 });
 };
 
 export const POST: APIRoute = async ({ request }) => {
@@ -29,22 +24,23 @@ export const POST: APIRoute = async ({ request }) => {
 
     const { ids } = body;
 
-    const data = await auth.getUsers(
-      ids.map((id: string) => ({
-        uid: id,
-      })),
-    );
+    //   const data = await auth.getUsers(
+    //     ids.map((id: string) => ({
+    //       uid: id,
+    //     })),
+    //   );
 
-    return new Response(
-      JSON.stringify({
-        data,
-      }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
+    //   return new Response(
+    //     JSON.stringify({
+    //       data,
+    //     }),
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //     },
+    //   );
+    // }
   }
   return new Response(null, { status: 400 });
 };

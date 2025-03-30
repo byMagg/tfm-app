@@ -5,10 +5,24 @@ import { type League } from '@/types'
 import { getLeague } from '@/controllers'
 
 const { id } = Astro.params
+let league = null
 
-const { data } = await getLeague(id)
+if (Astro.cookies.has('__session')) {
+  const sessionCookie = Astro.cookies.get('__session')?.value
 
-const league = data as League | undefined
+  if (sessionCookie) {
+    const { data } = await getLeague({
+      id,
+      token: sessionCookie,
+    })
+
+    league = data
+  }
+}
+
+// const { data } = await getLeague(id)
+
+// const league = data as League | undefined
 ---
 
 <Layout title={`${league ? `${league.name}` : 'League'}`}>

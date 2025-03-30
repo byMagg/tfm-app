@@ -1,4 +1,4 @@
-import { fetchAstroAPI } from "@/utils";
+import { getUsersByIds } from "@/controllers";
 import { useEffect, useState } from "react";
 
 export function usePlayersFromLeague({ playerIds }: { playerIds: string[] }) {
@@ -7,15 +7,14 @@ export function usePlayersFromLeague({ playerIds }: { playerIds: string[] }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    console.log(playerIds);
+
     const fetching = async () => {
       setLoading(true);
-      const { data } = await fetchAstroAPI({
-        endpoint: "/users",
-        method: "POST",
-        body: { ids: playerIds },
-      });
+      const { data } = await getUsersByIds({ ids: playerIds });
 
-      setPlayers(data.users);
+      console.log(data);
+      setPlayers(data);
       setCount(players.length);
       setLoading(false);
     };

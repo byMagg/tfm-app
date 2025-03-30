@@ -1,5 +1,4 @@
-import { addPlayersToLeague } from "@/controllers";
-import { fetchAstroAPI } from "@/utils";
+import { addPlayersToLeague, getUsers } from "@/controllers";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -14,15 +13,11 @@ export default function AddPlayersForm({
 
   useEffect(() => {
     const fetchPlayers = async () => {
-      const res = await fetchAstroAPI({
-        endpoint: "/users",
-      });
-
-      const data = res.users.users;
+      const { data } = await getUsers({});
 
       const players = data.map((player: any) => ({
-        label: player.providerData[0].displayName,
-        value: player.uid,
+        label: player.name,
+        value: player._id,
       }));
 
       setPlayers(players);
