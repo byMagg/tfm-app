@@ -47,8 +47,8 @@ export const Chat = ({
 
     socket.emit("message", {
       content: message.content,
-      from,
-      to,
+      from: from,
+      to: to,
     });
 
     setMessage({
@@ -66,7 +66,10 @@ export const Chat = ({
           if (msg.from === from) {
             return (
               <li className="flex justify-end px-3 py-1" key={index}>
-                <Badge variant="secondary">
+                <Badge
+                  variant="secondary"
+                  className="bg-[#708a6b] hover:bg-[#708a6b]"
+                >
                   {msg.content} {" - "}
                   {msg.createdAt &&
                     new Date(msg.createdAt).toLocaleTimeString()}
@@ -77,10 +80,14 @@ export const Chat = ({
 
           return (
             <li className="flex justify-start" key={index}>
-              <span>
-                {msg.content} {" - "}
-                {msg.createdAt && new Date(msg.createdAt).toLocaleTimeString()}
-              </span>
+              <Badge variant="secondary" className="flex flex-col">
+                <span>{msg.from}</span>
+                <span>
+                  {msg.content} {" - "}
+                  {msg.createdAt &&
+                    new Date(msg.createdAt).toLocaleTimeString()}
+                </span>
+              </Badge>
             </li>
           );
         })}
@@ -97,7 +104,6 @@ export const Chat = ({
               content: e.target.value,
               from: from,
               to: to,
-              createdAt: new Date().toUTCString(),
             });
           }}
         />

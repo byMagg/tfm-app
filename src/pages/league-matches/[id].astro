@@ -13,7 +13,8 @@ const { data } = await getLeagueMatchById(id)
 
 const match = data
 
-let userId = null
+let from = null
+let to = null
 
 let player1 = null
 let player2 = null
@@ -39,7 +40,8 @@ if (Astro.cookies.has('__session')) {
   }
 
   const decodedCookie = await auth.verifySessionCookie(sessionCookie)
-  userId = decodedCookie.uid
+  from = decodedCookie.uid
+  to = match?.player1 === from ? match?.player2 : match?.player1
 }
 ---
 
@@ -72,7 +74,7 @@ if (Astro.cookies.has('__session')) {
       </div>
 
       <div class="w-1/2">
-        <Chat from={match?.player2} to={match?.player1} client:load />
+        <Chat from={from} to={to} client:load />
       </div>
     </div>
   </div>
