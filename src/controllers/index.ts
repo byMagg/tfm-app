@@ -127,16 +127,19 @@ export const removePlayersFromLeague = async ({
   });
 };
 
-export const checkPlayerInLeague = async (playerId: string | undefined) => {
+export const checkPlayerInLeague = async ({
+  playerId,
+  token,
+}: {
+  playerId: string | undefined;
+  token?: string;
+}) => {
   if (!playerId) return;
 
-  try {
-    return await fetchAPI({
-      endpoint: `/leagues/players/${playerId}`,
-    });
-  } catch (error) {
-    throw new Error("Error al buscar el jugador en la liga");
-  }
+  return await fetchAPI({
+    endpoint: `/leagues/players/${playerId}`,
+    token,
+  });
 };
 
 export const getLeagueMatchById = async (id: string | undefined) => {

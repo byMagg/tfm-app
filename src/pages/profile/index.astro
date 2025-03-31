@@ -7,7 +7,7 @@ import { decodeJWT } from '@/lib/auth'
 import type { League, LeagueMatch } from '@/types'
 
 let showLogin = true
-let leagues = null
+let leagues: League[] = []
 let players: any[] = []
 
 if (Astro.cookies.has('__session')) {
@@ -24,7 +24,10 @@ if (Astro.cookies.has('__session')) {
   }
 
   try {
-    const { data } = await checkPlayerInLeague(decodedCookie.id)
+    const { data } = await checkPlayerInLeague({
+      playerId: decodedCookie.id,
+      token: sessionCookie,
+    })
     leagues = data.leagues
   } catch (error) {
     if (error instanceof Error) {
