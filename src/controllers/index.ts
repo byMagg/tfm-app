@@ -142,11 +142,18 @@ export const checkPlayerInLeague = async ({
   });
 };
 
-export const getLeagueMatchById = async (id: string | undefined) => {
+export const getLeagueMatchById = async ({
+  id,
+  token,
+}: {
+  id: string | undefined;
+  token?: string;
+}) => {
   if (!id) return;
 
   return await fetchAPI({
     endpoint: `/league-matches/${id}`,
+    token,
   });
 };
 

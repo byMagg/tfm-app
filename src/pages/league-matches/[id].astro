@@ -4,43 +4,35 @@ import { Chat } from '@/components/Chat'
 import { Score } from '@/components/Score'
 import { getLeagueMatchById } from '@/controllers'
 import Layout from '@/layouts/Layout.astro'
-import { fetchAstroAPI } from '@/utils'
+import type { LeagueMatch, User } from '@/types'
 
 const { id } = Astro.params
 
-const { data } = await getLeagueMatchById(id)
-
-const match = data
+let match: LeagueMatch | null = null
 
 let from = null
 let to = null
 
-let player1 = null
-let player2 = null
-
-if (match) {
-  const { data } = await fetchAstroAPI({
-    method: 'POST',
-    endpoint: '/users',
-    body: {
-      ids: [match.player1, match.player2],
-    },
-  })
-
-  player1 = data.users.find((user: any) => user.uid === match.player1)
-  player2 = data.users.find((user: any) => user.uid === match.player2)
-}
+let player1: User | null = null
+let player2: User | null = null
 
 if (Astro.cookies.has('__session')) {
   const sessionCookie = Astro.cookies.get('__session')?.value
 
-  if (!sessionCookie) {
-    return
-  }
+  if (sessionCookie) {
+    try {
+      const { data } = await getLeagueMatchById({ id, token: sessionCookie })
 
-  // const decodedCookie = await auth.verifySessionCookie(sessionCookie)
-  // from = decodedCookie.uid
-  to = match?.player1 === from ? match?.player2 : match?.player1
+      player1 = data?.player1
+      player2 = data?.player2
+
+      match = data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  to = match?.player1._id === from ? match?.player2._id : match?.player1._id
+  from = match?.player1._id === from ? match?.player1._id : match?.player2._id
 }
 ---
 
@@ -49,11 +41,11 @@ if (Astro.cookies.has('__session')) {
     <div class="container mx-auto flex">
       <div class="w-1/2">
         <h1 class="text-2xl font-bold">
-          {player1?.displayName} vs {player2?.displayName}
+          {player1 && player1?.name} vs {player2 && player2?.name}
         </h1>
 
         {
-          !match.winner && (
+          match && !match.winner && (
             <div>
               <p>Match is not finished yet</p>
               <Score matchId={id} client:load />
@@ -61,7 +53,7 @@ if (Astro.cookies.has('__session')) {
           )
         }
         {
-          match.winner && (
+          match && match.winner && (
             <>
               <p>{match.score}</p>
             </>
@@ -73,7 +65,7 @@ if (Astro.cookies.has('__session')) {
       </div>
 
       <div class="w-1/2">
-        <Chat from={from} to={to} client:load />
+        {from && to && <Chat from={from} to={to} client:load />}
       </div>
     </div>
   </div>
