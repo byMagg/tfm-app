@@ -7,13 +7,10 @@ export function usePlayersFromLeague({ playerIds }: { playerIds: string[] }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log(playerIds);
-
     const fetching = async () => {
       setLoading(true);
       const { data } = await getUsersByIds({ ids: playerIds });
 
-      console.log(data);
       setPlayers(data);
       setCount(players.length);
       setLoading(false);

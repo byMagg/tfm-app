@@ -111,6 +111,22 @@ export const addPlayersToLeague = async ({
   });
 };
 
+export const removePlayersFromLeague = async ({
+  leagueId,
+  playerIds = [],
+}: {
+  leagueId: string | undefined;
+  playerIds: string[];
+}) => {
+  return await fetchAPI({
+    endpoint: `/leagues/${leagueId}/players`,
+    method: "DELETE",
+    body: {
+      playerIds,
+    },
+  });
+};
+
 export const checkPlayerInLeague = async (playerId: string | undefined) => {
   if (!playerId) return;
 

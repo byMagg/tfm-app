@@ -312,9 +312,9 @@ export enum Country {
 }
 
 export interface User {
-  uid: string;
+  _id: string;
   email: string;
-  displayName: string;
+  name: string;
 }
 
 export interface ChatMessage {

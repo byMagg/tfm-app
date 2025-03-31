@@ -1,7 +1,7 @@
+import { removePlayersFromLeague } from "@/controllers";
 import { usePagination } from "@/hooks/usePagination";
 import { usePlayersFromLeague } from "@/hooks/usePlayersFromLeague";
 import { type User } from "@/types";
-import { fetchAstroAPI } from "@/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "./DataTable";
 import { DeleteModal } from "./DeleteModal";
@@ -13,13 +13,7 @@ async function handleDelete({
   id: string;
   leagueId: string;
 }) {
-  await fetchAstroAPI({
-    endpoint: `/leagues/${leagueId}`,
-    method: "DELETE",
-    body: {
-      ids: [id],
-    },
-  });
+  await removePlayersFromLeague({ leagueId, playerIds: [id] });
 }
 
 export default function TableUsersComponent({
@@ -55,14 +49,12 @@ export default function TableUsersComponent({
       cell: ({ row }) => {
         const { original } = row;
 
-        console.log(original.uid);
-
         return (
           <div className="flex items-center justify-center">
             <DeleteModal
               onRemove={() => {
                 handleDelete({
-                  id: original.uid,
+                  id: original._id,
                   leagueId: leagueId,
                 });
               }}
