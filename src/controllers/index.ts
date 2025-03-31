@@ -115,7 +115,7 @@ export const removePlayersFromLeague = async ({
   leagueId,
   playerIds = [],
 }: {
-  leagueId: string | undefined;
+  leagueId: string;
   playerIds: string[];
 }) => {
   return await fetchAPI({
