@@ -23,7 +23,7 @@ export const getUsersByIds = async ({
   token?: string;
 }) => {
   return await fetchAPI({
-    endpoint: "/users",
+    endpoint: "/users/get-by-ids",
     method: "POST",
     body: {
       ids,
