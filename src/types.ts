@@ -77,8 +77,8 @@ export interface League {
 
 export interface LeagueMatch {
   _id: string;
-  player1: string;
-  player2: string;
+  player1: User;
+  player2: User;
   season_id: string;
   winner: string;
   score: string;
