@@ -56,15 +56,20 @@ if (Astro.cookies.has('__session')) {
   {
     leagues &&
       leagues.map((league: League) => (
-        <section class="w-full flex flex-col justify-center my-3">
-          <p class="text-center">{league.name}</p>
+        <section class="w-full flex flex-col justify-center items-center my-3">
+          <p class="text-center font-bold text-2xl">{league.name}</p>
 
-          <article>
-            <h2>Matches</h2>
+          <article class="w-full flex flex-col justify-center items-center my-3">
+            <h2 class="text-center  text-xl">Partidos esta jornada</h2>
             <ul>
               {league.matches?.map((match: LeagueMatch) => (
-                <li>
-                  <a href={`/league-matches/${match._id}`}>
+                <li class="my-2 bg-white p-2 rounded text-black text-center font-semibold">
+                  <a
+                    href={`/league-matches/${match._id}`}
+                    style={{
+                      viewTransitionName: `match-${match._id}`,
+                    }}
+                  >
                     {match.player1.name}
                     vs
                     {match.player2.name}

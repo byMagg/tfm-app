@@ -40,9 +40,12 @@ if (Astro.cookies.has('__session')) {
   <div>
     <div class="container mx-auto flex">
       <div class="w-1/2">
-        <h1 class="text-2xl font-bold">
+        <div
+          class="my-2 w-fit bg-white px-4 py-2 rounded text-black text-center font-semibold text-2xl"
+          transition:name={`match-${id}`}
+        >
           {player1 && player1?.name} vs {player2 && player2?.name}
-        </h1>
+        </div>
 
         {
           match && !match.winner && (
