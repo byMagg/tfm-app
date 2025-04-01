@@ -81,6 +81,7 @@ export interface LeagueMatch {
   round: Round;
   winner: string;
   score: string;
+  date: string;
 }
 
 export interface Round {

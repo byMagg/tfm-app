@@ -22,27 +22,40 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { setMatchDate } from "@/controllers";
 import { cn } from "@/lib/utils";
+import type { LeagueMatch } from "@/types";
 
 const FormSchema = z.object({
-  dob: z.date({
+  date: z.date({
     required_error: "A date of birth is required.",
   }),
 });
 
-export function CalendarForm({ maxDate }: { maxDate?: Date }) {
+export function CalendarForm({
+  maxDate,
+  match,
+}: {
+  maxDate?: Date;
+  match: LeagueMatch;
+}) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {}
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    await setMatchDate({
+      matchId: match._id,
+      date: data.date.toUTCString(),
+    });
+  }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="dob"
+          name="date"
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Fecha de partido</FormLabel>

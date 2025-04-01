@@ -66,6 +66,7 @@ if (Astro.cookies.has('__session')) {
           {
             match && (
               <CalendarForm
+                match={match}
                 maxDate={new Date(match.round.endDate)}
                 client:load
               />

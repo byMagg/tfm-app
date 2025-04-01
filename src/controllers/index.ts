@@ -164,3 +164,21 @@ export const setMatchScore = async ({
     },
   });
 };
+
+export const setMatchDate = async ({
+  matchId,
+  date,
+}: {
+  matchId: string | undefined;
+  date: string | undefined;
+}) => {
+  if (!matchId || !date) return;
+
+  return await fetchAPI({
+    endpoint: `/league-matches/${matchId}/date`,
+    method: "POST",
+    body: {
+      date,
+    },
+  });
+};
