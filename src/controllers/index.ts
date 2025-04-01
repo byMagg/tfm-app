@@ -82,19 +82,6 @@ export const startSeason = async (leagueId: string | undefined) => {
   });
 };
 
-export const initializeLeagueMatchesInSeason = async ({
-  leagueId,
-}: {
-  leagueId: string | undefined;
-}) => {
-  if (!leagueId) return;
-
-  return await fetchAPI({
-    endpoint: `/leagues/${leagueId}/matches`,
-    method: "POST",
-  });
-};
-
 export const addPlayersToLeague = async ({
   leagueId,
   playerIds = [],
