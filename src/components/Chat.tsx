@@ -49,8 +49,10 @@ export const Chat = ({ from, to }: { from: User; to: User }) => {
   };
 
   return (
-    <section>
-      <h1>Chat</h1>
+    <section className="flex flex-col gap-2">
+      <h1 className="text-2xl font-semibold text-black dark:text-white">
+        Chatea con {to.name}
+      </h1>
       <ScrollArea className="h-72 rounded-md border">
         {messages.map((msg, index) => {
           if (msg.from === from._id) {
@@ -90,7 +92,7 @@ export const Chat = ({ from, to }: { from: User; to: User }) => {
           );
         })}
       </ScrollArea>
-      <form onSubmit={handleSend}>
+      <form onSubmit={handleSend} className="flex items-center gap-2">
         <Input
           type="text"
           autoComplete="off"
@@ -105,7 +107,7 @@ export const Chat = ({ from, to }: { from: User; to: User }) => {
             });
           }}
         />
-        <Button type="submit">Send</Button>
+        <Button type="submit">Enviar</Button>
       </form>
     </section>
   );
