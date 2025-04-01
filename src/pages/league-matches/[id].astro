@@ -31,8 +31,8 @@ if (Astro.cookies.has('__session')) {
       console.log(error)
     }
   }
-  to = match?.player1._id === from ? match?.player2._id : match?.player1._id
-  from = match?.player1._id === from ? match?.player1._id : match?.player2._id
+  to = match?.player1._id === from ? match?.player2 : match?.player1
+  from = match?.player1._id === from ? match?.player1 : match?.player2
 }
 ---
 

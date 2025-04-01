@@ -1,4 +1,4 @@
-import { type ChatMessage } from "@/types";
+import { type ChatMessage, type User } from "@/types";
 import { useEffect, useState, type FormEvent } from "react";
 import { io } from "socket.io-client";
 import { Badge } from "./ui/badge";
@@ -8,17 +8,7 @@ import { ScrollArea } from "./ui/scroll-area";
 
 const socket = io(import.meta.env.PUBLIC_API_URL || "http://localhost:3000");
 
-socket.on("connect", () => {
-  console.log("connected", socket.id);
-});
-
-export const Chat = ({
-  from,
-  to,
-}: {
-  from: string | null;
-  to: string | null;
-}) => {
+export const Chat = ({ from, to }: { from: User; to: User }) => {
   const [message, setMessage] = useState<ChatMessage>();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
@@ -27,7 +17,7 @@ export const Chat = ({
       setMessages(prevMessages);
     });
 
-    socket.emit("join", from);
+    socket.emit("join", from._id);
 
     socket.on("message", (newMessage: ChatMessage) => {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -47,14 +37,14 @@ export const Chat = ({
 
     socket.emit("message", {
       content: message.content,
-      from: from,
-      to: to,
+      from: from._id,
+      to: to._id,
     });
 
     setMessage({
       content: "",
-      from,
-      to,
+      from: from._id,
+      to: to._id,
     });
   };
 
@@ -63,29 +53,37 @@ export const Chat = ({
       <h1>Chat</h1>
       <ScrollArea className="h-72 rounded-md border">
         {messages.map((msg, index) => {
-          if (msg.from === from) {
+          if (msg.from === from._id) {
             return (
               <li className="flex justify-end px-3 py-1" key={index}>
                 <Badge
                   variant="secondary"
-                  className="bg-[#708a6b] hover:bg-[#708a6b]"
+                  className="items-end bg-[#708a6b] hover:bg-[#708a6b]"
                 >
-                  {msg.content} {" - "}
-                  {msg.createdAt &&
-                    new Date(msg.createdAt).toLocaleTimeString()}
+                  <span className="px-1">
+                    {msg.content} {" - "}
+                    {msg.createdAt &&
+                      new Date(msg.createdAt).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                  </span>
                 </Badge>
               </li>
             );
           }
 
           return (
-            <li className="flex justify-start" key={index}>
-              <Badge variant="secondary" className="flex flex-col">
-                <span>{msg.from}</span>
-                <span>
+            <li className="flex justify-start px-3 py-1" key={index}>
+              <Badge variant="secondary" className="flex flex-col items-start">
+                <span className="px-1">{from.name}</span>
+                <span className="px-1">
                   {msg.content} {" - "}
                   {msg.createdAt &&
-                    new Date(msg.createdAt).toLocaleTimeString()}
+                    new Date(msg.createdAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                 </span>
               </Badge>
             </li>
@@ -102,8 +100,8 @@ export const Chat = ({
 
             setMessage({
               content: e.target.value,
-              from: from,
-              to: to,
+              from: from._id,
+              to: to._id,
             });
           }}
         />
