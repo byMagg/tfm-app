@@ -72,14 +72,13 @@ export interface League {
   players: Array<string>;
   startedAt: string;
   matches?: Array<LeagueMatch>;
-  // currentSeason?: Season;
 }
 
 export interface LeagueMatch {
   _id: string;
   player1: User;
   player2: User;
-  season_id: string;
+  round_id: string;
   winner: string;
   score: string;
 }
