@@ -1,5 +1,5 @@
 import { type ChatMessage, type User } from "@/types";
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { io } from "socket.io-client";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
@@ -11,6 +11,8 @@ const socket = io(import.meta.env.PUBLIC_API_URL || "http://localhost:3000");
 export const Chat = ({ from, to }: { from: User; to: User }) => {
   const [message, setMessage] = useState<ChatMessage>();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     socket.on("previousMessages", (prevMessages: ChatMessage[]) => {
@@ -41,6 +43,10 @@ export const Chat = ({ from, to }: { from: User; to: User }) => {
       to: to._id,
     });
 
+    scrollRef.current?.scrollTo({
+      top: scrollRef.current.scrollHeight,
+    });
+
     setMessage({
       content: "",
       from: from._id,
@@ -53,7 +59,7 @@ export const Chat = ({ from, to }: { from: User; to: User }) => {
       <h1 className="text-2xl font-semibold text-black dark:text-white">
         Chatea con {to.name}
       </h1>
-      <ScrollArea className="h-72 rounded-md border">
+      <ScrollArea viewportRef={scrollRef} className="h-72 rounded-md border">
         {messages.map((msg, index) => {
           if (msg.from === from._id) {
             return (
