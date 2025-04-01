@@ -78,9 +78,16 @@ export interface LeagueMatch {
   _id: string;
   player1: User;
   player2: User;
-  round_id: string;
+  round: Round;
   winner: string;
   score: string;
+}
+
+export interface Round {
+  _id: string;
+  startDate: string;
+  endDate: string;
+  league_id: string;
 }
 
 export enum Country {

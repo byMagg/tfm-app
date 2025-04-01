@@ -30,7 +30,7 @@ const FormSchema = z.object({
   }),
 });
 
-export function CalendarForm() {
+export function CalendarForm({ maxDate }: { maxDate?: Date }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -71,9 +71,12 @@ export function CalendarForm() {
                     mode="single"
                     selected={field.value}
                     onSelect={field.onChange}
-                    disabled={(date) =>
-                      date > new Date() || date < new Date("1900-01-01")
-                    }
+                    disabled={(date) => {
+                      if (date < new Date()) return true;
+                      if (maxDate && date > maxDate) return true;
+
+                      return false;
+                    }}
                     initialFocus
                   />
                 </PopoverContent>

@@ -63,7 +63,14 @@ if (Astro.cookies.has('__session')) {
           )
         }
         <div class="my-5">
-          <CalendarForm client:load />
+          {
+            match && (
+              <CalendarForm
+                maxDate={new Date(match.round.endDate)}
+                client:load
+              />
+            )
+          }
         </div>
       </div>
 
