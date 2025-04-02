@@ -36,7 +36,7 @@ export function CalendarForm({
   matchId,
   maxDate,
 }: {
-  matchId?: string;
+  matchId: string;
   maxDate?: Date;
 }) {
   const form = useForm<z.infer<typeof FormSchema>>({
