@@ -47,7 +47,7 @@ export function Modal({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         <Button variant="outline">{buttonLabel ?? "Open modal"}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
