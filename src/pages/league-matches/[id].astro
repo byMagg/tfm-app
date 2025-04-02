@@ -51,14 +51,20 @@ if (Astro.cookies.has('__session')) {
           match && !match.winner && (
             <div>
               <p>Aún no se ha disputado el partido</p>
-              <Score matchId={id} client:load />
+              <Score match={match} client:load />
             </div>
           )
         }
         {
           match && match.winner && (
             <>
-              <p>{match.score}</p>
+              <p>
+                El ganador es{' '}
+                {match.winner === match.player1._id
+                  ? player1?.name
+                  : player2?.name}
+              </p>
+              <span>{match.score}</span>
             </>
           )
         }

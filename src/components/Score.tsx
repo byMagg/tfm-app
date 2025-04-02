@@ -1,4 +1,5 @@
 import { setMatchScore } from "@/controllers";
+import type { LeagueMatch } from "@/types";
 import { useState } from "react";
 import { z } from "zod";
 import { Button } from "./ui/button";
@@ -10,7 +11,15 @@ const checkSetWinner = (set: { player1: number; player2: number }) => {
   if (set.player2 === 7 && set.player1 === 6) return "player2";
 };
 
-const checkMatchWinner = (sets: { player1: number; player2: number }[]) => {
+const checkMatchWinner = ({
+  sets,
+  player1Id,
+  player2Id,
+}: {
+  sets: { player1: number; player2: number }[];
+  player1Id: string;
+  player2Id: string;
+}) => {
   const player1Wins = sets.filter(
     (set) => checkSetWinner(set) === "player1",
   ).length;
@@ -18,8 +27,8 @@ const checkMatchWinner = (sets: { player1: number; player2: number }[]) => {
     (set) => checkSetWinner(set) === "player2",
   ).length;
 
-  if (player1Wins === 2) return "player1";
-  if (player2Wins === 2) return "player2";
+  if (player1Wins === 2) return player1Id;
+  if (player2Wins === 2) return player2Id;
 };
 
 const toStringScore = (score: { player1: number; player2: number }[]) => {
@@ -42,7 +51,7 @@ const scoreSchema = z
     { message: "Resultado inválido. Debe ser 6-0 a 6-4 o 7-6." },
   );
 
-export function Score({ matchId }: { matchId: string | undefined }) {
+export function Score({ match }: { match: LeagueMatch }) {
   const [score, setScore] = useState([
     { player1: 0, player2: 0 },
     { player1: 0, player2: 0 },
@@ -79,7 +88,13 @@ export function Score({ matchId }: { matchId: string | undefined }) {
     });
     const isValid = results.every((result) => result.success);
 
-    if (!isValid && !checkMatchWinner(score)) {
+    const matchWinner = checkMatchWinner({
+      sets: score,
+      player1Id: match.player1._id,
+      player2Id: match.player2._id,
+    });
+
+    if (!isValid && !matchWinner) {
       setError("El resultado no es válido");
       return;
     }
@@ -90,13 +105,17 @@ export function Score({ matchId }: { matchId: string | undefined }) {
       submitScore = score.slice(0, 2);
     }
 
-    setWinner(checkMatchWinner(submitScore));
+    setWinner(
+      match.player1._id === matchWinner
+        ? match.player1.name
+        : match.player2.name,
+    );
     setError(null);
 
     await setMatchScore({
-      matchId,
+      matchId: match._id,
       score: toStringScore(submitScore),
-      winner: checkMatchWinner(submitScore),
+      winner: matchWinner,
     });
   };
 
@@ -116,7 +135,7 @@ export function Score({ matchId }: { matchId: string | undefined }) {
         </div>
       ))}
 
-      <Button type="submit">Enviar</Button>
+      <Button type="submit">Enviar resultado</Button>
     </form>
   );
 }
