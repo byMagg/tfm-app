@@ -16,9 +16,10 @@ export async function fetchAPI({
   token?: string;
 }) {
   try {
-    const url = page
-      ? `${API_URL}${endpoint}?limit=${limit}&page=${page}`
-      : `${API_URL}${endpoint}`;
+    const url =
+      typeof page === "number"
+        ? `${API_URL}${endpoint}?limit=${limit}&page=${page}`
+        : `${API_URL}${endpoint}`;
 
     const response = await fetch(url, {
       method: method,
@@ -101,7 +102,11 @@ export function parseDateString(date: number) {
   const month = dateString.slice(4, 6);
   const day = dateString.slice(6, 8);
 
-  return new Date(`${year}-${month}-${day}`);
+  const parsedDate = new Date(`${year}-${month}-${day}`);
+
+  if (isNaN(parsedDate.getTime())) return null;
+
+  return parsedDate;
 }
 
 export async function getPlayerImage(playerId: number): Promise<string> {

@@ -12,6 +12,6 @@ export function usePagination() {
     limit: pageSize,
     onPaginationChange: setPagination,
     pagination,
-    offset: pageSize * pageIndex,
+    page: pageIndex,
   };
 }

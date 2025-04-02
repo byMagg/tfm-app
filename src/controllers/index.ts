@@ -182,3 +182,45 @@ export const setMatchDate = async ({
     },
   });
 };
+
+export const getMatches = async ({
+  limit = 10,
+  page = 1,
+}: {
+  limit?: number;
+  page?: number;
+}) => {
+  return await fetchAPI({
+    endpoint: "/matches",
+    limit,
+    page,
+  });
+};
+
+export const getPlayers = async ({
+  limit = 10,
+  page = 1,
+}: {
+  limit?: number;
+  page?: number;
+}) => {
+  return await fetchAPI({
+    endpoint: "/players",
+    limit,
+    page,
+  });
+};
+
+export const getRankings = async ({
+  limit = 10,
+  page = 1,
+}: {
+  limit?: number;
+  page?: number;
+}) => {
+  return await fetchAPI({
+    endpoint: "/rankings",
+    limit,
+    page,
+  });
+};

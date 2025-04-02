@@ -63,9 +63,9 @@ const columns: ColumnDef<Player>[] = [
 ];
 
 export default function TablePlayersComponent() {
-  const { limit, onPaginationChange, offset, pagination } = usePagination();
+  const { limit, onPaginationChange, page, pagination } = usePagination();
 
-  const { players, count, loading } = usePlayers({ limit, offset });
+  const { players, count, loading } = usePlayers({ limit, page: page + 1 });
 
   const pageCount = Math.round(count / limit);
 

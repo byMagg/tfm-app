@@ -25,9 +25,14 @@ const columns: ColumnDef<Ranking>[] = [
     header: "Date",
     cell: ({ row }) => {
       const { original } = row;
-      return (
-        <div>{parseDateString(original.ranking_date).toLocaleDateString()}</div>
-      );
+
+      if (!original.ranking_date) return <div>Fecha no disponible</div>;
+
+      const parseDate = parseDateString(original.ranking_date);
+
+      if (!parseDate) return <div>Fecha no disponible</div>;
+
+      return <div>{parseDate.toLocaleDateString()}</div>;
     },
   },
   {
@@ -53,9 +58,9 @@ const columns: ColumnDef<Ranking>[] = [
 ];
 
 export default function TableRankingsComponent() {
-  const { limit, onPaginationChange, offset, pagination } = usePagination();
+  const { limit, onPaginationChange, page, pagination } = usePagination();
 
-  const { rankings, count, loading } = useRankings({ limit, offset });
+  const { rankings, count, loading } = useRankings({ limit, page: page + 1 });
 
   const pageCount = Math.round(count / limit);
 

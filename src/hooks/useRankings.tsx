@@ -1,26 +1,13 @@
-import { fetchAPI } from "@/utils";
+import { getRankings } from "@/controllers";
 import { useEffect, useState } from "react";
 
 export function useRankings({
   limit = 10,
-  offset,
+  page = 1,
 }: {
   limit?: number;
-  offset: number;
+  page: number;
 }) {
-  const query = `
-      query GetRankings {
-        rankingsCount
-        getRankings(limit: ${limit}, offset: ${offset}) {
-           _id
-           ranking_date
-           rank
-           player
-           points
-        }
-      }
-  `;
-
   const [rankings, setRankings] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -28,14 +15,14 @@ export function useRankings({
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
-      const apiData = await fetchAPI(query);
-      const { getRankings, rankingsCount } = apiData;
-      setRankings(getRankings);
-      setCount(rankingsCount);
+      const { data, total } = await getRankings({ limit, page: page + 1 });
+
+      setRankings(data);
+      setCount(total);
       setLoading(false);
     };
     fetch();
-  }, [offset]);
+  }, [page]);
 
   return { rankings, count, loading };
 }

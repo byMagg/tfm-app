@@ -42,7 +42,13 @@ const columns: ColumnDef<Match>[] = [
     header: "Tourney Date",
     cell: ({ row }) => {
       const { original } = row;
+
+      if (!original.tourney_date) return <span>Fecha no disponible</span>;
+
       const date = parseDateString(original.tourney_date);
+
+      if (!date) return <span>Fecha no disponible</span>;
+
       return <span>{date.toLocaleDateString()}</span>;
     },
   },
@@ -78,9 +84,9 @@ const columns: ColumnDef<Match>[] = [
 ];
 
 export default function TableMatchesComponent() {
-  const { limit, onPaginationChange, offset, pagination } = usePagination();
+  const { limit, onPaginationChange, page, pagination } = usePagination();
 
-  const { matches, count, loading } = useMatches({ limit, offset });
+  const { matches, count, loading } = useMatches({ limit, page });
 
   const pageCount = Math.round(count / limit);
 

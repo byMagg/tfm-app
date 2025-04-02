@@ -1,27 +1,13 @@
-import { fetchAPI } from "@/utils";
+import { getPlayers } from "@/controllers";
 import { useEffect, useState } from "react";
 
 export function usePlayers({
   limit = 10,
-  offset,
+  page = 1,
 }: {
   limit?: number;
-  offset: number;
+  page: number;
 }) {
-  const query = `
-      query GetPlayers {
-        playersCount
-        getPlayers(limit: ${limit}, offset: ${offset}) {
-            _id
-            name_first
-            name_last
-            hand
-            player_id
-            ioc
-        }
-      }
-  `;
-
   const [players, setPlayers] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -29,14 +15,13 @@ export function usePlayers({
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
-      const apiData = await fetchAPI(query);
-      const { getPlayers, playersCount } = apiData;
-      setPlayers(getPlayers);
-      setCount(playersCount);
+      const { data, total } = await getPlayers({ limit, page: page + 1 });
+      setPlayers(data);
+      setCount(total);
       setLoading(false);
     };
     fetch();
-  }, [offset]);
+  }, [page]);
 
   return { players, count, loading };
 }
