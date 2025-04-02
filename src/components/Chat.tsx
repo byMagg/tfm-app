@@ -57,7 +57,7 @@ export const Chat = ({ from, to }: { from: User; to: User }) => {
   };
 
   return (
-    <section className="flex flex-col gap-2">
+    <section className="flex flex-col gap-2 relative">
       <h1 className="text-2xl font-semibold text-black dark:text-white">
         Chatea con {to.name}
       </h1>
