@@ -197,6 +197,19 @@ export const getMatches = async ({
   });
 };
 
+export const getMatch = async ({
+  id,
+  token,
+}: {
+  id: string;
+  token?: string;
+}) => {
+  return await fetchAPI({
+    endpoint: `/matches/${id}`,
+    token,
+  });
+};
+
 export const getPlayers = async ({
   limit = 10,
   page = 1,
@@ -211,6 +224,19 @@ export const getPlayers = async ({
   });
 };
 
+export const getPlayer = async ({
+  id,
+  token,
+}: {
+  id: string;
+  token?: string;
+}) => {
+  return await fetchAPI({
+    endpoint: `/players/${id}`,
+    token,
+  });
+};
+
 export const getRankings = async ({
   limit = 10,
   page = 1,
@@ -222,5 +248,18 @@ export const getRankings = async ({
     endpoint: "/rankings",
     limit,
     page,
+  });
+};
+
+export const getRanking = async ({
+  id,
+  token,
+}: {
+  id: string;
+  token?: string;
+}) => {
+  return await fetchAPI({
+    endpoint: `/rankings/${id}`,
+    token,
   });
 };

@@ -1,28 +1,28 @@
 ---
+import { getPlayer } from '@/controllers'
 import Layout from '@/layouts/Layout.astro'
 import { Country, type Player } from '@/types'
-import { fetchAPI, getPlayerImage } from '@/utils'
+import { getPlayerImage } from '@/utils'
 
 const { id } = Astro.params
 
-const query = `
-      query GetPlayer {
-        getPlayerById(playerId: "${id}") {
-          _id
-          player_id
-          name_first
-          name_last
-          hand
-          dob
-          ioc
-          height
-          wikidata_id
-        }
-      }
-  `
+let player: Player | null = null
 
-const { getPlayerById } = (await fetchAPI(query)) || {}
-const player = getPlayerById as Player | undefined
+if (!id) return
+
+if (Astro.cookies.has('__session')) {
+  const sessionCookie = Astro.cookies.get('__session')?.value
+
+  if (sessionCookie) {
+    try {
+      const { data } = await getPlayer({ id, token: sessionCookie })
+
+      player = data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
 
 const imgSrc = await getPlayerImage(player?.player_id ?? 0)
 

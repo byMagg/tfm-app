@@ -1,28 +1,27 @@
 ---
+import { getRanking } from '@/controllers'
 import Layout from '@/layouts/Layout.astro'
-import type { Player } from '@/types'
-import { fetchAPI } from '@/utils'
+import type { Ranking } from '@/types'
 
 const { id } = Astro.params
 
-const query = `
-      query GetPlayer {
-        getPlayerById(playerId: "${id}") {
-          _id
-          player_id
-          name_first
-          name_last
-          hand
-          dob
-          ioc
-          height
-          wikidata_id
-        }
-      }
-  `
+let ranking: Ranking | null = null
 
-const { getPlayerById } = (await fetchAPI(query)) || {}
-const player = getPlayerById as Player
+if (!id) return
+
+if (Astro.cookies.has('__session')) {
+  const sessionCookie = Astro.cookies.get('__session')?.value
+
+  if (sessionCookie) {
+    try {
+      const { data } = await getRanking({ id, token: sessionCookie })
+
+      ranking = data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
 ---
 
 <Layout title={`${id}`}>
@@ -46,5 +45,5 @@ const player = getPlayerById as Player
   <h3>{player.winner_name} vs {player.loser_name}</h3>
   <h4>{player.tourney_name}</h4> -->
 
-  <pre>{JSON.stringify(player, null, 2)}</pre>
+  <pre>{JSON.stringify(ranking, null, 2)}</pre>
 </Layout>

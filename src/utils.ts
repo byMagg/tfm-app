@@ -110,13 +110,7 @@ export function parseDateString(date: number) {
 }
 
 export async function getPlayerImage(playerId: number): Promise<string> {
-  const query = `
-    query GetPlayerByPlayerId {
-      getPlayerByPlayerId(playerId: "${playerId}") {
-          wikidata_id
-        }
-      }
-  `;
+  //TODO
 
   let imgSrc = "/images/placeholder.jpg";
   return imgSrc;
