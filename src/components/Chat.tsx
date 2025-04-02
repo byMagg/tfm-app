@@ -30,6 +30,12 @@ export const Chat = ({ from, to }: { from: User; to: User }) => {
     };
   }, []);
 
+  useEffect(() => {
+    scrollRef.current?.scrollTo({
+      top: scrollRef.current.scrollHeight,
+    });
+  }, [messages]);
+
   const handleSend = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -41,10 +47,6 @@ export const Chat = ({ from, to }: { from: User; to: User }) => {
       content: message.content,
       from: from._id,
       to: to._id,
-    });
-
-    scrollRef.current?.scrollTo({
-      top: scrollRef.current.scrollHeight,
     });
 
     setMessage({
