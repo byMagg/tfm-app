@@ -10,6 +10,8 @@ let showLogin = true
 let leagues: League[] = []
 let players: any[] = []
 
+console.log(Astro.cookies)
+
 if (Astro.cookies.has('__session')) {
   const sessionCookie = Astro.cookies.get('__session')?.value
 
