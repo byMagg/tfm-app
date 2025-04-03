@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:3000/api";
+const API_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:3000";
 
 export async function fetchAPI({
   endpoint,
@@ -16,10 +16,12 @@ export async function fetchAPI({
   token: string;
 }) {
   try {
+    console.log(API_URL);
+
     const url =
       typeof page === "number"
-        ? `${API_URL}${endpoint}?limit=${limit}&page=${page}`
-        : `${API_URL}${endpoint}`;
+        ? `${API_URL + "/api"}${endpoint}?limit=${limit}&page=${page}`
+        : `${API_URL + "/api"}${endpoint}`;
 
     const response = await fetch(url, {
       method: method,

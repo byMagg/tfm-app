@@ -3,7 +3,7 @@ import { LoginFormContainer } from '@/components/LoginFormContainer'
 import { SignoutButton } from '@/components/SignoutButton'
 import { checkPlayerInLeague } from '@/controllers'
 import Layout from '@/layouts/Layout.astro'
-import { decodeJWT } from '@/lib/auth'
+import { auth } from '@/lib/firebase/server'
 import type { League, LeagueMatch } from '@/types'
 
 let showLogin = true
@@ -18,14 +18,14 @@ if (Astro.cookies.has('__session')) {
     return
   }
 
-  const decodedCookie = decodeJWT(sessionCookie)
+  const decodedCookie = await auth.verifySessionCookie(sessionCookie)
   if (decodedCookie) {
     showLogin = false
   }
 
   try {
     const { data } = await checkPlayerInLeague({
-      playerId: decodedCookie.id,
+      playerId: decodedCookie.uid,
       token: sessionCookie,
     })
     leagues = data.leagues
