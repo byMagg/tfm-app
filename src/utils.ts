@@ -25,6 +25,8 @@ export async function fetchAPI({
       method: method,
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "*",
         ...(token && { Authorization: `Bearer ${token}` }),
       },
       body: JSON.stringify(body),
