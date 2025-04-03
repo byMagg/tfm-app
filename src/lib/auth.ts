@@ -1,16 +1,12 @@
 import type { JwtPayload } from "@/types";
 import { fetchAPI } from "@/utils";
 import { jwtDecode } from "jwt-decode";
+import { auth } from "./firebase/server";
 
 export async function getUser(cookie: string) {
   try {
-    const res = await fetchAPI({
-      endpoint: "/users/profile",
-    });
-
-    return res.user;
-    // const decodedIdToken = await auth.verifySessionCookie(cookie, true);
-    // return auth.getUser(decodedIdToken.uid);
+    const decodedIdToken = await auth.verifySessionCookie(cookie, true);
+    return auth.getUser(decodedIdToken.uid);
   } catch (error) {
     return null;
   }

@@ -1,9 +1,13 @@
-import { login } from "@/lib/auth";
+import { app } from "@/lib/firebase/client";
 import { cn } from "@/lib/utils";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import React from "react";
 import { toast } from "sonner";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+
+const auth = getAuth(app);
+auth.setPersistence;
 
 export function LoginFormContainer() {
   const [showRegister, setShowRegister] = React.useState(false);
@@ -44,10 +48,29 @@ export function LoginForm() {
       return;
     }
 
-    try {
-      await login({ email, password });
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
 
-      // window.location.href = "/";
+    const idToken = await userCredential.user.getIdToken();
+
+    try {
+      const response = await fetch("/api/auth/signin", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(await response.text());
+      }
+
+      if (response.redirected) {
+        window.location.assign(response.url);
+      }
     } catch (error: any) {
       toast.error(error.message);
     }
