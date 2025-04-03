@@ -16,8 +16,6 @@ export async function fetchAPI({
   token: string;
 }) {
   try {
-    console.log(API_URL);
-
     const url =
       typeof page === "number"
         ? `${API_URL + "/api"}${endpoint}?limit=${limit}&page=${page}`

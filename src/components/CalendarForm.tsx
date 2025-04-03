@@ -25,6 +25,7 @@ import { toast } from "sonner";
 
 import { setMatchDate } from "@/controllers";
 import { es } from "date-fns/locale";
+import Cookies from "js-cookie";
 
 const FormSchema = z.object({
   time: z.date({
@@ -44,8 +45,10 @@ export function CalendarForm({
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const token = Cookies.get("__session") || "";
+
     try {
-      await setMatchDate({ matchId, date: data.time.toUTCString() });
+      await setMatchDate({ matchId, date: data.time.toUTCString(), token });
 
       toast.success(
         `Seleccionada fecha del partido: ${format(data.time, "PPPP HH:mm", {

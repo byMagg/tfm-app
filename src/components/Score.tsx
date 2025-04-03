@@ -1,5 +1,6 @@
 import { setMatchScore } from "@/controllers";
 import type { LeagueMatch } from "@/types";
+import Cookies from "js-cookie";
 import { useState } from "react";
 import { z } from "zod";
 import { Button } from "./ui/button";
@@ -76,6 +77,8 @@ export function Score({ match }: { match: LeagueMatch }) {
   };
 
   const validateAndSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const token = Cookies.get("__session") || "";
+
     e.preventDefault();
     const results = score.map((set) => {
       const parse = scoreSchema.safeParse(set);
@@ -116,6 +119,7 @@ export function Score({ match }: { match: LeagueMatch }) {
       matchId: match._id,
       score: toStringScore(submitScore),
       winner: matchWinner,
+      token,
     });
   };
 
