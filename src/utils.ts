@@ -21,6 +21,8 @@ export async function fetchAPI({
         ? `${API_URL}${endpoint}?limit=${limit}&page=${page}`
         : `${API_URL}${endpoint}`;
 
+    console.log(token);
+
     const response = await fetch(url, {
       method: method,
       headers: {
