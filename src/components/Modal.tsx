@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createLeague } from "@/controllers";
+import Cookies from "js-cookie";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -31,8 +32,10 @@ export function Modal({
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name")?.toString();
 
+    const token = Cookies.get("__session") || "";
+
     try {
-      const { data } = await createLeague({ name });
+      const { data } = await createLeague({ name, token });
 
       if (data) {
         setIsOpen(false);

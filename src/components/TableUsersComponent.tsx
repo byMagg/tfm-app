@@ -3,6 +3,7 @@ import { usePagination } from "@/hooks/usePagination";
 import { usePlayersFromLeague } from "@/hooks/usePlayersFromLeague";
 import { type User } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
+import Cookies from "js-cookie";
 import { DataTable } from "./DataTable";
 import { DeleteModal } from "./DeleteModal";
 
@@ -13,7 +14,9 @@ async function handleDelete({
   id: string;
   leagueId: string;
 }) {
-  await removePlayersFromLeague({ leagueId, playerIds: [id] });
+  const token = Cookies.get("__session") || "";
+
+  await removePlayersFromLeague({ leagueId, playerIds: [id], token });
 }
 
 export default function TableUsersComponent({
@@ -23,7 +26,7 @@ export default function TableUsersComponent({
   playerIds: string[];
   leagueId: string;
 }) {
-  const { limit, onPaginationChange, offset, pagination } = usePagination();
+  const { limit, onPaginationChange, page, pagination } = usePagination();
 
   const { players, count, loading } = usePlayersFromLeague({
     playerIds,

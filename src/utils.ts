@@ -13,7 +13,7 @@ export async function fetchAPI({
   limit?: number;
   page?: number;
   body?: any;
-  token?: string;
+  token: string;
 }) {
   try {
     const url =
@@ -21,18 +21,13 @@ export async function fetchAPI({
         ? `${API_URL}${endpoint}?limit=${limit}&page=${page}`
         : `${API_URL}${endpoint}`;
 
-    console.log(token);
-
     const response = await fetch(url, {
       method: method,
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "*",
-        ...(token && { Authorization: `Bearer ${token}` }),
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
-      credentials: "include",
     });
 
     if (!response.ok) throw new Error("No se ha podido obtener los datos");

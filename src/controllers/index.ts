@@ -7,7 +7,7 @@ export const getUsers = async ({
 }: {
   limit?: number;
   page?: number;
-  token?: string;
+  token: string;
 }) => {
   return await fetchAPI({
     endpoint: "/users",
@@ -20,7 +20,7 @@ export const getUsersByIds = async ({
   token,
 }: {
   ids: string[];
-  token?: string;
+  token: string;
 }) => {
   return await fetchAPI({
     endpoint: "/users/get-by-ids",
@@ -35,14 +35,17 @@ export const getUsersByIds = async ({
 export const getLeagues = async ({
   limit = 10,
   page = 1,
+  token,
 }: {
   limit?: number;
   page?: number;
+  token: string;
 }) => {
   return await fetchAPI({
     endpoint: "/leagues",
     limit,
     page,
+    token,
   });
 };
 
@@ -51,7 +54,7 @@ export const getLeague = async ({
   token,
 }: {
   id: string | undefined;
-  token?: string;
+  token: string;
 }) => {
   if (!id) return;
 
@@ -61,7 +64,13 @@ export const getLeague = async ({
   });
 };
 
-export const createLeague = async ({ name }: { name: string | undefined }) => {
+export const createLeague = async ({
+  name,
+  token,
+}: {
+  name: string | undefined;
+  token: string;
+}) => {
   if (!name) return;
 
   return await fetchAPI({
@@ -70,24 +79,34 @@ export const createLeague = async ({ name }: { name: string | undefined }) => {
     body: {
       name,
     },
+    token,
   });
 };
 
-export const startSeason = async (leagueId: string | undefined) => {
+export const startSeason = async ({
+  leagueId,
+  token,
+}: {
+  leagueId: string | undefined;
+  token: string;
+}) => {
   if (!leagueId) return;
 
   return await fetchAPI({
     endpoint: `/leagues/${leagueId}/start`,
     method: "POST",
+    token,
   });
 };
 
 export const addPlayersToLeague = async ({
   leagueId,
   playerIds = [],
+  token,
 }: {
   leagueId: string | undefined;
   playerIds: string[];
+  token: string;
 }) => {
   return await fetchAPI({
     endpoint: `/leagues/${leagueId}/players`,
@@ -95,15 +114,18 @@ export const addPlayersToLeague = async ({
     body: {
       playerIds,
     },
+    token,
   });
 };
 
 export const removePlayersFromLeague = async ({
   leagueId,
   playerIds = [],
+  token,
 }: {
   leagueId: string;
   playerIds: string[];
+  token: string;
 }) => {
   return await fetchAPI({
     endpoint: `/leagues/${leagueId}/players`,
@@ -111,6 +133,7 @@ export const removePlayersFromLeague = async ({
     body: {
       playerIds,
     },
+    token,
   });
 };
 
@@ -119,7 +142,7 @@ export const checkPlayerInLeague = async ({
   token,
 }: {
   playerId: string | undefined;
-  token?: string;
+  token: string;
 }) => {
   if (!playerId) return;
 
@@ -134,7 +157,7 @@ export const getLeagueMatchById = async ({
   token,
 }: {
   id: string | undefined;
-  token?: string;
+  token: string;
 }) => {
   if (!id) return;
 
@@ -148,10 +171,12 @@ export const setMatchScore = async ({
   matchId,
   score,
   winner,
+  token,
 }: {
   matchId: string | undefined;
   score: string | undefined;
   winner: string | undefined;
+  token: string;
 }) => {
   if (!matchId || !winner || !score) return;
 
@@ -162,15 +187,18 @@ export const setMatchScore = async ({
       score,
       winner,
     },
+    token,
   });
 };
 
 export const setMatchDate = async ({
   matchId,
   date,
+  token,
 }: {
   matchId: string | undefined;
   date: string | undefined;
+  token: string;
 }) => {
   if (!matchId || !date) return;
 
@@ -180,20 +208,24 @@ export const setMatchDate = async ({
     body: {
       date,
     },
+    token,
   });
 };
 
 export const getMatches = async ({
   limit = 10,
   page = 1,
+  token,
 }: {
   limit?: number;
   page?: number;
+  token: string;
 }) => {
   return await fetchAPI({
     endpoint: "/matches",
     limit,
     page,
+    token,
   });
 };
 
@@ -202,7 +234,7 @@ export const getMatch = async ({
   token,
 }: {
   id: string;
-  token?: string;
+  token: string;
 }) => {
   return await fetchAPI({
     endpoint: `/matches/${id}`,
@@ -213,14 +245,17 @@ export const getMatch = async ({
 export const getPlayers = async ({
   limit = 10,
   page = 1,
+  token,
 }: {
   limit?: number;
   page?: number;
+  token: string;
 }) => {
   return await fetchAPI({
     endpoint: "/players",
     limit,
     page,
+    token,
   });
 };
 
@@ -229,7 +264,7 @@ export const getPlayer = async ({
   token,
 }: {
   id: string;
-  token?: string;
+  token: string;
 }) => {
   return await fetchAPI({
     endpoint: `/players/${id}`,
@@ -240,14 +275,17 @@ export const getPlayer = async ({
 export const getRankings = async ({
   limit = 10,
   page = 1,
+  token,
 }: {
   limit?: number;
   page?: number;
+  token: string;
 }) => {
   return await fetchAPI({
     endpoint: "/rankings",
     limit,
     page,
+    token,
   });
 };
 
@@ -256,7 +294,7 @@ export const getRanking = async ({
   token,
 }: {
   id: string;
-  token?: string;
+  token: string;
 }) => {
   return await fetchAPI({
     endpoint: `/rankings/${id}`,

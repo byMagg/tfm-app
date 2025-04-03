@@ -1,4 +1,5 @@
 import { getUsersByIds } from "@/controllers";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 
 export function usePlayersFromLeague({ playerIds }: { playerIds: string[] }) {
@@ -8,8 +9,14 @@ export function usePlayersFromLeague({ playerIds }: { playerIds: string[] }) {
 
   useEffect(() => {
     const fetching = async () => {
+      const token = Cookies.get("__session") || "";
+
+      console.log(playerIds);
+
       setLoading(true);
-      const { data } = await getUsersByIds({ ids: playerIds });
+      const { data } = await getUsersByIds({ ids: playerIds, token });
+
+      console.log(data);
 
       setPlayers(data);
       setCount(players.length);
