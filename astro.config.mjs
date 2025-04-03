@@ -6,7 +6,6 @@ import node from "@astrojs/node";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://bymagg.github.io",
   base: "/tfm-app",
   integrations: [
     tailwind({
