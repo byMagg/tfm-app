@@ -2,8 +2,10 @@
 import { NavigationBar } from '@/components/NavigationBar'
 import { Toaster } from '@/components/ui/sonner'
 import '@/styles/globals.css'
+import SpeedInsights from '@vercel/speed-insights/astro'
 import { Image } from 'astro:assets'
-import { ViewTransitions } from 'astro:transitions'
+import { ClientRouter } from 'astro:transitions'
+
 interface Props {
   title?: string
   background?: string
@@ -25,7 +27,8 @@ const isProfilePage = Astro.url.pathname === '/profile'
     <meta name="generator" content={Astro.generator} />
     <title>{title || 'Astro'}</title>
 
-    <ViewTransitions />
+    <ClientRouter />
+    <SpeedInsights />
   </head>
   <body class="dark">
     {
