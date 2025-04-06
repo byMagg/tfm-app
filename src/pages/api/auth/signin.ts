@@ -4,6 +4,9 @@ import type { APIRoute } from "astro";
 export const GET: APIRoute = async ({ request, cookies, redirect }) => {
   /* Obtener el token de las cabeceras de la solicitud */
   const idToken = request.headers.get("Authorization")?.split("Bearer ")[1];
+
+  console.log(idToken);
+
   if (!idToken) {
     return new Response("Token no encontrado", { status: 401 });
   }
@@ -12,6 +15,7 @@ export const GET: APIRoute = async ({ request, cookies, redirect }) => {
   try {
     await auth.verifyIdToken(idToken);
   } catch (error) {
+    console.error(error);
     return new Response("Token invalido", { status: 401 });
   }
 
