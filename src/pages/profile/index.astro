@@ -1,40 +1,37 @@
 ---
-import { LoginFormContainer } from '@/components/LoginFormContainer'
 import { SignoutButton } from '@/components/SignoutButton'
-import { checkPlayerInLeague } from '@/controllers'
 import Layout from '@/layouts/Layout.astro'
-import { auth } from '@/lib/firebase/server'
 import type { League, LeagueMatch } from '@/types'
 
 let showLogin = true
 let leagues: League[] = []
 let players: any[] = []
 
-if (Astro.cookies.has('__session')) {
-  const sessionCookie = Astro.cookies.get('__session')?.value
+// if (Astro.cookies.has('__session')) {
+//   const sessionCookie = Astro.cookies.get('__session')?.value
 
-  if (!sessionCookie) {
-    showLogin = true
-    return
-  }
+//   if (!sessionCookie) {
+//     showLogin = true
+//     return
+//   }
 
-  const decodedCookie = await auth.verifySessionCookie(sessionCookie)
-  if (decodedCookie) {
-    showLogin = false
-  }
+//   const decodedCookie = await auth.verifySessionCookie(sessionCookie)
+//   if (decodedCookie) {
+//     showLogin = false
+//   }
 
-  try {
-    const { data } = await checkPlayerInLeague({
-      playerId: decodedCookie.uid,
-      token: sessionCookie,
-    })
-    leagues = data.leagues
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message)
-    }
-  }
-}
+//   try {
+//     const { data } = await checkPlayerInLeague({
+//       playerId: decodedCookie.uid,
+//       token: sessionCookie,
+//     })
+//     leagues = data.leagues
+//   } catch (error) {
+//     if (error instanceof Error) {
+//       console.error(error.message)
+//     }
+//   }
+// }
 ---
 
 <Layout title="Login">
@@ -47,7 +44,8 @@ if (Astro.cookies.has('__session')) {
   <section class="w-full flex justify-center my-3">
     {
       showLogin ? (
-        <LoginFormContainer client:load />
+        // <LoginFormContainer client:load />
+        <></>
       ) : (
         <SignoutButton client:load />
       )
