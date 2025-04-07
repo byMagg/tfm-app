@@ -1,4 +1,4 @@
-import { getMatches } from "@/controllers";
+import { actions } from "astro:actions";
 import { useEffect, useState } from "react";
 
 export function useMatches({
@@ -15,7 +15,9 @@ export function useMatches({
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
-      const { data, total } = await getMatches({ limit, page: page + 1 });
+      const {
+        data: { data, total },
+      } = await actions.getMatches({ limit, page: page + 1 });
 
       setMatches(data);
       setCount(total);

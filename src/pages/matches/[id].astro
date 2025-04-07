@@ -1,29 +1,19 @@
 ---
-import { getMatch } from '@/controllers'
 import Layout from '@/layouts/Layout.astro'
 import { Country, type Match } from '@/types'
 import { getPlayerImage, parseDateString } from '@/utils'
+import { actions } from 'astro:actions'
 import { Image } from 'astro:assets'
 
 const { id } = Astro.params
 
-let match: Match | null = null
-
 if (!id) return
 
-if (Astro.cookies.has('__session')) {
-  const sessionCookie = Astro.cookies.get('__session')?.value
+const { data } = await Astro.callAction(actions.getMatch, {
+  id,
+})
 
-  if (sessionCookie) {
-    try {
-      const { data } = await getMatch({ id, token: sessionCookie })
-
-      match = data
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}
+const match: Match = data?.data
 
 let loserCountryCode,
   winnerCountryCode = undefined

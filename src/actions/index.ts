@@ -15,10 +15,6 @@ const withSession = <T extends z.ZodTypeAny>(
   };
 };
 
-const getUserFromSession = async (session: string) => {
-  return auth.verifySessionCookie(session);
-};
-
 export const server = {
   startSeason: defineAction({
     accept: "form",
@@ -172,13 +168,51 @@ export const server = {
     }),
   }),
   getPlayers: defineAction({
-    handler: withSession(async (session) => {
-      return await fetchAPI({ endpoint: "/players", token: session });
+    input: z.object({
+      limit: z.number().optional(),
+      page: z.number().optional(),
+    }),
+    handler: withSession(async (session, { limit, page }) => {
+      return await fetchAPI({
+        endpoint: "/players",
+        limit,
+        page,
+        token: session,
+      });
+    }),
+  }),
+  getMatches: defineAction({
+    input: z.object({
+      limit: z.number().optional(),
+      page: z.number().optional(),
+    }),
+    handler: withSession(async (session, { limit, page }) => {
+      return await fetchAPI({
+        endpoint: "/matches",
+        limit,
+        page,
+        token: session,
+      });
+    }),
+  }),
+  getMatch: defineAction({
+    input: z.object({ id: z.string() }),
+    handler: withSession(async (session, { id }) => {
+      return await fetchAPI({ endpoint: `/matches/${id}`, token: session });
     }),
   }),
   getRankings: defineAction({
-    handler: withSession(async (session) => {
-      return await fetchAPI({ endpoint: "/rankings", token: session });
+    input: z.object({
+      limit: z.number().optional(),
+      page: z.number().optional(),
+    }),
+    handler: withSession(async (session, { limit, page }) => {
+      return await fetchAPI({
+        endpoint: "/rankings",
+        limit,
+        page,
+        token: session,
+      });
     }),
   }),
 };
