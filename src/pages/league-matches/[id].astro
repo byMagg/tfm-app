@@ -2,38 +2,24 @@
 import { CalendarForm } from '@/components/CalendarForm'
 import { Chat } from '@/components/Chat'
 import { Score } from '@/components/Score'
-import { getLeagueMatchById } from '@/controllers'
 import Layout from '@/layouts/Layout.astro'
-import type { LeagueMatch, User } from '@/types'
+import type { User } from '@/types'
+import { actions } from 'astro:actions'
 
 const { id } = Astro.params
 
-let match: LeagueMatch | null = null
+if (!id) return
 
-let from = null
-let to = null
+const { data, error } = await Astro.callAction(actions.getLeagueMatchById, {
+  id,
+})
 
-let player1: User | null = null
-let player2: User | null = null
+const match = data?.data
+const player1: User = match?.player1
+const player2: User = match?.player2
 
-if (Astro.cookies.has('__session')) {
-  const sessionCookie = Astro.cookies.get('__session')?.value
-
-  if (sessionCookie) {
-    try {
-      const { data } = await getLeagueMatchById({ id, token: sessionCookie })
-
-      player1 = data?.player1
-      player2 = data?.player2
-
-      match = data
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  to = match?.player1._id === from ? match?.player2 : match?.player1
-  from = match?.player1._id === from ? match?.player1 : match?.player2
-}
+const to = match?.player1._id === id ? match?.player2 : match?.player1
+const from = match?.player1._id === id ? match?.player1 : match?.player2
 ---
 
 <Layout>

@@ -1,4 +1,4 @@
-import { getPlayers } from "@/controllers";
+import { actions } from "astro:actions";
 import { useEffect, useState } from "react";
 
 export function usePlayers({
@@ -15,7 +15,10 @@ export function usePlayers({
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
-      const { data, total } = await getPlayers({ limit, page: page + 1 });
+      const {
+        data: { data, total },
+      } = await actions.getPlayers({ limit, page: page + 1 });
+
       setPlayers(data);
       setCount(total);
       setLoading(false);

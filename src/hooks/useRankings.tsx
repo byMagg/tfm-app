@@ -1,4 +1,4 @@
-import { getRankings } from "@/controllers";
+import { actions } from "astro:actions";
 import { useEffect, useState } from "react";
 
 export function useRankings({
@@ -15,7 +15,9 @@ export function useRankings({
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
-      const { data, total } = await getRankings({ limit, page: page + 1 });
+      const {
+        data: { data, total },
+      } = await actions.getRankings({ limit, page });
 
       setRankings(data);
       setCount(total);

@@ -171,4 +171,14 @@ export const server = {
       });
     }),
   }),
+  getPlayers: defineAction({
+    handler: withSession(async (session) => {
+      return await fetchAPI({ endpoint: "/players", token: session });
+    }),
+  }),
+  getRankings: defineAction({
+    handler: withSession(async (session) => {
+      return await fetchAPI({ endpoint: "/rankings", token: session });
+    }),
+  }),
 };

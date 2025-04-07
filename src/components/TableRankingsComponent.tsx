@@ -45,7 +45,6 @@ const columns: ColumnDef<Ranking>[] = [
             size="sm"
             variant="link"
             onClick={() => {
-              console.log(original._id);
               navigate(`/rankings/${original._id}`);
             }}
           >

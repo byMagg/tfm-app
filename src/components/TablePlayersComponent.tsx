@@ -22,7 +22,6 @@ const columns: ColumnDef<Player>[] = [
       const { original } = row;
 
       const countryCode = Country[original.ioc as keyof typeof Country];
-      console.log(countryCode);
       return (
         <div className="flex items-center">
           <img
@@ -50,7 +49,6 @@ const columns: ColumnDef<Player>[] = [
             size="sm"
             variant="link"
             onClick={() => {
-              console.log(original._id);
               navigate(`/players/${original._id}`);
             }}
           >
