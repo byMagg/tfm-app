@@ -139,3 +139,16 @@ export async function getPlayerImage(playerId: number): Promise<string> {
 
   // return `https://upload.wikimedia.org/wikipedia/commons/${a}/${b}/${imgFilename}`;
 }
+
+export function parseSessionCookie(cookieData: string) {
+  const cookies = cookieData.split(";");
+
+  const sessionCookie = cookies.find((cookie) => cookie.includes("__session"));
+
+  if (sessionCookie) {
+    const session = sessionCookie.split("=")[1].replace(/"/g, "");
+    return session;
+  }
+
+  return null;
+}

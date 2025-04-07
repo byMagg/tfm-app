@@ -58,16 +58,22 @@ if (Astro.cookies.has('__session')) {
 
 <script>
   import { startSeason } from '@/controllers'
+  import { parseSessionCookie } from '@/utils'
+
+  const sessionCookie = parseSessionCookie(document.cookie)
 
   const $startSeason = document.getElementById('start-season')
 
-  if ($startSeason) {
+  if ($startSeason && sessionCookie) {
     $startSeason.addEventListener('click', async () => {
       const league = $startSeason.getAttribute('data-league-id')
 
       if (!league) return
 
-      const { data } = await startSeason(league)
+      const { data } = await startSeason({
+        leagueId: league,
+        token: sessionCookie,
+      })
 
       if (data) {
         location.reload()
