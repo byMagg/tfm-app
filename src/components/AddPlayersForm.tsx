@@ -1,5 +1,4 @@
-import { addPlayersToLeague, getUsers } from "@/controllers";
-import Cookies from "js-cookie";
+import { actions } from "astro:actions";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -11,11 +10,12 @@ export default function AddPlayersForm({
   leagueId: string | undefined;
 }) {
   const [players, setPlayers] = useState<ComboboxItem[]>([]);
-  const token = Cookies.get("__session") || "";
 
   useEffect(() => {
     const fetchPlayers = async () => {
-      const { data } = await getUsers({ token });
+      const {
+        data: { data },
+      } = await actions.getUsers();
 
       const players = data.map((player: any) => ({
         label: player.name,
@@ -30,12 +30,12 @@ export default function AddPlayersForm({
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const response = await addPlayersToLeague({
+      if (!leagueId) return;
+
+      const response = await actions.addPlayersToLeague({
         leagueId,
         playerIds: data.items,
-        token,
       });
-
       toast.success(`Item selected: ${data.items}`);
 
       console.log(response);

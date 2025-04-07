@@ -1,40 +1,17 @@
 ---
 import { LoginFormContainer } from '@/components/LoginFormContainer'
 import { SignoutButton } from '@/components/SignoutButton'
-import { checkPlayerInLeague } from '@/controllers'
 import Layout from '@/layouts/Layout.astro'
-import { auth } from '@/lib/firebase/server'
 import type { League, LeagueMatch } from '@/types'
+import { actions } from 'astro:actions'
 
 let showLogin = true
-let leagues: League[] = []
-let players: any[] = []
 
-if (Astro.cookies.has('__session')) {
-  const sessionCookie = Astro.cookies.get('__session')?.value
+const { data, error } = await Astro.callAction(actions.checkPlayerInLeague, {})
 
-  if (!sessionCookie) {
-    showLogin = true
-    return
-  }
+if (data) showLogin = false
 
-  const decodedCookie = await auth.verifySessionCookie(sessionCookie)
-  if (decodedCookie) {
-    showLogin = false
-  }
-
-  try {
-    const { data } = await checkPlayerInLeague({
-      playerId: decodedCookie.uid,
-      token: sessionCookie,
-    })
-    leagues = data.leagues
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message)
-    }
-  }
-}
+const leagues: League[] = data?.data.leagues
 ---
 
 <Layout title="Login">

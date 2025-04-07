@@ -1,5 +1,4 @@
-import { getUsersByIds } from "@/controllers";
-import Cookies from "js-cookie";
+import { actions } from "astro:actions";
 import { useEffect, useState } from "react";
 
 export function usePlayersFromLeague({ playerIds }: { playerIds: string[] }) {
@@ -9,10 +8,10 @@ export function usePlayersFromLeague({ playerIds }: { playerIds: string[] }) {
 
   useEffect(() => {
     const fetching = async () => {
-      const token = Cookies.get("__session") || "";
-
       setLoading(true);
-      const { data } = await getUsersByIds({ ids: playerIds, token });
+      const {
+        data: { data },
+      } = await actions.getUsersByIds({ ids: playerIds });
 
       setPlayers(data);
       setCount(players.length);

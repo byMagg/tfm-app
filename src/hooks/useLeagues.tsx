@@ -1,5 +1,4 @@
-import { getLeagues } from "@/controllers";
-import Cookies from "js-cookie";
+import { actions } from "astro:actions";
 import { useEffect, useState } from "react";
 
 export function useLeagues({
@@ -14,15 +13,15 @@ export function useLeagues({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const token = Cookies.get("__session") || "";
-
     const fetch = async () => {
       setLoading(true);
-      const { data, total } = await getLeagues({
-        limit,
-        page,
-        token,
-      });
+      const {
+        data: { data, total },
+        error,
+      } = await actions.getLeagues({ limit, page });
+
+      console.log(error, data, total);
+
       setLeagues(data);
       setCount(total);
       setLoading(false);

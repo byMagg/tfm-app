@@ -1,27 +1,25 @@
 ---
 import TableUsersComponent from '@/components/TableUsersComponent'
 import Layout from '@/layouts/Layout.astro'
-import { type League } from '@/types'
-import { getLeague } from '@/controllers'
+import type { League } from '@/types'
+import { actions } from 'astro:actions'
 
 const { id } = Astro.params
-let league: League | null = null
 
-if (Astro.cookies.has('__session')) {
-  const sessionCookie = Astro.cookies.get('__session')?.value
+if (!id) return
 
-  if (sessionCookie) {
-    const { data } = await getLeague({
-      id,
-      token: sessionCookie,
-    })
+const { data, error } = await Astro.callAction(actions.getLeague, {
+  leagueId: id,
+})
 
-    league = data
-  }
+if (error) {
+  console.error(error.message)
 }
+
+const league: League = data?.data
 ---
 
-<Layout title={`${league ? `${league.name}` : 'League'}`}>
+<Layout>
   {
     league && (
       <div>
@@ -29,9 +27,10 @@ if (Astro.cookies.has('__session')) {
         {league.startedAt ? (
           <h3>EN JUEGO</h3>
         ) : (
-          <button id="start-season" data-league-id={league?._id}>
-            <a>Start season</a>
-          </button>
+          <form method="POST" action={actions.startSeason}>
+            <input type="hidden" name="leagueId" value={league._id} />
+            <button>Start season</button>
+          </form>
         )}
       </div>
     )
@@ -55,29 +54,3 @@ if (Astro.cookies.has('__session')) {
     )
   }
 </Layout>
-
-<script>
-  import { startSeason } from '@/controllers'
-  import { parseSessionCookie } from '@/utils'
-
-  const sessionCookie = parseSessionCookie(document.cookie)
-
-  const $startSeason = document.getElementById('start-season')
-
-  if ($startSeason && sessionCookie) {
-    $startSeason.addEventListener('click', async () => {
-      const league = $startSeason.getAttribute('data-league-id')
-
-      if (!league) return
-
-      const { data } = await startSeason({
-        leagueId: league,
-        token: sessionCookie,
-      })
-
-      if (data) {
-        location.reload()
-      }
-    })
-  }
-</script>
