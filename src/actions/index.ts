@@ -16,6 +16,7 @@ const withSession = <T extends z.ZodTypeAny>(
         message: "Usuario no autorizado",
       });
     }
+
     return handler(sessionCookie, input);
   };
 };
