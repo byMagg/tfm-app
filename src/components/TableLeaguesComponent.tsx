@@ -3,6 +3,8 @@ import { usePagination } from "@/hooks/usePagination";
 import { type League } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { navigate } from "astro:transitions/client";
+import { useEffect } from "react";
+import { toast } from "sonner";
 import { DataTable } from "./DataTable";
 import { Button } from "./ui/button";
 
@@ -40,7 +42,16 @@ const columns: ColumnDef<League>[] = [
 export default function TableLeaguesComponent() {
   const { limit, onPaginationChange, page, pagination } = usePagination();
 
-  const { leagues, count, loading } = useLeagues({ limit, page: page + 1 });
+  const { leagues, count, loading, error } = useLeagues({
+    limit,
+    page: page + 1,
+  });
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const pageCount = Math.round(count / limit);
 

@@ -1,8 +1,7 @@
-import { startSeason } from "@/controllers";
 import { auth } from "@/lib/firebase/server";
 import { fetchAPI } from "@/utils";
 import type { AstroCookies } from "astro";
-import { defineAction } from "astro:actions";
+import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
 
 const withSession = <T extends z.ZodTypeAny>(
@@ -10,7 +9,13 @@ const withSession = <T extends z.ZodTypeAny>(
 ) => {
   return async (input: z.infer<T>, { cookies }: { cookies: AstroCookies }) => {
     const sessionCookie = cookies.get("__session")?.value;
-    if (!sessionCookie) return;
+
+    if (!sessionCookie) {
+      throw new ActionError({
+        code: "UNAUTHORIZED",
+        message: "Usuario no autorizado",
+      });
+    }
     return handler(sessionCookie, input);
   };
 };
@@ -22,7 +27,11 @@ export const server = {
       leagueId: z.string(),
     }),
     handler: withSession(async (session, { leagueId }) => {
-      return await startSeason({ leagueId, token: session });
+      return await fetchAPI({
+        endpoint: `/leagues/${leagueId}/start`,
+        method: "POST",
+        token: session,
+      });
     }),
   }),
   getLeagues: defineAction({

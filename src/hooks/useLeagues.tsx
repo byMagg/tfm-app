@@ -1,3 +1,5 @@
+import { leagueAdded } from "@/stores/leagueAdded";
+import { useStore } from "@nanostores/react";
 import { actions } from "astro:actions";
 import { useEffect, useState } from "react";
 
@@ -11,23 +13,26 @@ export function useLeagues({
   const [leagues, setLeagues] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>();
+
+  const $leagueAdded = useStore(leagueAdded);
 
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
-      const {
-        data: { data, total },
-        error,
-      } = await actions.getLeagues({ limit, page });
 
-      console.log(error, data, total);
+      const { data: { data = [], total = 0 } = {}, error } =
+        await actions.getLeagues({ limit, page });
 
       setLeagues(data);
       setCount(total);
       setLoading(false);
+      setError(error?.message);
+
+      leagueAdded.set(false);
     };
     fetch();
-  }, [page]);
+  }, [page, $leagueAdded]);
 
-  return { leagues, count, loading };
+  return { leagues, count, loading, error };
 }
