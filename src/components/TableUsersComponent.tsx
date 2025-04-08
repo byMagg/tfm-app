@@ -3,6 +3,8 @@ import { usePlayersFromLeague } from "@/hooks/usePlayersFromLeague";
 import { type User } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { actions } from "astro:actions";
+import { useEffect } from "react";
+import { toast } from "sonner";
 import { DataTable } from "./DataTable";
 import { DeleteModal } from "./DeleteModal";
 
@@ -28,9 +30,15 @@ export default function TableUsersComponent({
 }) {
   const { limit, onPaginationChange, page, pagination } = usePagination();
 
-  const { players, count, loading } = usePlayersFromLeague({
+  const { players, count, loading, error } = usePlayersFromLeague({
     playerIds,
   });
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const pageCount = Math.round(count / limit);
 

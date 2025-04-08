@@ -3,6 +3,8 @@ import { usePlayers } from "@/hooks/usePlayers";
 import { Country, type Player } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { navigate } from "astro:transitions/client";
+import { useEffect } from "react";
+import { toast } from "sonner";
 import { DataTable } from "./DataTable";
 import { Button } from "./ui/button";
 
@@ -63,7 +65,16 @@ const columns: ColumnDef<Player>[] = [
 export default function TablePlayersComponent() {
   const { limit, onPaginationChange, page, pagination } = usePagination();
 
-  const { players, count, loading } = usePlayers({ limit, page: page + 1 });
+  const { players, count, loading, error } = usePlayers({
+    limit,
+    page: page + 1,
+  });
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const pageCount = Math.round(count / limit);
 

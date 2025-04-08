@@ -11,20 +11,21 @@ export function useRankings({
   const [rankings, setRankings] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
-      const {
-        data: { data, total },
-      } = await actions.getRankings({ limit, page });
+      const { data: { data = [], total = 0 } = {}, error } =
+        await actions.getRankings({ limit, page });
 
       setRankings(data);
+      setError(error?.message);
       setCount(total);
       setLoading(false);
     };
     fetch();
   }, [page]);
 
-  return { rankings, count, loading };
+  return { rankings, count, loading, error };
 }

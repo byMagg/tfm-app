@@ -4,6 +4,8 @@ import type { Match } from "@/types";
 import { parseDateString } from "@/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import { navigate } from "astro:transitions/client";
+import { useEffect } from "react";
+import { toast } from "sonner";
 import { DataTable } from "./DataTable";
 import { Button } from "./ui/button";
 
@@ -86,7 +88,13 @@ const columns: ColumnDef<Match>[] = [
 export default function TableMatchesComponent() {
   const { limit, onPaginationChange, page, pagination } = usePagination();
 
-  const { matches, count, loading } = useMatches({ limit, page });
+  const { matches, count, loading, error } = useMatches({ limit, page });
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const pageCount = Math.round(count / limit);
 

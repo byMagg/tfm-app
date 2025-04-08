@@ -11,20 +11,21 @@ export function usePlayers({
   const [players, setPlayers] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
-      const {
-        data: { data, total },
-      } = await actions.getPlayers({ limit, page: page + 1 });
+      const { data: { data = [], total = 0 } = {}, error } =
+        await actions.getPlayers({ limit, page: page + 1 });
 
       setPlayers(data);
+      setError(error?.message);
       setCount(total);
       setLoading(false);
     };
     fetch();
   }, [page]);
 
-  return { players, count, loading };
+  return { players, count, loading, error };
 }

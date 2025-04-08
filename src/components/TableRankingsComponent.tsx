@@ -4,6 +4,8 @@ import type { Ranking } from "@/types";
 import { parseDateString } from "@/utils";
 import type { ColumnDef } from "@tanstack/react-table";
 import { navigate } from "astro:transitions/client";
+import { useEffect } from "react";
+import { toast } from "sonner";
 import { DataTable } from "./DataTable";
 import { Button } from "./ui/button";
 
@@ -59,7 +61,16 @@ const columns: ColumnDef<Ranking>[] = [
 export default function TableRankingsComponent() {
   const { limit, onPaginationChange, page, pagination } = usePagination();
 
-  const { rankings, count, loading } = useRankings({ limit, page: page + 1 });
+  const { rankings, count, loading, error } = useRankings({
+    limit,
+    page: page + 1,
+  });
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const pageCount = Math.round(count / limit);
 

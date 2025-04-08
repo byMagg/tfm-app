@@ -4,18 +4,12 @@ import { toast } from "sonner";
 import type { z } from "zod";
 import { ComboboxForm, type ComboboxItem, FormSchema } from "./ui/select-form";
 
-export default function AddPlayersForm({
-  leagueId,
-}: {
-  leagueId: string | undefined;
-}) {
+export default function AddPlayersForm({ leagueId }: { leagueId: string }) {
   const [players, setPlayers] = useState<ComboboxItem[]>([]);
 
   useEffect(() => {
     const fetchPlayers = async () => {
-      const {
-        data: { data },
-      } = await actions.getUsers();
+      const { data: { data = [] } = {} } = await actions.getUsers();
 
       const players = data.map((player: any) => ({
         label: player.name,
@@ -28,20 +22,20 @@ export default function AddPlayersForm({
     fetchPlayers();
   }, []);
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function handleSubmit(data: z.infer<typeof FormSchema>) {
     try {
       if (!leagueId) return;
 
-      const response = await actions.addPlayersToLeague({
+      await actions.addPlayersToLeague({
         leagueId,
         playerIds: data.items,
       });
-      toast.success(`Item selected: ${data.items}`);
 
-      console.log(response);
+      window.location.href = `/leagues/${leagueId}`;
     } catch (error) {
-      console.error(error);
+      console.error("Error adding players to league:", error);
+      toast.error("Error adding players to league.");
     }
   }
-  return <ComboboxForm items={players} onSubmit={onSubmit} />;
+  return <ComboboxForm items={players} onSubmit={handleSubmit} />;
 }
