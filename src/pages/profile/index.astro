@@ -11,8 +11,8 @@ import Layout from '@/layouts/Layout.astro'
     alt="Profile Picture"
     transition:name="profile-img"
   />
-  <section class="w-full flex justify-center my-3">
+  <section class="w-full flex flex-col items-center justify-center my-3">
     <LoginFormContainer client:load />
+    <ProfileMatches client:load />
   </section>
-  <ProfileMatches client:load />
 </Layout>
