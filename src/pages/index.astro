@@ -1,10 +1,9 @@
 ---
-import { Button } from '@/components/ui/button'
+import { HeroScroll } from '@/components/HeroScroll'
+import { TracingBeamDemo } from '@/components/TracingBeam'
 import { Highlight } from '@/components/ui/hero-highlight'
 import { motion } from 'framer-motion'
 import Layout from '../layouts/Layout.astro'
-import { HeroScroll } from '@/components/HeroScroll'
-import { TracingBeamDemo } from '@/components/TracingBeam'
 ---
 
 <Layout title="Welcome to Astro.">
@@ -36,21 +35,6 @@ import { TracingBeamDemo } from '@/components/TracingBeam'
     <section>
       <HeroScroll client:visible />
       <TracingBeamDemo client:visible />
-      <Button client:visible id="button">CLICK</Button>
     </section>
   </main>
 </Layout>
-
-<script>
-  import { toast } from 'sonner'
-
-  const button = document.getElementById('button')
-
-  if (!button) {
-    throw new Error('Button not found')
-  }
-
-  button.addEventListener('click', () => {
-    toast('Hello from Astro!')
-  })
-</script>
