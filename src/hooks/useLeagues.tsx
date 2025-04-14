@@ -1,4 +1,4 @@
-import { leagueAdded } from "@/stores/session";
+import { leagueAdded } from "@/stores/leagueAdded";
 import { useStore } from "@nanostores/react";
 import { actions } from "astro:actions";
 import { useEffect, useState } from "react";
