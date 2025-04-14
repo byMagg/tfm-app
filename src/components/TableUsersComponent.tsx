@@ -19,6 +19,13 @@ async function handleDelete({
     leagueId,
     playerId: [id],
   });
+
+  if (error) {
+    toast.error("No se pudo eliminar el jugador");
+    return;
+  }
+
+  window.location.href = `/leagues/${leagueId}`;
 }
 
 export default function TableUsersComponent({
