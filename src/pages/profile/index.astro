@@ -1,17 +1,7 @@
 ---
 import { LoginFormContainer } from '@/components/LoginFormContainer'
-import { SignoutButton } from '@/components/SignoutButton'
+import { ProfileMatches } from '@/components/ProfileMatches'
 import Layout from '@/layouts/Layout.astro'
-import type { League, LeagueMatch } from '@/types'
-import { actions } from 'astro:actions'
-
-let showLogin = true
-
-const { data, error } = await Astro.callAction(actions.checkPlayerInLeague, {})
-
-if (data) showLogin = false
-
-const leagues: League[] = data?.data.leagues
 ---
 
 <Layout title="Login">
@@ -22,41 +12,7 @@ const leagues: League[] = data?.data.leagues
     transition:name="profile-img"
   />
   <section class="w-full flex justify-center my-3">
-    {
-      showLogin ? (
-        <LoginFormContainer client:load />
-      ) : (
-        <SignoutButton client:load />
-      )
-    }
+    <LoginFormContainer client:load />
   </section>
-  {
-    leagues &&
-      leagues.map((league: League) => (
-        <section class="w-full flex flex-col justify-center items-center my-3">
-          <p class="text-center font-bold text-2xl">{league.name}</p>
-
-          <article class="w-full flex flex-col justify-center items-center my-3">
-            <h2 class="text-center  text-xl">Partidos esta jornada</h2>
-            <ul>
-              {league.matches?.map((match: LeagueMatch) => (
-                <li class="my-2 bg-white p-2 rounded text-black text-center font-semibold">
-                  <a
-                    href={`/league-matches/${match._id}`}
-                    style={{
-                      viewTransitionName: `match-${match._id}`,
-                    }}
-                  >
-                    {match.player1.name}
-                    vs
-                    {match.player2.name}
-                  </a>
-                  <span>{match.score}</span>
-                </li>
-              ))}
-            </ul>
-          </article>
-        </section>
-      ))
-  }
+  <ProfileMatches client:load />
 </Layout>

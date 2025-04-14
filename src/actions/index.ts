@@ -1,24 +1,21 @@
 import { auth } from "@/lib/firebase/server";
+import type { League } from "@/types";
 import { fetchAPI } from "@/utils";
 import type { AstroCookies } from "astro";
 import { ActionError, defineAction } from "astro:actions";
 import { z } from "astro:schema";
 
-const withSession = <T extends z.ZodTypeAny>(
-  handler: (session: string, input: z.infer<T>) => Promise<any>,
-) => {
-  return async (input: z.infer<T>, { cookies }: { cookies: AstroCookies }) => {
-    const sessionCookie = cookies.get("__session")?.value;
+const checkSession = ({ cookies }: { cookies: AstroCookies }) => {
+  const sessionCookie = cookies.get("__session")?.value;
 
-    if (!sessionCookie) {
-      throw new ActionError({
-        code: "UNAUTHORIZED",
-        message: "Usuario no autorizado",
-      });
-    }
+  if (!sessionCookie) {
+    throw new ActionError({
+      code: "UNAUTHORIZED",
+      message: "Usuario no autorizado",
+    });
+  }
 
-    return handler(sessionCookie, input);
-  };
+  return sessionCookie;
 };
 
 export const server = {
@@ -27,137 +24,140 @@ export const server = {
     input: z.object({
       leagueId: z.string(),
     }),
-    handler: withSession(async (session, { leagueId }) => {
+    handler: async ({ leagueId }, { cookies }) => {
+      const session = checkSession({ cookies });
       return await fetchAPI({
         endpoint: `/leagues/${leagueId}/start`,
         method: "POST",
         token: session,
       });
-    }),
+    },
   }),
   getLeagues: defineAction({
     input: z.object({
       limit: z.number().optional(),
       page: z.number().optional(),
     }),
-    handler: withSession(async (session, { limit, page }) => {
+    handler: async ({ limit, page }, { cookies }) => {
+      const session = checkSession({ cookies });
       return await fetchAPI({
         endpoint: "/leagues",
         limit,
         page,
         token: session,
       });
-    }),
+    },
   }),
   getLeague: defineAction({
     input: z.object({
       leagueId: z.string(),
     }),
-    handler: withSession(async (session, { leagueId }) => {
+    handler: async ({ leagueId }, { cookies }) => {
+      const session = checkSession({ cookies });
       return await fetchAPI({
         endpoint: `/leagues/${leagueId}`,
         token: session,
       });
-    }),
+    },
   }),
   createLeague: defineAction({
     input: z.object({
       name: z.string(),
     }),
-    handler: withSession(async (session, { name }) => {
+    handler: async ({ name }, { cookies }) => {
+      const session = checkSession({ cookies });
       return await fetchAPI({
         endpoint: "/leagues",
         method: "POST",
-        body: {
-          name,
-        },
+        body: { name },
         token: session,
       });
-    }),
+    },
   }),
   addPlayersToLeague: defineAction({
     input: z.object({
       leagueId: z.string(),
       playerIds: z.array(z.string()),
     }),
-    handler: withSession(async (session, { leagueId, playerIds }) => {
+    handler: async ({ leagueId, playerIds }, { cookies }) => {
+      const session = checkSession({ cookies });
       return await fetchAPI({
         endpoint: `/leagues/${leagueId}/players`,
         method: "POST",
-        body: {
-          playerIds,
-        },
+        body: { playerIds },
         token: session,
       });
-    }),
+    },
   }),
   removePlayersFromLeague: defineAction({
     input: z.object({
       leagueId: z.string(),
       playerId: z.array(z.string()),
     }),
-    handler: withSession(async (session, { leagueId, playerId }) => {
+    handler: async ({ leagueId, playerId }, { cookies }) => {
+      const session = checkSession({ cookies });
       return await fetchAPI({
         endpoint: `/leagues/${leagueId}/players`,
         method: "DELETE",
-        body: {
-          playerIds: playerId,
-        },
+        body: { playerIds: playerId },
         token: session,
       });
-    }),
+    },
   }),
   getUsers: defineAction({
-    handler: withSession(async (session) => {
+    handler: async (_, { cookies }) => {
+      const session = checkSession({ cookies });
       return await fetchAPI({ endpoint: "/users", token: session });
-    }),
+    },
   }),
   getUsersByIds: defineAction({
     input: z.object({ ids: z.array(z.string()) }),
-    handler: withSession(async (session, { ids }) => {
+    handler: async ({ ids }, { cookies }) => {
+      const session = checkSession({ cookies });
       return await fetchAPI({
         endpoint: "/users/get-by-ids",
         method: "POST",
-        body: {
-          ids,
-        },
+        body: { ids },
         token: session,
       });
-    }),
+    },
   }),
   checkPlayerInLeague: defineAction({
-    handler: withSession(async (session) => {
+    handler: async (_, { cookies }): Promise<League[]> => {
+      const session = checkSession({ cookies });
       const decodedCookie = await auth.verifySessionCookie(session);
 
-      if (!decodedCookie) return;
+      if (!decodedCookie) return [];
 
-      return await fetchAPI({
+      const { data } = await fetchAPI({
         endpoint: `/leagues/players/${decodedCookie.uid}`,
         token: session,
       });
-    }),
+
+      return data;
+    },
   }),
   getLeagueMatchById: defineAction({
     input: z.object({ id: z.string() }),
-    handler: withSession(async (session, { id }) => {
+    handler: async ({ id }, { cookies }) => {
+      const session = checkSession({ cookies });
       return await fetchAPI({
         endpoint: `/league-matches/${id}`,
         token: session,
       });
-    }),
+    },
   }),
   setMatchDate: defineAction({
     input: z.object({ matchId: z.string(), date: z.string() }),
-    handler: withSession(async (session, { matchId, date }) => {
+    handler: async ({ matchId, date }, { cookies }) => {
+      const session = checkSession({ cookies });
       return await fetchAPI({
         endpoint: `/league-matches/${matchId}/date`,
         method: "POST",
-        body: {
-          date,
-        },
+        body: { date },
         token: session,
       });
-    }),
+    },
   }),
   setMatchScore: defineAction({
     input: z.object({
@@ -165,64 +165,66 @@ export const server = {
       score: z.string(),
       winner: z.string(),
     }),
-    handler: withSession(async (session, { matchId, score, winner }) => {
+    handler: async ({ matchId, score, winner }, { cookies }) => {
+      const session = checkSession({ cookies });
       return await fetchAPI({
         endpoint: `/league-matches/${matchId}/score`,
         method: "POST",
-        body: {
-          score,
-          winner,
-        },
+        body: { score, winner },
         token: session,
       });
-    }),
+    },
   }),
   getPlayers: defineAction({
     input: z.object({
       limit: z.number().optional(),
       page: z.number().optional(),
     }),
-    handler: withSession(async (session, { limit, page }) => {
+    handler: async ({ limit, page }, { cookies }) => {
+      const session = checkSession({ cookies });
       return await fetchAPI({
         endpoint: "/players",
         limit,
         page,
         token: session,
       });
-    }),
+    },
   }),
   getMatches: defineAction({
     input: z.object({
       limit: z.number().optional(),
       page: z.number().optional(),
     }),
-    handler: withSession(async (session, { limit, page }) => {
+    handler: async ({ limit, page }, { cookies }) => {
+      const session = checkSession({ cookies });
       return await fetchAPI({
         endpoint: "/matches",
         limit,
         page,
         token: session,
       });
-    }),
+    },
   }),
   getMatch: defineAction({
     input: z.object({ id: z.string() }),
-    handler: withSession(async (session, { id }) => {
+    handler: async ({ id }, { cookies }) => {
+      const session = checkSession({ cookies });
       return await fetchAPI({ endpoint: `/matches/${id}`, token: session });
-    }),
+    },
   }),
   getRankings: defineAction({
     input: z.object({
       limit: z.number().optional(),
       page: z.number().optional(),
     }),
-    handler: withSession(async (session, { limit, page }) => {
+    handler: async ({ limit, page }, { cookies }) => {
+      const session = checkSession({ cookies });
       return await fetchAPI({
         endpoint: "/rankings",
         limit,
         page,
         token: session,
       });
-    }),
+    },
   }),
 };

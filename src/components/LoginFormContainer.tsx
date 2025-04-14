@@ -1,8 +1,10 @@
+import { useSession } from "@/hooks/useSession";
 import { app } from "@/lib/firebase/client";
 import { cn } from "@/lib/utils";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import { SignoutButton } from "./SignoutButton";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
@@ -10,7 +12,13 @@ const auth = getAuth(app);
 auth.setPersistence;
 
 export function LoginFormContainer() {
-  const [showRegister, setShowRegister] = React.useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+
+  const { isLoggedIn } = useSession();
+
+  if (isLoggedIn) {
+    return <SignoutButton />;
+  }
 
   return (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">

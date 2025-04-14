@@ -1,9 +1,7 @@
 export function SignoutButton() {
   async function signout() {
     const res = await fetch("/api/auth/signout");
-    if (!res.ok) {
-      console.log(await res.text());
-    }
+
     if (res.redirected) {
       window.location.assign(res.url);
     }
