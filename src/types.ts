@@ -1,3 +1,5 @@
+import type { JwtPayload } from "jwt-decode";
+
 export interface Match {
   _id: string;
   tourney_name: string;
@@ -331,6 +333,6 @@ export interface ChatMessage {
   createdAt?: string;
 }
 
-export interface JwtPayload {
-  id: string;
+export interface IJwtPayload extends JwtPayload {
+  user_id: string;
 }

@@ -1,75 +1,16 @@
 ---
-import { CalendarForm } from '@/components/CalendarForm'
-import { Chat } from '@/components/Chat'
-import { Score } from '@/components/Score'
+import { MatchContainer } from '@/components/Match'
 import Layout from '@/layouts/Layout.astro'
-import type { User } from '@/types'
-import { actions } from 'astro:actions'
 
 const { id } = Astro.params
 
 if (!id) return
-
-const { data, error } = await Astro.callAction(actions.getLeagueMatchById, {
-  id,
-})
-
-const match = data?.data
-const player1: User = match?.player1
-const player2: User = match?.player2
-
-const to = match?.player1._id === id ? match?.player2 : match?.player1
-const from = match?.player1._id === id ? match?.player1 : match?.player2
 ---
 
 <Layout>
   <div>
     <div class="container mx-auto flex">
-      <div class="w-1/2">
-        <div
-          class="my-2 w-fit bg-white px-4 py-2 rounded text-black text-center font-semibold text-2xl"
-          transition:name={`match-${id}`}
-        >
-          {player1 && player1?.name} vs {player2 && player2?.name}
-        </div>
-
-        {
-          match && !match.winner && (
-            <div>
-              <p>Aún no se ha disputado el partido</p>
-              <Score match={match} client:load />
-            </div>
-          )
-        }
-        {
-          match && match.winner && (
-            <>
-              <p>
-                El ganador es{' '}
-                {match.winner === match.player1._id
-                  ? player1?.name
-                  : player2?.name}
-              </p>
-              <span>{match.score}</span>
-            </>
-          )
-        }
-        <div class="my-5">
-          {
-            match && (
-              <CalendarForm
-                matchId={match._id}
-                maxDate={new Date(match.round.endDate)}
-                client:load
-              />
-            )
-          }
-        </div>
-      </div>
-
-      <div class="w-1/2">
-        {from && to && <Chat from={from} to={to} client:load />}
-      </div>
+      <MatchContainer client:load id={id} />
     </div>
   </div>
 </Layout>
