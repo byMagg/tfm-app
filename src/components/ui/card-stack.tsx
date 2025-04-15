@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-type Card = {
+export type Card = {
   id: number;
   name: string;
   designation: string;
@@ -20,6 +20,10 @@ export const CardStack = ({
   const CARD_OFFSET = offset || 10;
   const SCALE_FACTOR = scaleFactor || 0.06;
   const [cards, setCards] = useState<Card[]>(items);
+
+  useEffect(() => {
+    setCards(items);
+  }, [items]);
 
   const flipUp = () => {
     setCards((prevCards: Card[]) => {

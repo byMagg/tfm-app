@@ -1,5 +1,5 @@
 import { auth } from "@/lib/firebase/server";
-import type { League, LeagueMatch } from "@/types";
+import type { League, LeagueMatch, Round } from "@/types";
 import { fetchAPI } from "@/utils";
 import type { AstroCookies } from "astro";
 import { ActionError, defineAction } from "astro:actions";
@@ -144,6 +144,19 @@ export const server = {
 
       const { data } = await fetchAPI({
         endpoint: `/league-matches/${id}`,
+        token: session,
+      });
+
+      return data;
+    },
+  }),
+  getRound: defineAction({
+    input: z.object({ leagueId: z.string() }),
+    handler: async ({ leagueId }, { cookies }): Promise<Round> => {
+      const session = checkSession({ cookies });
+
+      const { data } = await fetchAPI({
+        endpoint: `/leagues/${leagueId}/rounds`,
         token: session,
       });
 

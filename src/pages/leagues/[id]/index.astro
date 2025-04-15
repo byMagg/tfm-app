@@ -45,7 +45,7 @@ const league: League = data?.data
       <div>
         <h3>Players</h3>
 
-        <PlayersStack client:visible playerIds={league?.players || []} />
+        <PlayersStack client:visible leagueId={league._id} />
       </div>
     )
   }

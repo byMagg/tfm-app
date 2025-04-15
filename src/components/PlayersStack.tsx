@@ -1,111 +1,79 @@
-import { usePlayersFromLeague } from "@/hooks/usePlayersFromLeague";
+import { useRound } from "@/hooks/useRound";
 import { useEffect, useState } from "react";
-import { CardStack } from "./ui/card-stack";
+import { CardStack, type Card } from "./ui/card-stack";
+import { Spinner } from "./ui/spinner";
+export const PlayersStack = ({ leagueId }: { leagueId: string }) => {
+  const { round, loading, error } = useRound({ leagueId });
 
-const CARDS = [
-  {
-    id: 0,
-    name: "Grupo 1",
-    designation: "Senior Software Engineer",
-    content: (
-      <ul>
-        <li className="flex justify-between">
-          <div>
-            <strong>1</strong>
-            <span>Pepe</span>
-          </div>
-          <span>5</span>
-        </li>
-        <li className="flex justify-between">
-          <div>
-            <strong>2</strong>
-            <span>Santi</span>
-          </div>
-          <span>3</span>
-        </li>
-        <li className="flex justify-between">
-          <div>
-            <strong>3</strong>
-            <span>Diego</span>
-          </div>
-          <span>1</span>
-        </li>
-      </ul>
-    ),
-  },
-  {
-    id: 1,
-    name: "Grupo 2",
-    designation: "Senior Software Engineer",
-    content: (
-      <ul>
-        <li className="flex justify-between">
-          <div>
-            <strong>1</strong>
-            <span>Pepe</span>
-          </div>
-          <span>5</span>
-        </li>
-        <li className="flex justify-between">
-          <div>
-            <strong>2</strong>
-            <span>Santi</span>
-          </div>
-          <span>3</span>
-        </li>
-        <li className="flex justify-between">
-          <div>
-            <strong>3</strong>
-            <span>Diego</span>
-          </div>
-          <span>1</span>
-        </li>
-      </ul>
-    ),
-  },
-
-  {
-    id: 2,
-    name: "Grupo 3",
-    designation: "Senior Software Engineer",
-    content: (
-      <ul>
-        <li className="flex justify-between">
-          <div>
-            <strong>1</strong>
-            <span>Pepe</span>
-          </div>
-          <span>5</span>
-        </li>
-        <li className="flex justify-between">
-          <div>
-            <strong>2</strong>
-            <span>Santi</span>
-          </div>
-          <span>3</span>
-        </li>
-        <li className="flex justify-between">
-          <div>
-            <strong>3</strong>
-            <span>Diego</span>
-          </div>
-          <span>1</span>
-        </li>
-      </ul>
-    ),
-  },
-];
-export const PlayersStack = ({ playerIds }: { playerIds: string[] }) => {
-  const { players, count, loading, error } = usePlayersFromLeague({
-    playerIds,
-  });
-
-  const [cards, setCards] = useState([]);
+  const [cards, setCards] = useState<Card[]>([]);
 
   useEffect(() => {
-    if (players) {
-    }
-  }, [players]);
+    if (round) {
+      const tempCards = [
+        {
+          id: 0,
+          name: "Grupo 1",
+          designation: "Senior Software Engineer",
+          content: (
+            <ul>
+              {Object.entries(round.standings).map(([playerId, score]) => (
+                <li key={playerId} className="flex justify-between">
+                  <div>
+                    <strong>1</strong>
+                    <span>{playerId}</span>
+                  </div>
+                  <span>{score}</span>
+                </li>
+              ))}
+            </ul>
+          ),
+        },
+        {
+          id: 1,
+          name: "Grupo 2",
+          designation: "Senior Software Engineer",
+          content: (
+            <ul>
+              {Object.entries(round.standings).map(([playerId, score]) => (
+                <li key={playerId} className="flex justify-between">
+                  <div>
+                    <strong>1</strong>
+                    <span>{playerId}</span>
+                  </div>
+                  <span>{score}</span>
+                </li>
+              ))}
+            </ul>
+          ),
+        },
+        {
+          id: 2,
+          name: "Grupo 3",
+          designation: "Senior Software Engineer",
+          content: (
+            <ul>
+              {Object.entries(round.standings).map(([playerId, score]) => (
+                <li key={playerId} className="flex justify-between">
+                  <div>
+                    <strong>1</strong>
+                    <span>{playerId}</span>
+                  </div>
+                  <span>{score}</span>
+                </li>
+              ))}
+            </ul>
+          ),
+        },
+      ];
 
-  return <CardStack items={CARDS} />;
+      setCards(tempCards);
+    }
+  }, [round]);
+
+  return (
+    <div className="w-full justify-center items-center flex min-h-48">
+      {loading && <Spinner size="lg" className="bg-black dark:bg-white" />}
+      {cards.length > 0 && <CardStack items={cards} />}
+    </div>
+  );
 };

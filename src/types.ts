@@ -91,6 +91,7 @@ export interface Round {
   startDate: string;
   endDate: string;
   league_id: string;
+  standings: { [playerId: string]: number };
 }
 
 export enum Country {
