@@ -14,7 +14,9 @@ export const ProfileMatches = () => {
             key={league._id}
             className="w-full flex flex-col justify-center items-center my-3"
           >
-            <p className="text-center font-bold text-2xl">{league.name}</p>
+            <a href={`/leagues/${league._id}`} className="w-full">
+              <p className="text-center font-bold text-2xl">{league.name}</p>
+            </a>
 
             <article className="w-full flex flex-col justify-center items-center my-3">
               <h2 className="text-center  text-xl">Partidos esta jornada</h2>
