@@ -64,7 +64,6 @@ export const MatchContainer = ({ id }: { id: string }) => {
     <>
       <div className="w-1/2">
         <Match match={match} />
-        <Score match={match} />
       </div>
       <div className="w-1/2">
         <Chat from={from} to={to} />
