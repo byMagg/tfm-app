@@ -9,6 +9,8 @@ export const PlayersStack = ({ leagueId }: { leagueId: string }) => {
 
   useEffect(() => {
     if (round) {
+      console.log(round);
+
       const tempCards = [
         {
           id: 0,

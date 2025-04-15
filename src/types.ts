@@ -91,10 +91,13 @@ export interface Round {
   startDate: string;
   endDate: string;
   league_id: string;
-  standings: Array<{
-    player: User;
-    points: number;
-  }>;
+  standings: Standing[];
+}
+
+export interface Standing {
+  player: User;
+  round: Round;
+  points: number;
 }
 
 export enum Country {
