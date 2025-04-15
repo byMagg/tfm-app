@@ -16,17 +16,15 @@ export const PlayersStack = ({ leagueId }: { leagueId: string }) => {
           designation: "Senior Software Engineer",
           content: (
             <ul>
-              {Object.entries(round.standings).map(
-                ([playerId, score], index) => (
-                  <li key={playerId} className="flex justify-between">
-                    <div>
-                      <strong>{index + 1}</strong>
-                      <span>{playerId}</span>
-                    </div>
-                    <span>{score}</span>
-                  </li>
-                ),
-              )}
+              {round.standings.map(({ player, points }, index) => (
+                <li key={player._id} className="flex justify-between">
+                  <div>
+                    <strong>{index + 1}</strong>
+                    <span>{player.name}</span>
+                  </div>
+                  <span>{points}</span>
+                </li>
+              ))}
             </ul>
           ),
         },
@@ -36,17 +34,15 @@ export const PlayersStack = ({ leagueId }: { leagueId: string }) => {
           designation: "Senior Software Engineer",
           content: (
             <ul>
-              {Object.entries(round.standings).map(
-                ([playerId, score], index) => (
-                  <li key={playerId} className="flex justify-between">
-                    <div>
-                      <strong>{index + 1}</strong>
-                      <span>{playerId}</span>
-                    </div>
-                    <span>{score}</span>
-                  </li>
-                ),
-              )}
+              {round.standings.map(({ player, points }, index) => (
+                <li key={player._id} className="flex justify-between">
+                  <div>
+                    <strong>{index + 1}</strong>
+                    <span>{player.name}</span>
+                  </div>
+                  <span>{points}</span>
+                </li>
+              ))}
             </ul>
           ),
         },
@@ -56,17 +52,15 @@ export const PlayersStack = ({ leagueId }: { leagueId: string }) => {
           designation: "Senior Software Engineer",
           content: (
             <ul>
-              {Object.entries(round.standings).map(
-                ([playerId, score], index) => (
-                  <li key={playerId} className="flex justify-between">
-                    <div>
-                      <strong>{index + 1}</strong>
-                      <span>{playerId}</span>
-                    </div>
-                    <span>{score}</span>
-                  </li>
-                ),
-              )}
+              {round.standings.map(({ player, points }, index) => (
+                <li key={player._id} className="flex justify-between">
+                  <div>
+                    <strong>{index + 1}</strong>
+                    <span>{player.name}</span>
+                  </div>
+                  <span>{points}</span>
+                </li>
+              ))}
             </ul>
           ),
         },
