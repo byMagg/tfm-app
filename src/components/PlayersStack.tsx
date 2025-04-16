@@ -20,20 +20,21 @@ export const PlayersStack = ({
         name: `Grupo ${index + 1}`,
         content: (
           <ul key={index}>
-            {group.players.map((player, index) => (
-              <li key={player._id} className="flex justify-between">
-                <div className="flex gap-1">
-                  <strong>{index + 1}</strong>
-                  <span>{player.name}</span>
-                </div>
-                <span>
-                  {
-                    round.standings.find((s) => s.player._id === player._id)
-                      ?.points
-                  }
-                </span>
-              </li>
-            ))}
+            {group.players.map((player, index) => {
+              const points = round.standings.find(
+                (s) => s.player._id === player._id,
+              )?.points;
+
+              return (
+                <li key={player._id} className="flex justify-between">
+                  <div className="flex gap-1">
+                    <strong>{index + 1}</strong>
+                    <span>{player.name}</span>
+                  </div>
+                  <span>{points || 0}</span>
+                </li>
+              );
+            })}
           </ul>
         ),
       }));
