@@ -15,59 +15,28 @@ export const PlayersStack = ({
 
   useEffect(() => {
     if (round) {
-      const tempCards = [
-        {
-          id: 0,
-          name: "Grupo 1",
-          content: (
-            <ul>
-              {round.standings.map(({ player, points }, index) => (
-                <li key={player._id} className="flex justify-between">
-                  <div className="flex gap-1">
-                    <strong>{index + 1}</strong>
-                    <span>{player.name}</span>
-                  </div>
-                  <span>{points}</span>
-                </li>
-              ))}
-            </ul>
-          ),
-        },
-        {
-          id: 1,
-          name: "Grupo 2",
-          content: (
-            <ul>
-              {round.standings.map(({ player, points }, index) => (
-                <li key={player._id} className="flex justify-between">
-                  <div className="flex gap-1">
-                    <strong>{index + 1}</strong>
-                    <span>{player.name}</span>
-                  </div>
-                  <span>{points}</span>
-                </li>
-              ))}
-            </ul>
-          ),
-        },
-        {
-          id: 2,
-          name: "Grupo 3",
-          content: (
-            <ul>
-              {round.standings.map(({ player, points }, index) => (
-                <li key={player._id} className="flex justify-between">
-                  <div className="flex gap-1">
-                    <strong>{index + 1}</strong>
-                    <span>{player.name}</span>
-                  </div>
-                  <span>{points}</span>
-                </li>
-              ))}
-            </ul>
-          ),
-        },
-      ];
+      const tempCards = round.groups.map((group, index) => ({
+        id: index,
+        name: `Grupo ${index + 1}`,
+        content: (
+          <ul key={index}>
+            {group.players.map((player, index) => (
+              <li key={player._id} className="flex justify-between">
+                <div className="flex gap-1">
+                  <strong>{index + 1}</strong>
+                  <span>{player.name}</span>
+                </div>
+                <span>
+                  {
+                    round.standings.find((s) => s.player._id === player._id)
+                      ?.points
+                  }
+                </span>
+              </li>
+            ))}
+          </ul>
+        ),
+      }));
 
       setCards(tempCards);
     }
