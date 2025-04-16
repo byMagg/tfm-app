@@ -7,8 +7,12 @@ export const ProfileMatches = () => {
 
   return (
     <section className="w-full flex items-center justify-center min-h-48 my-3">
-      {loading && <Spinner size="lg" className="bg-black dark:bg-white" />}
+      {leagues.length === 0 && loading && (
+        <Spinner size="lg" className="bg-black dark:bg-white" />
+      )}
+
       {leagues &&
+        leagues.length > 0 &&
         leagues.map((league: League) => (
           <section
             key={league._id}
@@ -24,7 +28,7 @@ export const ProfileMatches = () => {
                 {league.matches?.map((match: LeagueMatch) => (
                   <li
                     key={match._id}
-                    className="my-2 bg-white p-2 rounded text-black text-center font-semibold"
+                    className="my-2 bg-white p-2 rounded text-black text-center font-semibold flex flex-col"
                   >
                     <a
                       href={`/league-matches/${match._id}`}
@@ -32,9 +36,7 @@ export const ProfileMatches = () => {
                         viewTransitionName: `match-${match._id}`,
                       }}
                     >
-                      {match.player1.name}
-                      vs
-                      {match.player2.name}
+                      {`${match.player1.name} vs ${match.player2.name}`}
                     </a>
                     <span>{match.score}</span>
                   </li>

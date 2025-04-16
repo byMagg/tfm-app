@@ -13,6 +13,6 @@ import Layout from '@/layouts/Layout.astro'
   />
   <section class="w-full flex flex-col items-center justify-center my-3">
     <LoginFormContainer client:load />
-    <ProfileMatches client:load />
+    <ProfileMatches client:only="react" />
   </section>
 </Layout>
