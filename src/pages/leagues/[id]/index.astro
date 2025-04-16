@@ -42,7 +42,7 @@ const league: League = data
   <div></div>
   {
     league && (
-      <PlayersStack client:visible className="my-12" leagueId={league._id} />
+      <PlayersStack client:idle className="my-12" leagueId={league._id} />
     )
   }
 </Layout>
