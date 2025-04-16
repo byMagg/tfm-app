@@ -57,10 +57,11 @@ export const CardStack = ({
                 zIndex: cards.length - index, //  decrease z-index for the cards that are behind
               }}
             >
-              <div>
+              <div className="flex justify-between">
                 <p className="text-neutral-500 font-medium dark:text-white">
                   {card.name}
                 </p>
+                <p className="text-neutral-500  dark:text-white">Puntos</p>
               </div>
               <div className="font-normal text-neutral-700 dark:text-neutral-200">
                 {card.content}

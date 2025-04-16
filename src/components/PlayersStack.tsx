@@ -23,7 +23,7 @@ export const PlayersStack = ({
             <ul>
               {round.standings.map(({ player, points }, index) => (
                 <li key={player._id} className="flex justify-between">
-                  <div>
+                  <div className="flex gap-1">
                     <strong>{index + 1}</strong>
                     <span>{player.name}</span>
                   </div>
@@ -40,7 +40,7 @@ export const PlayersStack = ({
             <ul>
               {round.standings.map(({ player, points }, index) => (
                 <li key={player._id} className="flex justify-between">
-                  <div>
+                  <div className="flex gap-1">
                     <strong>{index + 1}</strong>
                     <span>{player.name}</span>
                   </div>
@@ -57,7 +57,7 @@ export const PlayersStack = ({
             <ul>
               {round.standings.map(({ player, points }, index) => (
                 <li key={player._id} className="flex justify-between">
-                  <div>
+                  <div className="flex gap-1">
                     <strong>{index + 1}</strong>
                     <span>{player.name}</span>
                   </div>
