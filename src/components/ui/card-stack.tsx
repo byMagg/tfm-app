@@ -73,13 +73,13 @@ export const CardStack = ({
       <div className="flex flex-col justify-center gap-2">
         <div
           onClick={flipUp}
-          className="h-8 w-8 rounded-full bg-[hsla(0,0%,100%,.1)] flex items-center justify-center -rotate-90 cursor-pointer hover:scale-125 transition-all duration-300 ease-in-out"
+          className="h-8 w-8 rounded-full bg-[hsla(0,0%,100%,.1)] flex items-center justify-center -rotate-90 cursor-pointer hover:scale-125 transition-all duration-300 ease-in-out active:-translate-y-2 active:duration-75"
         >
           <Icon />
         </div>
         <div
           onClick={flipDown}
-          className="h-8 w-8 rounded-full bg-[hsla(0,0%,100%,.1)] flex items-center justify-center rotate-90 cursor-pointer hover:scale-125 transition-all duration-300 ease-in-out"
+          className="h-8 w-8 rounded-full bg-[hsla(0,0%,100%,.1)] flex items-center justify-center rotate-90 cursor-pointer hover:scale-125 transition-all duration-300 ease-in-out active:translate-y-2 active:duration-75"
         >
           <Icon />
         </div>

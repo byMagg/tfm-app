@@ -54,10 +54,13 @@ export const server = {
     }),
     handler: async ({ leagueId }, { cookies }) => {
       const session = checkSession({ cookies });
-      return await fetchAPI({
+
+      const { data } = await fetchAPI({
         endpoint: `/leagues/${leagueId}`,
         token: session,
       });
+
+      return data;
     },
   }),
   createLeague: defineAction({

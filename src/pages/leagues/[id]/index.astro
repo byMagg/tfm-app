@@ -17,10 +17,10 @@ if (error) {
   console.error(error.message)
 }
 
-const league: League = data?.data
+const league: League = data
 ---
 
-<Layout>
+<Layout title={league?.name}>
   {
     league && (
       <div class="flex flex-col gap-4 items-center">
