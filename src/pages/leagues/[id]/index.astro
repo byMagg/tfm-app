@@ -1,5 +1,6 @@
 ---
 import { PlayersStack } from '@/components/PlayersStack'
+import { Button } from '@/components/ui/button'
 import Layout from '@/layouts/Layout.astro'
 import type { League } from '@/types'
 import { actions } from 'astro:actions'
@@ -22,31 +23,26 @@ const league: League = data?.data
 <Layout>
   {
     league && (
-      <div>
-        <h1>{league.name}</h1>
+      <div class="flex flex-col gap-4 items-center">
+        <h1 class="font-bold text-2xl ">{league.name}</h1>
         {league.startedAt ? (
-          <h3>EN JUEGO</h3>
+          <h3 class="font-semibold text-xl text-green-200 ">EN JUEGO</h3>
         ) : (
           <form method="POST" action={actions.startSeason}>
             <input type="hidden" name="leagueId" value={league._id} />
-            <button>Start season</button>
+            <Button>Start season</Button>
           </form>
         )}
+        <Button className="w-fit">
+          <a href={`/leagues/${id}/players`}>Añadir jugadores</a>
+        </Button>
       </div>
     )
   }
-  <div>
-    <button>
-      <a href={`/leagues/${id}/players`}>Add Player</a>
-    </button>
-  </div>
+  <div></div>
   {
     league && (
-      <div>
-        <h3>Players</h3>
-
-        <PlayersStack client:visible leagueId={league._id} />
-      </div>
+      <PlayersStack client:visible className="my-12" leagueId={league._id} />
     )
   }
 </Layout>
