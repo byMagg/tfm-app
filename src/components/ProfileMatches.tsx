@@ -28,7 +28,7 @@ export const ProfileMatches = () => {
                 {league.matches?.map((match: LeagueMatch) => (
                   <li
                     key={match._id}
-                    className="my-2 bg-white p-2 rounded text-black text-center font-semibold flex flex-col"
+                    className="my-2 bg-white py-2 px-3 rounded text-black text-center font-semibold flex flex-col"
                   >
                     <a
                       href={`/league-matches/${match._id}`}
@@ -38,7 +38,9 @@ export const ProfileMatches = () => {
                     >
                       {`${match.player1.name} vs ${match.player2.name}`}
                     </a>
-                    <span>{match.score}</span>
+                    <span className="font-normal">
+                      {match.score ? match.score : "Partido por jugar"}
+                    </span>
                   </li>
                 ))}
               </ul>
