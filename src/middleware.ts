@@ -14,8 +14,7 @@ export const onRequest: MiddlewareHandler = async (
   );
 
   const isInternalAstro =
-    originPathname.startsWith("/_actions") ||
-    originPathname.startsWith("/_api");
+    originPathname.startsWith("/_actions") || originPathname.startsWith("/api");
 
   if (!isPublic && !sessionCookie && !isInternalAstro) {
     return redirect("/profile");
