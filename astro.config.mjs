@@ -15,6 +15,6 @@ export default defineConfig({
   output: "server",
   adapter: vercel(),
   session: {
-    driver: "mongodb",
+    driver: "memory",
   },
 });

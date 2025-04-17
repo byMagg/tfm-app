@@ -1,9 +1,14 @@
 import { useCheckPlayerInLeague } from "@/hooks/useCheckPlayerInLeague";
+import { useSession } from "@/hooks/useSession";
 import type { League, LeagueMatch } from "@/types";
 import { Spinner } from "./ui/spinner";
 
 export const ProfileMatches = () => {
   const { leagues, loading, error } = useCheckPlayerInLeague();
+
+  const { isLoggedIn } = useSession();
+
+  if (!isLoggedIn) return null;
 
   return (
     <section className="w-full flex items-center justify-center min-h-48 my-3">
@@ -19,7 +24,12 @@ export const ProfileMatches = () => {
             className="w-full flex flex-col justify-center items-center my-3"
           >
             <a href={`/leagues/${league._id}`} className="w-full">
-              <p className="text-center font-bold text-2xl">{league.name}</p>
+              <p
+                className="text-center font-bold text-2xl"
+                style={{ viewTransitionName: `league-${league._id}` }}
+              >
+                {league.name}
+              </p>
             </a>
 
             <article className="w-full flex flex-col justify-center items-center my-3">
