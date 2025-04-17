@@ -1,9 +1,11 @@
+import { navigate } from "astro:transitions/client";
+
 export function SignoutButton() {
   async function signout() {
     const res = await fetch("/api/auth/signout");
 
     if (res.redirected) {
-      window.location.assign(res.url);
+      navigate(res.url);
     }
   }
 

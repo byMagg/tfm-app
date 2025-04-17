@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { navigate } from "astro:transitions/client";
 import React from "react";
 import { toast } from "sonner";
 import { Input } from "./ui/input";
@@ -24,8 +25,7 @@ export function RegisterForm() {
 
       toast.success("Account created successfully");
 
-      // Redirect to the home page
-      window.location.href = "/";
+      navigate("/");
     } catch (error: any) {
       toast.error(error.message);
     }

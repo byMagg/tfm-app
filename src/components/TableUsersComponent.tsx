@@ -3,6 +3,7 @@ import { usePlayersFromLeague } from "@/hooks/usePlayersFromLeague";
 import { type User } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 import { actions } from "astro:actions";
+import { navigate } from "astro:transitions/client";
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { DataTable } from "./DataTable";
@@ -25,7 +26,7 @@ async function handleDelete({
     return;
   }
 
-  window.location.href = `/leagues/${leagueId}`;
+  navigate(`/leagues/${leagueId}`);
 }
 
 export default function TableUsersComponent({

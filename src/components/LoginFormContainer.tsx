@@ -1,6 +1,7 @@
 import { useSession } from "@/hooks/useSession";
 import { app } from "@/lib/firebase/client";
 import { cn } from "@/lib/utils";
+import { navigate } from "astro:transitions/client";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { toast } from "sonner";
@@ -132,7 +133,7 @@ export function LoginForm() {
       }
 
       if (response.redirected) {
-        window.location.assign(response.url);
+        navigate(response.url);
       }
     } catch (error: any) {
       toast.dismiss();
@@ -237,7 +238,7 @@ export function RegisterForm() {
       }
 
       if (response.redirected) {
-        window.location.assign(response.url);
+        navigate(response.url);
       }
     } catch (error: any) {
       toast.dismiss();
