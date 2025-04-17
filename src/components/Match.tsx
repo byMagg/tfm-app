@@ -4,8 +4,9 @@ import type { IJwtPayload, LeagueMatch } from "@/types";
 import { useStore } from "@nanostores/react";
 import { jwtDecode } from "jwt-decode";
 import { CalendarForm } from "./CalendarForm";
-import { Chat } from "./Chat";
+import { Chat, ChatSkeleton } from "./Chat";
 import { Score } from "./Score";
+import { Skeleton } from "./ui/skeleton";
 
 export const Match = ({ match }: { match: LeagueMatch }) => {
   return (
@@ -49,11 +50,35 @@ export const Match = ({ match }: { match: LeagueMatch }) => {
   );
 };
 
+export const MatchSkeleton = () => {
+  return (
+    <div className="space-y-6">
+      <Skeleton className="h-10 w-60 rounded-md" />
+
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-40" />
+        <Skeleton className="h-24 w-72" />
+      </div>
+
+      <Skeleton className="h-4 w-32" />
+    </div>
+  );
+};
 export const MatchContainer = ({ id }: { id: string }) => {
   const { match, loading, error } = useLeagueMatch({ id });
   const session = useStore(sessionCookie);
 
-  if (!match || !session) return null;
+  if (!match || !session)
+    return (
+      <>
+        <div className="w-1/2">
+          <MatchSkeleton />
+        </div>
+        <div className="w-1/2">
+          <ChatSkeleton />;
+        </div>
+      </>
+    );
 
   const { user_id }: IJwtPayload = jwtDecode(session);
 

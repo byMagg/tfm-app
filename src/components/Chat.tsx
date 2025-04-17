@@ -8,6 +8,30 @@ import { ScrollArea } from "./ui/scroll-area";
 
 const socket = io(import.meta.env.PUBLIC_API_URL || "http://localhost:3000");
 
+import { Skeleton } from "@/components/ui/skeleton";
+
+export const ChatSkeleton = () => {
+  return (
+    <section className="flex flex-col gap-2 relative">
+      <Skeleton className="h-8 w-48" /> {/* Título */}
+      <div className="h-72 rounded-md border p-3 space-y-2 overflow-hidden">
+        {[...Array(4)].map((_, i) => (
+          <div
+            key={i}
+            className={`flex ${i % 2 === 0 ? "justify-end" : "justify-start"}`}
+          >
+            <Skeleton className="w-2/3 h-6 rounded-md" />
+          </div>
+        ))}
+      </div>
+      <div className="flex items-center gap-2">
+        <Skeleton className="h-10 w-full rounded-md" />
+        <Skeleton className="h-10 w-24 rounded-md" />
+      </div>
+    </section>
+  );
+};
+
 export const Chat = ({ from, to }: { from: User; to: User }) => {
   const [message, setMessage] = useState<ChatMessage>();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -28,7 +52,7 @@ export const Chat = ({ from, to }: { from: User; to: User }) => {
     return () => {
       socket.off("message");
     };
-  }, []);
+  }, [from, to]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({
