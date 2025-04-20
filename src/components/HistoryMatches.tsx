@@ -26,13 +26,13 @@ export const HistoryMatches = ({
 
   return (
     <section className="flex flex-col items-center">
-      {loading && <HistoricSketelton />}
+      {loading && <HistoricSkeleton />}
 
       {matches.length > 0 && (
         <div
           className={`flex flex-col items-center justify-center w-full ${className}`}
         >
-          <Carousel plugins={[plugin.current]}>
+          <Carousel plugins={[plugin.current]} className="w-full max-w-sm">
             <CarouselContent>
               {matches.map((match, index) => (
                 <CarouselItem key={index}>
@@ -73,7 +73,7 @@ export const HistoryMatches = ({
   );
 };
 
-const HistoricSketelton = () => {
+const HistoricSkeleton = () => {
   return (
     <div className="space-y-3">
       <Skeleton className="h-4 w-32" />

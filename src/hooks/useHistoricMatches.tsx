@@ -14,8 +14,9 @@ export function useHistoricMatches({ leagueId }: { leagueId: string }) {
       const { data, error } = await actions.getHistoricMatches({ leagueId });
 
       if (data) {
-        console.log(data);
-        setMatches([...data, ...data, ...data]);
+        // TODO: quitar el dummy
+        const dummyData = Array.from({ length: 10 }, (_, i) => data[0]);
+        setMatches(dummyData);
       }
 
       setError(error?.message);
