@@ -22,7 +22,7 @@ export const HistoryMatches = ({
     leagueId,
   });
 
-  const plugin = useRef(AutoScroll({ stopOnInteraction: false }));
+  const plugin = useRef(AutoScroll({ stopOnInteraction: false, speed: 0.5 }));
 
   return (
     <section className="flex flex-col items-center">
@@ -32,10 +32,10 @@ export const HistoryMatches = ({
         <div
           className={`flex flex-col items-center justify-center w-full ${className}`}
         >
-          <Carousel plugins={[plugin.current]} className="w-full max-w-sm">
+          <Carousel plugins={[plugin.current]} className="w-full max-w-lg">
             <CarouselContent>
               {matches.map((match, index) => (
-                <CarouselItem key={index}>
+                <CarouselItem key={index} className="w-full max-w-52">
                   <Card>
                     <CardContent className="select-none">
                       <CardHeader>

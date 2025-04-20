@@ -75,7 +75,7 @@ export const MatchContainer = ({ id }: { id: string }) => {
           <MatchSkeleton />
         </div>
         <div className="w-1/2">
-          <ChatSkeleton />;
+          <ChatSkeleton />
         </div>
       </>
     );
