@@ -15,7 +15,7 @@ export function SignoutButton() {
       type="button"
       onClick={signout}
     >
-      Sign out
+      Cerrar sesión
     </button>
   );
 }
