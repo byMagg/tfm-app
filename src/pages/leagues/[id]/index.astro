@@ -1,6 +1,7 @@
 ---
 import AddPlayersForm from '@/components/AddPlayersForm'
 import { GroupCards } from '@/components/GroupCards'
+import { HistoryMatches } from '@/components/HistoryMatches'
 import { Button } from '@/components/ui/button'
 import Layout from '@/layouts/Layout.astro'
 import type { League } from '@/types'
@@ -41,6 +42,10 @@ const league: League = data
       </div>
     )
   }
-  <div></div>
   {league && <GroupCards client:idle className="my-16" leagueId={league._id} />}
+  {
+    league && (
+      <HistoryMatches client:idle leagueId={league._id} className="my-16" />
+    )
+  }
 </Layout>

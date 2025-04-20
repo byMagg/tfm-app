@@ -153,6 +153,20 @@ export const server = {
       return data;
     },
   }),
+  getHistoricMatches: defineAction({
+    input: z.object({ leagueId: z.string() }),
+
+    handler: async ({ leagueId }, { cookies }) => {
+      const session = checkSession({ cookies });
+
+      const { data } = await fetchAPI({
+        endpoint: `/leagues/${leagueId}/matches`,
+        token: session,
+      });
+
+      return data;
+    },
+  }),
   getRound: defineAction({
     input: z.object({ leagueId: z.string() }),
     handler: async ({ leagueId }, { cookies }): Promise<Round> => {
