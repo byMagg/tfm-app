@@ -3,11 +3,8 @@ import { useRankings } from "@/hooks/useRankings";
 import type { Ranking } from "@/types";
 import { parseDateString } from "@/utils";
 import type { ColumnDef } from "@tanstack/react-table";
-import { navigate } from "astro:transitions/client";
-import { useEffect } from "react";
-import { toast } from "sonner";
+import { Link } from "react-router-dom";
 import { DataTable } from "./DataTable";
-import { Button } from "./ui/button";
 
 const columns: ColumnDef<Ranking>[] = [
   {
@@ -43,15 +40,7 @@ const columns: ColumnDef<Ranking>[] = [
       const { original } = row;
       return (
         <div className="flex items-center justify-center">
-          <Button
-            size="sm"
-            variant="link"
-            onClick={() => {
-              navigate(`/rankings/${original._id}`);
-            }}
-          >
-            Detail
-          </Button>
+          <Link to={`/rankings/${original._id}`}>Ver</Link>
         </div>
       );
     },
@@ -61,16 +50,10 @@ const columns: ColumnDef<Ranking>[] = [
 export default function TableRankingsComponent() {
   const { limit, onPaginationChange, page, pagination } = usePagination();
 
-  const { rankings, count, loading, error } = useRankings({
+  const { rankings, count, loading } = useRankings({
     limit,
     page: page + 1,
   });
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
-  }, [error]);
 
   const pageCount = Math.round(count / limit);
 

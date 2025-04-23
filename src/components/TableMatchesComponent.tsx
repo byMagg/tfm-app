@@ -3,11 +3,8 @@ import { usePagination } from "@/hooks/usePagination";
 import type { Match } from "@/types";
 import { parseDateString } from "@/utils";
 import type { ColumnDef } from "@tanstack/react-table";
-import { navigate } from "astro:transitions/client";
-import { useEffect } from "react";
-import { toast } from "sonner";
+import { Link } from "react-router-dom";
 import { DataTable } from "./DataTable";
-import { Button } from "./ui/button";
 
 const columns: ColumnDef<Match>[] = [
   {
@@ -69,16 +66,7 @@ const columns: ColumnDef<Match>[] = [
       const { original } = row;
       return (
         <div className="flex items-center justify-center">
-          <Button
-            size="sm"
-            variant="link"
-            onClick={() => {
-              console.log(original._id);
-              navigate(`/matches/${original._id}`);
-            }}
-          >
-            Detail
-          </Button>
+          <Link to={`/matches/${original._id}`}>Ver</Link>
         </div>
       );
     },
@@ -88,13 +76,7 @@ const columns: ColumnDef<Match>[] = [
 export default function TableMatchesComponent() {
   const { limit, onPaginationChange, page, pagination } = usePagination();
 
-  const { matches, count, loading, error } = useMatches({ limit, page });
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
-  }, [error]);
+  const { matches, count, loading } = useMatches({ limit, page });
 
   const pageCount = Math.round(count / limit);
 

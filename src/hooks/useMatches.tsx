@@ -1,4 +1,5 @@
-import { actions } from "astro:actions";
+import { useAuth } from "@/context/AuthContext";
+import { getMatches } from "@/controllers";
 import { useEffect, useState } from "react";
 
 export function useMatches({
@@ -11,21 +12,24 @@ export function useMatches({
   const [matches, setMatches] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>();
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetch = async () => {
+      if (!token) return;
       setLoading(true);
-      const { data: { data = [], total = 0 } = {}, error } =
-        await actions.getMatches({ limit, page: page + 1 });
+      const { data, total } = await getMatches({
+        limit,
+        page: page + 1,
+        token,
+      });
 
       setMatches(data);
-      setError(error?.message);
       setCount(total);
       setLoading(false);
     };
     fetch();
   }, [page]);
 
-  return { matches, count, loading, error };
+  return { matches, count, loading };
 }

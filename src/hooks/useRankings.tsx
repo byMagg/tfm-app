@@ -1,4 +1,5 @@
-import { actions } from "astro:actions";
+import { useAuth } from "@/context/AuthContext";
+import { getRankings } from "@/controllers";
 import { useEffect, useState } from "react";
 
 export function useRankings({
@@ -11,21 +12,22 @@ export function useRankings({
   const [rankings, setRankings] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>();
+
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetch = async () => {
+      if (!token) return;
       setLoading(true);
-      const { data: { data = [], total = 0 } = {}, error } =
-        await actions.getRankings({ limit, page });
+      const { data, total } = await getRankings({ limit, page, token });
 
       setRankings(data);
-      setError(error?.message);
+
       setCount(total);
       setLoading(false);
     };
     fetch();
   }, [page]);
 
-  return { rankings, count, loading, error };
+  return { rankings, count, loading };
 }

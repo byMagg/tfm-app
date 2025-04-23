@@ -1,23 +1,28 @@
 import { useAuth } from "@/context/AuthContext";
-import { getPlayer } from "@/controllers";
-import { Player } from "@/types";
+import { getRanking } from "@/controllers";
+import { Ranking } from "@/types";
 import { useEffect, useState } from "react";
 
-export function usePlayer({ id }: { id: string }) {
-  const [player, setPlayer] = useState<Player>();
+export function useRanking({ id }: { id: string }) {
+  const [ranking, setRanking] = useState<Ranking>();
   const [loading, setLoading] = useState(false);
+
   const { token } = useAuth();
 
   useEffect(() => {
     const fetch = async () => {
       if (!token) return;
       setLoading(true);
-      const { data } = await getPlayer({ id, token });
-      setPlayer(data);
+      const { data } = await getRanking({
+        id,
+        token,
+      });
+
+      setRanking(data);
       setLoading(false);
     };
     fetch();
   }, []);
 
-  return { player, loading };
+  return { ranking, loading };
 }
