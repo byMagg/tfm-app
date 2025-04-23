@@ -1,8 +1,5 @@
-import { useLeagueMatch } from "@/hooks/useLeagueMatch";
-import { sessionCookie } from "@/stores/session";
-import type { IJwtPayload, LeagueMatch } from "@/types";
-import { useStore } from "@nanostores/react";
-import { jwtDecode } from "jwt-decode";
+import { useAuth } from "@/context/AuthContext";
+import type { LeagueMatch } from "@/types";
 import { CalendarForm } from "./CalendarForm";
 import { Chat, ChatSkeleton } from "./Chat";
 import { Score } from "./Score";
@@ -64,35 +61,33 @@ export const MatchSkeleton = () => {
     </div>
   );
 };
-export const MatchContainer = ({ id }: { id: string }) => {
-  const { match, loading, error } = useLeagueMatch({ id });
-  const session = useStore(sessionCookie);
+export const MatchContainer = ({ match }: { match: LeagueMatch }) => {
+  const { user } = useAuth();
 
-  if (!match || !session)
+  if (!match) {
     return (
-      <>
+      <div className="flex">
         <div className="w-1/2">
           <MatchSkeleton />
         </div>
         <div className="w-1/2">
           <ChatSkeleton />
         </div>
-      </>
+      </div>
     );
+  }
 
-  const { user_id }: IJwtPayload = jwtDecode(session);
-
-  const to = match.player1._id === user_id ? match.player2 : match.player1;
-  const from = match.player1._id === user_id ? match.player1 : match.player2;
+  const to = match.player1._id === user?.uid ? match.player2 : match.player1;
+  const from = match.player1._id === user?.uid ? match.player1 : match.player2;
 
   return (
-    <>
+    <div className="flex">
       <div className="w-1/2">
         <Match match={match} />
       </div>
       <div className="w-1/2">
         <Chat from={from} to={to} />
       </div>
-    </>
+    </div>
   );
 };

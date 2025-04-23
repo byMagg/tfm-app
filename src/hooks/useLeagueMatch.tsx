@@ -1,27 +1,25 @@
+import { useAuth } from "@/context/AuthContext";
+import { getLeagueMatchById } from "@/controllers";
 import type { LeagueMatch } from "@/types";
-import { actions } from "astro:actions";
 import { useEffect, useState } from "react";
 
 export function useLeagueMatch({ id }: { id: string }) {
   const [match, setMatch] = useState<LeagueMatch>();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>();
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetch = async () => {
+      if (!token) return;
       setLoading(true);
 
-      const { data, error } = await actions.getLeagueMatchById({ id });
+      const { data } = await getLeagueMatchById({ id, token });
 
-      if (data) {
-        setMatch(data);
-      }
-
-      setError(error?.message);
+      setMatch(data);
       setLoading(false);
     };
     fetch();
   }, []);
 
-  return { match, loading, error };
+  return { match, loading };
 }
