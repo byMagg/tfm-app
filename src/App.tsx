@@ -1,5 +1,7 @@
-import { Route, Routes } from "react-router-dom";
+import { JSX } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { MainLayout } from "./components/MainLayout";
+import { useAuth } from "./context/AuthContext";
 import { HomePage } from "./pages/HomePage";
 import { LeagueMatchPage } from "./pages/LeagueMatchPage";
 import { LeaguePage } from "./pages/LeaguePage";
@@ -12,13 +14,26 @@ import { ProfilePage } from "./pages/ProfilePage";
 import { RankingPage } from "./pages/RankingPage";
 import { RankingsPage } from "./pages/RankingsPage";
 
+function ProtectedRoute({ children }: { children: JSX.Element }) {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/profile" replace />;
+  return children;
+}
+
 function App() {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route path="/" element={<HomePage />} />
-
         <Route path="/profile" element={<ProfilePage />} />
+      </Route>
+      <Route
+        element={
+          <ProtectedRoute>
+            <MainLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route path="/" element={<HomePage />} />
 
         <Route path="/leagues" element={<LeaguesPage />} />
         <Route path="/leagues/:id" element={<LeaguePage />} />
