@@ -2,10 +2,7 @@ import { usePagination } from "@/hooks/usePagination";
 import { usePlayersFromLeague } from "@/hooks/usePlayersFromLeague";
 import { type User } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
-import { actions } from "astro:actions";
-import { navigate } from "astro:transitions/client";
-import { useEffect } from "react";
-import { toast } from "sonner";
+
 import { DataTable } from "./DataTable";
 import { DeleteModal } from "./DeleteModal";
 
@@ -16,17 +13,17 @@ async function handleDelete({
   id: string;
   leagueId: string;
 }) {
-  const { data, error } = await actions.removePlayersFromLeague({
-    leagueId,
-    playerId: [id],
-  });
-
-  if (error) {
-    toast.error("No se pudo eliminar el jugador");
-    return;
-  }
-
-  navigate(`/leagues/${leagueId}`);
+  console.log("Eliminando jugador", id);
+  console.log("de la liga", leagueId);
+  // const { data, error } = await actions.removePlayersFromLeague({
+  //   leagueId,
+  //   playerId: [id],
+  // });
+  // if (error) {
+  //   toast.error("No se pudo eliminar el jugador");
+  //   return;
+  // }
+  // navigate(`/leagues/${leagueId}`);
 }
 
 export default function TableUsersComponent({
@@ -38,15 +35,9 @@ export default function TableUsersComponent({
 }) {
   const { limit, onPaginationChange, page, pagination } = usePagination();
 
-  const { players, count, loading, error } = usePlayersFromLeague({
+  const { players, count, loading } = usePlayersFromLeague({
     playerIds,
   });
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
-  }, [error]);
 
   const pageCount = Math.round(count / limit);
 

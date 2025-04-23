@@ -1,26 +1,29 @@
-import { actions } from "astro:actions";
+import { useAuth } from "@/context/AuthContext";
+import { getUsersByIds } from "@/controllers";
 import { useEffect, useState } from "react";
 
 export function usePlayersFromLeague({ playerIds }: { playerIds: string[] }) {
   const [players, setPlayers] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>();
+
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetching = async () => {
+      if (!token) return;
       setLoading(true);
-      const { data: { data = [] } = {}, error } = await actions.getUsersByIds({
+      const { data } = await getUsersByIds({
         ids: playerIds,
+        token,
       });
 
       setPlayers(data);
-      setError(error?.message);
       setCount(players.length);
       setLoading(false);
     };
     fetching();
   }, [playerIds]);
 
-  return { players, count, loading, error };
+  return { players, count, loading };
 }

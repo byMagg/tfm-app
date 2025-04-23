@@ -2,11 +2,8 @@ import { usePagination } from "@/hooks/usePagination";
 import { usePlayers } from "@/hooks/usePlayers";
 import { Country, type Player } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
-import { navigate } from "astro:transitions/client";
-import { useEffect } from "react";
-import { toast } from "sonner";
+import { Link } from "react-router-dom";
 import { DataTable } from "./DataTable";
-import { Button } from "./ui/button";
 
 const columns: ColumnDef<Player>[] = [
   {
@@ -47,15 +44,7 @@ const columns: ColumnDef<Player>[] = [
       const { original } = row;
       return (
         <div className="flex items-center justify-center">
-          <Button
-            size="sm"
-            variant="link"
-            onClick={() => {
-              navigate(`/players/${original._id}`);
-            }}
-          >
-            Detail
-          </Button>
+          <Link to={`/players/${original._id}`}>Ver</Link>
         </div>
       );
     },
@@ -65,16 +54,10 @@ const columns: ColumnDef<Player>[] = [
 export default function TablePlayersComponent() {
   const { limit, onPaginationChange, page, pagination } = usePagination();
 
-  const { players, count, loading, error } = usePlayers({
+  const { players, count, loading } = usePlayers({
     limit,
     page: page + 1,
   });
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
-  }, [error]);
 
   const pageCount = Math.round(count / limit);
 

@@ -1,6 +1,7 @@
+import { useAuth } from "@/context/AuthContext";
+import { addPlayersToLeague, getUsers } from "@/controllers";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { actions } from "astro:actions";
 import { CommandEmpty } from "cmdk";
 import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -35,9 +36,12 @@ export default function AddPlayersForm({ leagueId }: { leagueId: string }) {
     defaultValues: { items: [] },
   });
 
+  const { token } = useAuth();
+
   useEffect(() => {
     const fetchPlayers = async () => {
-      const { data: { data = [] } = {} } = await actions.getUsers();
+      if (!token) return;
+      const { data } = await getUsers({ token });
 
       const players = data.map((player: any) => ({
         label: player.name,
@@ -52,11 +56,12 @@ export default function AddPlayersForm({ leagueId }: { leagueId: string }) {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      if (!leagueId) return;
+      if (!leagueId || !token) return;
 
-      const { data: actionData, error } = await actions.addPlayersToLeague({
+      const { data: actionData } = await addPlayersToLeague({
         leagueId,
         playerIds: data.items,
+        token,
       });
 
       if (actionData) {
