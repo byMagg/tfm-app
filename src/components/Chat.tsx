@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
 
-const socket = io(import.meta.env.PUBLIC_API_URL || "http://localhost:3000");
+const socket = io(import.meta.env.VITE_API_URL || "http://localhost:3000");
 
 import { Skeleton } from "@/components/ui/skeleton";
 
