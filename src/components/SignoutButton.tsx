@@ -9,9 +9,5 @@ export function SignoutButton() {
     navigate("/profile");
   }
 
-  return (
-    <Button type="button" onClick={signout}>
-      Cerrar sesión
-    </Button>
-  );
+  return <Button onClick={signout}>Cerrar sesión</Button>;
 }
