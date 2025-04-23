@@ -1,7 +1,5 @@
-import { useAuth } from "@/context/AuthContext";
 import type { LeagueMatch } from "@/types";
 import { CalendarForm } from "./CalendarForm";
-import { Chat, ChatSkeleton } from "./Chat";
 import { Score } from "./Score";
 import { Skeleton } from "./ui/skeleton";
 
@@ -58,36 +56,6 @@ export const MatchSkeleton = () => {
       </div>
 
       <Skeleton className="h-4 w-32" />
-    </div>
-  );
-};
-export const MatchContainer = ({ match }: { match: LeagueMatch }) => {
-  const { user } = useAuth();
-
-  if (!match) {
-    return (
-      <div className="flex">
-        <div className="w-1/2">
-          <MatchSkeleton />
-        </div>
-        <div className="w-1/2">
-          <ChatSkeleton />
-        </div>
-      </div>
-    );
-  }
-
-  const to = match.player1._id === user?.uid ? match.player2 : match.player1;
-  const from = match.player1._id === user?.uid ? match.player1 : match.player2;
-
-  return (
-    <div className="flex">
-      <div className="w-1/2">
-        <Match match={match} />
-      </div>
-      <div className="w-1/2">
-        <Chat from={from} to={to} />
-      </div>
     </div>
   );
 };
