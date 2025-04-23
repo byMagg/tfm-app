@@ -1,27 +1,26 @@
+import { useAuth } from "@/context/AuthContext";
+import { getRound } from "@/controllers";
 import type { Round } from "@/types";
-import { actions } from "astro:actions";
 import { useEffect, useState } from "react";
 
 export function useRound({ leagueId }: { leagueId: string }) {
   const [round, setRound] = useState<Round>();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>();
+
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetch = async () => {
+      if (!token) return;
       setLoading(true);
 
-      const { data, error } = await actions.getRound({ leagueId });
+      const { data } = await getRound({ leagueId, token });
 
-      if (data) {
-        setRound(data);
-      }
-
-      setError(error?.message);
+      setRound(data);
       setLoading(false);
     };
     fetch();
   }, []);
 
-  return { round, loading, error };
+  return { round, loading };
 }

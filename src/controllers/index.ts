@@ -301,3 +301,29 @@ export const getRanking = async ({
     token,
   });
 };
+
+export const getRound = async ({
+  leagueId,
+  token,
+}: {
+  leagueId: string;
+  token: string;
+}) => {
+  return await fetchAPI({
+    endpoint: `/leagues/${leagueId}/rounds`,
+    token,
+  });
+};
+
+export const getHistoricMatches = async ({
+  leagueId,
+  token,
+}: {
+  leagueId: string;
+  token: string;
+}) => {
+  return await fetchAPI({
+    endpoint: `/leagues/${leagueId}/matches`,
+    token,
+  });
+};

@@ -15,7 +15,7 @@ export const GroupCards = ({
   leagueId: string;
   className?: string;
 }) => {
-  const { round, loading, error } = useRound({ leagueId });
+  const { round, loading } = useRound({ leagueId });
 
   return (
     <div

@@ -1,29 +1,28 @@
+import { useAuth } from "@/context/AuthContext";
+import { getHistoricMatches } from "@/controllers";
 import type { LeagueMatch } from "@/types";
-import { actions } from "astro:actions";
 import { useEffect, useState } from "react";
 
 export function useHistoricMatches({ leagueId }: { leagueId: string }) {
   const [matches, setMatches] = useState<LeagueMatch[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>();
+
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetch = async () => {
+      if (!token) return;
       setLoading(true);
 
-      const { data, error } = await actions.getHistoricMatches({ leagueId });
+      const { data } = await getHistoricMatches({ leagueId, token });
 
-      if (data) {
-        // TODO: quitar el dummy
-        const dummyData = Array.from({ length: 10 }, (_, i) => data[0]);
-        setMatches(dummyData);
-      }
+      const dummyData = Array.from({ length: 10 }, (_, i) => data[0]);
+      setMatches(dummyData);
 
-      setError(error?.message);
       setLoading(false);
     };
     fetch();
   }, []);
 
-  return { matches, loading, error };
+  return { matches, loading };
 }

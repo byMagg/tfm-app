@@ -18,7 +18,7 @@ export const HistoryMatches = ({
   leagueId: string;
   className?: string;
 }) => {
-  const { matches, loading, error } = useHistoricMatches({
+  const { matches, loading } = useHistoricMatches({
     leagueId,
   });
 
