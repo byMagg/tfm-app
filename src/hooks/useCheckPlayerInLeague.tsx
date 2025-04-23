@@ -1,28 +1,28 @@
-import { setUserLeagues, userLeagues } from "@/stores/userLeagues";
-import { useStore } from "@nanostores/react";
-import { actions } from "astro:actions";
+import { useAuth } from "@/context/AuthContext";
+import { checkPlayerInLeague } from "@/controllers";
 import { useEffect, useState } from "react";
 
 export function useCheckPlayerInLeague() {
-  const $userLeagues = useStore(userLeagues);
+  const [leagues, setLeagues] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>();
+
+  const { user, token } = useAuth();
 
   useEffect(() => {
     const fetch = async () => {
+      if (!token || !user) return;
       setLoading(true);
 
-      const { data, error } = await actions.checkPlayerInLeague();
+      const { data } = await checkPlayerInLeague({
+        playerId: user.uid,
+        token,
+      });
 
-      if (data) {
-        setUserLeagues(data);
-      }
-
-      setError(error?.message);
+      setLeagues(data);
       setLoading(false);
     };
     fetch();
   }, []);
 
-  return { leagues: $userLeagues, loading, error };
+  return { leagues, loading };
 }

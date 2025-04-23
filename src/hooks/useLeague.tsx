@@ -1,25 +1,25 @@
-import { actions } from "astro:actions";
+import { useAuth } from "@/context/AuthContext";
+import { getLeague } from "@/controllers";
 import { useEffect, useState } from "react";
 
 export function useLeague({ id }: { id: string }) {
   const [league, setLeague] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>();
+
+  const { token } = useAuth();
 
   useEffect(() => {
     const fetch = async () => {
+      if (!token) return;
       setLoading(true);
 
-      const { data: { data = [] } = {}, error } = await actions.getLeague({
-        leagueId: id,
-      });
+      const { data } = await getLeague({ id, token });
 
       setLeague(data);
-      setError(error?.message);
       setLoading(false);
     };
     fetch();
   }, []);
 
-  return { league, loading, error };
+  return { league, loading };
 }

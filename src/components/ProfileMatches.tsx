@@ -1,14 +1,9 @@
-import { useSession } from "@/hooks/useAuth";
 import { useCheckPlayerInLeague } from "@/hooks/useCheckPlayerInLeague";
 import type { League, LeagueMatch } from "@/types";
 import { Spinner } from "./ui/spinner";
 
 export const ProfileMatches = () => {
-  const { leagues, loading, error } = useCheckPlayerInLeague();
-
-  const { isLoggedIn } = useSession();
-
-  if (!isLoggedIn) return null;
+  const { leagues, loading } = useCheckPlayerInLeague();
 
   return (
     <section className="w-full flex items-center justify-center min-h-48 my-3">
