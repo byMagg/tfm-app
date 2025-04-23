@@ -1,12 +1,13 @@
 import { cn } from "@/lib/utils";
-import { navigate } from "astro:transitions/client";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
 export function RegisterForm() {
   const [error, setError] = React.useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/context/AuthContext";
 import { createLeague } from "@/controllers";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -25,6 +26,8 @@ export function Modal({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
+  const { token } = useAuth();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -33,10 +36,9 @@ export function Modal({
 
     try {
       if (!name) throw new Error("Name is required");
+      if (!token) return;
 
-      const {
-        data: { data },
-      } = await createLeague({ name });
+      const { data } = await createLeague({ name, token });
 
       if (data) {
         setIsOpen(false);

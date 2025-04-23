@@ -1,6 +1,6 @@
+import { useAuth } from "@/context/AuthContext";
 import { setMatchScore } from "@/controllers";
 import type { LeagueMatch } from "@/types";
-import Cookies from "js-cookie";
 import { useState } from "react";
 import { z } from "zod";
 import { Button } from "./ui/button";
@@ -62,6 +62,8 @@ export function Score({ match }: { match: LeagueMatch }) {
   const [error, setError] = useState<string | null>(null);
   const [winner, setWinner] = useState<any>(null);
 
+  const { token } = useAuth();
+
   const incrementScore = (i: number, player: "player1" | "player2") => {
     setScore((prevScore) =>
       prevScore.map((set, index) => {
@@ -77,9 +79,9 @@ export function Score({ match }: { match: LeagueMatch }) {
   };
 
   const validateAndSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    const token = Cookies.get("__session") || "";
-
     e.preventDefault();
+    if (!token) return;
+
     const results = score.map((set) => {
       const parse = scoreSchema.safeParse(set);
       if (parse.success) {
