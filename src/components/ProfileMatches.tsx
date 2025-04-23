@@ -1,5 +1,5 @@
+import { useSession } from "@/hooks/useAuth";
 import { useCheckPlayerInLeague } from "@/hooks/useCheckPlayerInLeague";
-import { useSession } from "@/hooks/useSession";
 import type { League, LeagueMatch } from "@/types";
 import { Spinner } from "./ui/spinner";
 

@@ -1,6 +1,7 @@
-import { useSession } from "@/hooks/useSession";
+import { useAuth } from "@/hooks/useAuth";
 import { app } from "@/lib/firebase/client";
 import { cn } from "@/lib/utils";
+import { fetchAPI } from "@/utils";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,11 +16,11 @@ auth.setPersistence;
 export function LoginFormContainer() {
   const [showRegister, setShowRegister] = useState(false);
 
-  const { isLoggedIn } = useSession();
+  const { isAuthenticated, loading } = useAuth();
 
-  if (isLoggedIn === null) return null;
+  if (loading) return null;
 
-  return isLoggedIn ? (
+  return isAuthenticated ? (
     <SignoutButton />
   ) : (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
@@ -121,22 +122,15 @@ export function LoginForm() {
     const idToken = await userCredential.user.getIdToken();
 
     try {
-      const response = await fetch("/api/auth/signin", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
+      await fetchAPI({
+        endpoint: "/auth/login",
+        method: "POST",
+        token: idToken,
       });
 
       toast.dismiss();
 
-      if (!response.ok) {
-        throw new Error(await response.text());
-      }
-
-      if (response.redirected) {
-        navigate(response.url);
-      }
+      navigate("/");
     } catch (error: any) {
       toast.dismiss();
       toast.error(error.message);

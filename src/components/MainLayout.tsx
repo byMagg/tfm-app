@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Outlet } from "react-router-dom";
 import { NavigationBar } from "./NavigationBar";
+import { Toaster } from "./ui/sonner";
 
 export const MainLayout = () => {
   return (
@@ -17,7 +18,7 @@ export const MainLayout = () => {
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black"></div>
       <div className="absolute h-full w-full items-center justify-center">
         <NavigationBar isProfilePage={false} />
-        {/* <Toaster client:load /> */}
+        <Toaster />
         <Outlet />
       </div>
     </div>
