@@ -2,11 +2,8 @@ import { useLeagues } from "@/hooks/useLeagues";
 import { usePagination } from "@/hooks/usePagination";
 import { type League } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
-import { navigate } from "astro:transitions/client";
-import { useEffect } from "react";
-import { toast } from "sonner";
+import { Link } from "react-router-dom";
 import { DataTable } from "./DataTable";
-import { Button } from "./ui/button";
 
 const columns: ColumnDef<League>[] = [
   {
@@ -23,16 +20,7 @@ const columns: ColumnDef<League>[] = [
       const { original } = row;
       return (
         <div className="flex items-center justify-center">
-          <Button
-            size="sm"
-            variant="link"
-            onClick={() => {
-              console.log(original._id);
-              navigate(`/leagues/${original._id}`);
-            }}
-          >
-            Detail
-          </Button>
+          <Link to={`/leagues/${original._id}`}>Ver</Link>
         </div>
       );
     },
@@ -42,16 +30,10 @@ const columns: ColumnDef<League>[] = [
 export default function TableLeaguesComponent() {
   const { limit, onPaginationChange, page, pagination } = usePagination();
 
-  const { leagues, count, loading, error } = useLeagues({
+  const { leagues, count, loading } = useLeagues({
     limit,
     page: page + 1,
   });
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }
-  }, [error]);
 
   const pageCount = Math.round(count / limit);
 

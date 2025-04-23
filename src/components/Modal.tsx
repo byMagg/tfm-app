@@ -10,8 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { leagueAdded } from "@/stores/leagueAdded";
-import { actions } from "astro:actions";
+import { createLeague } from "@/controllers";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -37,11 +36,10 @@ export function Modal({
 
       const {
         data: { data },
-      } = await actions.createLeague({ name });
+      } = await createLeague({ name });
 
       if (data) {
         setIsOpen(false);
-        leagueAdded.set(true);
         toast.success("League created successfully");
       } else {
         toast.error("Could not create league");

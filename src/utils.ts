@@ -1,5 +1,3 @@
-import { getAuth } from "firebase/auth";
-
 const API_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:3000";
 
 export async function fetchAPI({
@@ -17,20 +15,16 @@ export async function fetchAPI({
   body?: any;
   token: string;
 }) {
-  const firebaseToken = await getAuth().currentUser?.getIdToken();
-
   const url =
     typeof page === "number"
       ? `${API_URL + "/api"}${endpoint}?limit=${limit}&page=${page}`
       : `${API_URL + "/api"}${endpoint}`;
 
-  console.log(firebaseToken);
-
   const response = await fetch(url, {
     method: method,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${firebaseToken}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(body),
   });
