@@ -1,3 +1,9 @@
-export const HomePage = () => {
-  return <h1>Home</h1>;
-};
+import { NavLink } from "react-router";
+
+export default function HomePage() {
+  return (
+    <NavLink viewTransition to="/profile">
+      Leagues
+    </NavLink>
+  );
+}

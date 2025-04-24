@@ -1,5 +1,5 @@
 import TableRankingsComponent from "@/components/TableRankingsComponent";
 
-export const RankingsPage = () => {
+export default function RankingsPage() {
   return <TableRankingsComponent />;
-};
+}

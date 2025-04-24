@@ -3,9 +3,9 @@ import { GroupCards } from "@/components/GroupCards";
 import { HistoryMatches } from "@/components/HistoryMatches";
 import { useLeague } from "@/hooks/useLeague";
 import { Button } from "react-day-picker";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
-export const LeaguePage = () => {
+export default function LeaguePage() {
   const { id = "" } = useParams<{ id: string }>();
 
   const { league, loading } = useLeague({ id });
@@ -36,4 +36,4 @@ export const LeaguePage = () => {
       <HistoryMatches className="my-16" leagueId={id} />
     </>
   );
-};
+}
