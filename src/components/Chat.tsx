@@ -1,3 +1,4 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import { type ChatMessage, type User } from "@/types";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { io } from "socket.io-client";
@@ -7,8 +8,6 @@ import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
 
 const socket = io(import.meta.env.VITE_API_URL || "http://localhost:3000");
-
-import { Skeleton } from "@/components/ui/skeleton";
 
 export const ChatSkeleton = () => {
   return (
@@ -33,6 +32,8 @@ export const ChatSkeleton = () => {
 };
 
 export const Chat = ({ from, to }: { from: User; to: User }) => {
+  //TODO: mirar porque accede al mismo chat
+
   const [message, setMessage] = useState<ChatMessage>();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
@@ -40,10 +41,11 @@ export const Chat = ({ from, to }: { from: User; to: User }) => {
 
   useEffect(() => {
     socket.on("previousMessages", (prevMessages: ChatMessage[]) => {
+      console.log("previousMessages", prevMessages);
       setMessages(prevMessages);
     });
 
-    socket.emit("join", from._id);
+    socket.emit("join", { from: from._id, to: to._id });
 
     socket.on("message", (newMessage: ChatMessage) => {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -51,6 +53,7 @@ export const Chat = ({ from, to }: { from: User; to: User }) => {
 
     return () => {
       socket.off("message");
+      socket.off("previousMessages");
     };
   }, [from, to]);
 
