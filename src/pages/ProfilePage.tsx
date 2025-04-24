@@ -12,10 +12,16 @@ export const ProfilePage = () => {
   return (
     <>
       {user && (
-        <>
+        <section className="flex flex-col items-center">
+          <img
+            src="/images/placeholder.jpg"
+            className="rounded-full w-32 h-32 m-5"
+            alt="placeholder"
+            style={{ viewTransitionName: "profile-img" }}
+          />
           <SignoutButton />
           <ProfileMatches />
-        </>
+        </section>
       )}
       {!user && (
         <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">

@@ -1,9 +1,9 @@
+import { Link } from "@/components/Link";
 import { usePagination } from "@/hooks/usePagination";
 import { useRankings } from "@/hooks/useRankings";
 import type { Ranking } from "@/types";
 import { parseDateString } from "@/utils";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Link } from "react-router-dom";
 import { DataTable } from "./DataTable";
 
 const columns: ColumnDef<Ranking>[] = [

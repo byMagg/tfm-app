@@ -1,7 +1,7 @@
 import { JSX } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { MainLayout } from "./components/MainLayout";
 import { useAuth } from "./context/AuthContext";
+import { MainLayout } from "./layouts/MainLayout";
 import { HomePage } from "./pages/HomePage";
 import { LeagueMatchPage } from "./pages/LeagueMatchPage";
 import { LeaguePage } from "./pages/LeaguePage";
