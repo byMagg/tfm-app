@@ -1,8 +1,8 @@
+import { Link } from "@/components/Link";
 import { usePagination } from "@/hooks/usePagination";
 import { usePlayers } from "@/hooks/usePlayers";
 import { Country, type Player } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Link } from "react-router-dom";
 import { DataTable } from "./DataTable";
 
 const columns: ColumnDef<Player>[] = [

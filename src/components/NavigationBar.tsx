@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { Link } from "@/components/Link";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,7 +11,6 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
 
 export function NavigationBar({ isProfilePage }: { isProfilePage: boolean }) {
   return (

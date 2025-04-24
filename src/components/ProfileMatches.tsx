@@ -1,6 +1,6 @@
+import { Link } from "@/components/Link";
 import { useCheckPlayerInLeague } from "@/hooks/useCheckPlayerInLeague";
 import type { League, LeagueMatch } from "@/types";
-import { Link } from "react-router-dom";
 import { Spinner } from "./ui/spinner";
 
 export const ProfileMatches = () => {

@@ -1,9 +1,9 @@
+import { Link } from "@/components/Link";
 import { useMatches } from "@/hooks/useMatches";
 import { usePagination } from "@/hooks/usePagination";
 import type { Match } from "@/types";
 import { parseDateString } from "@/utils";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Link } from "react-router-dom";
 import { DataTable } from "./DataTable";
 
 const columns: ColumnDef<Match>[] = [

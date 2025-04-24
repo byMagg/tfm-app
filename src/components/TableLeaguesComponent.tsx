@@ -1,8 +1,8 @@
+import { Link } from "@/components/Link";
 import { useLeagues } from "@/hooks/useLeagues";
 import { usePagination } from "@/hooks/usePagination";
 import { type League } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Link } from "react-router-dom";
 import { DataTable } from "./DataTable";
 
 const columns: ColumnDef<League>[] = [
