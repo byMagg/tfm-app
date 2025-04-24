@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from "react";
 
 import {
   NavigationMenu,
@@ -8,17 +8,18 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu'
-import { cn } from '@/lib/utils'
+} from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 export function NavigationBar({ isProfilePage }: { isProfilePage: boolean }) {
   return (
     <NavigationMenu className="mx-auto py-2">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <a href="/" className={navigationMenuTriggerStyle()}>
+          <Link viewTransition to="/" className={navigationMenuTriggerStyle()}>
             Inicio
-          </a>
+          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Histórico</NavigationMenuTrigger>
@@ -69,43 +70,50 @@ export function NavigationBar({ isProfilePage }: { isProfilePage: boolean }) {
           </NavigationMenuContent>
         </NavigationMenuItem> */}
         <NavigationMenuItem>
-          <a
-            href="/leagues"
+          <Link
+            viewTransition
+            to="/leagues"
             className={navigationMenuTriggerStyle()}
             aria-label="Leagues"
           >
             Ligas
-          </a>
+          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           {!isProfilePage && (
-            <a href="/profile" className={navigationMenuTriggerStyle()}>
+            <Link
+              viewTransition
+              to="/profile"
+              className={navigationMenuTriggerStyle()}
+            >
               <img
-                style={{ viewTransitionName: 'profile-img' }}
+                style={{ viewTransitionName: "profile-img" }}
                 src="/images/placeholder.jpg"
                 alt="Profile"
                 className="profile-img w-8 h-8 rounded-full"
               />
-            </a>
+            </Link>
           )}
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
-  )
+  );
 }
 
 const ListItem = React.forwardRef<
-  React.ElementRef<'a'>,
-  React.ComponentPropsWithoutRef<'a'>
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
 >(({ className, title, children, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>
-        <a
+        <Link
+          viewTransition
+          to={props.href}
           ref={ref}
           className={cn(
-            'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
-            className
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className,
           )}
           {...props}
         >
@@ -113,9 +121,9 @@ const ListItem = React.forwardRef<
           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
-        </a>
+        </Link>
       </NavigationMenuLink>
     </li>
-  )
-})
-ListItem.displayName = 'ListItem'
+  );
+});
+ListItem.displayName = "ListItem";

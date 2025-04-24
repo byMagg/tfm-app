@@ -20,7 +20,9 @@ const columns: ColumnDef<League>[] = [
       const { original } = row;
       return (
         <div className="flex items-center justify-center">
-          <Link to={`/leagues/${original._id}`}>Ver</Link>
+          <Link to={`/leagues/${original._id}`} viewTransition>
+            Ver
+          </Link>
         </div>
       );
     },
