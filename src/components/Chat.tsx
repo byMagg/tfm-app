@@ -41,7 +41,6 @@ export const Chat = ({ from, to }: { from: User; to: User }) => {
 
   useEffect(() => {
     socket.on("previousMessages", (prevMessages: ChatMessage[]) => {
-      console.log("previousMessages", prevMessages);
       setMessages(prevMessages);
     });
 
