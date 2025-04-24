@@ -4,7 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useLeagueMatch } from "@/hooks/useLeagueMatch";
 import { useParams } from "react-router";
 
-export const LeagueMatchPage = () => {
+export default function LeagueMatchPage() {
   const { id = "" } = useParams<{ id: string }>();
   const { user } = useAuth();
 
@@ -38,4 +38,4 @@ export const LeagueMatchPage = () => {
       </div>
     </div>
   );
-};
+}

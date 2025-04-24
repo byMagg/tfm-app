@@ -1,5 +1,5 @@
 import TablePlayersComponent from "@/components/TablePlayersComponent";
 
-export const PlayersPage = () => {
+export default function PlayersPage() {
   return <TablePlayersComponent />;
-};
+}

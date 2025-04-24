@@ -4,7 +4,7 @@ import { SignoutButton } from "@/components/SignoutButton";
 import { useAuth } from "@/context/AuthContext";
 import { useState } from "react";
 
-export const ProfilePage = () => {
+export default function ProfilePage() {
   const [showRegister, setShowRegister] = useState(false);
 
   const { user } = useAuth();
@@ -44,4 +44,4 @@ export const ProfilePage = () => {
       )}
     </>
   );
-};
+}

@@ -1,9 +1,9 @@
 import { NavLink } from "react-router";
 
-export const HomePage = () => {
+export default function HomePage() {
   return (
     <NavLink viewTransition to="/profile">
       Leagues
     </NavLink>
   );
-};
+}

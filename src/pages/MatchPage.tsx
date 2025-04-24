@@ -4,7 +4,7 @@ import { getPlayerImage, parseDateString } from "@/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
-export const MatchPage = () => {
+export default function MatchPage() {
   const { id = "" } = useParams<{ id: string }>();
 
   const { match } = useMatch({ id });
@@ -83,4 +83,4 @@ export const MatchPage = () => {
       )}
     </>
   );
-};
+}

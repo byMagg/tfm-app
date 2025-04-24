@@ -1,7 +1,7 @@
 import { useRanking } from "@/hooks/useRanking";
 import { useParams } from "react-router";
 
-export const RankingPage = () => {
+export default function RankingPage() {
   const { id = "" } = useParams<{ id: string }>();
 
   const { ranking } = useRanking({ id });
@@ -11,4 +11,4 @@ export const RankingPage = () => {
       <pre>{JSON.stringify(ranking, null, 2)}</pre>
     </>
   );
-};
+}

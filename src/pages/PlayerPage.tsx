@@ -4,7 +4,7 @@ import { getPlayerImage } from "@/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
-export const PlayerPage = () => {
+export default function PlayerPage() {
   const { id = "" } = useParams<{ id: string }>();
 
   const { player } = usePlayer({ id });
@@ -53,4 +53,4 @@ export const PlayerPage = () => {
       <pre>{JSON.stringify(player, null, 2)}</pre>
     </>
   );
-};
+}

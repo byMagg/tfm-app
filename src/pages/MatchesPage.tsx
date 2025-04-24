@@ -1,5 +1,5 @@
 import TableMatchesComponent from "@/components/TableMatchesComponent";
 
-export const MatchesPage = () => {
+export default function MatchesPage() {
   return <TableMatchesComponent />;
-};
+}
