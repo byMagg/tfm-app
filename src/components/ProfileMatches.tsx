@@ -36,22 +36,20 @@ export const ProfileMatches = () => {
               <h2 className="text-center  text-xl">Partidos esta jornada</h2>
               <ul>
                 {league.matches?.map((match: LeagueMatch) => (
-                  <li
-                    key={match._id}
-                    className="my-2 bg-white py-2 px-3 rounded text-black text-center font-semibold flex flex-col"
-                  >
+                  <li key={match._id}>
                     <Link
                       viewTransition
                       to={`/league-matches/${match._id}`}
                       style={{
                         viewTransitionName: `match-${match._id}`,
                       }}
+                      className="my-2 bg-white py-2 px-3 rounded text-black text-center font-semibold flex flex-col"
                     >
                       {`${match.player1.name} vs ${match.player2.name}`}
+                      <span className="font-normal">
+                        {match.score ? match.score : "Partido por jugar"}
+                      </span>
                     </Link>
-                    <span className="font-normal">
-                      {match.score ? match.score : "Partido por jugar"}
-                    </span>
                   </li>
                 ))}
               </ul>
