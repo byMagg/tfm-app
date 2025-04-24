@@ -1,7 +1,7 @@
 import { NavigationBar } from "@/components/NavigationBar";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router";
 
 export const MainLayout = () => {
   const location = useLocation();

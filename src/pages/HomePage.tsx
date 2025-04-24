@@ -1,3 +1,9 @@
+import { NavLink } from "react-router";
+
 export const HomePage = () => {
-  return <h1>Home</h1>;
+  return (
+    <NavLink viewTransition to="/profile">
+      Leagues
+    </NavLink>
+  );
 };

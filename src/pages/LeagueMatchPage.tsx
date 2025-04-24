@@ -2,7 +2,7 @@ import { Chat, ChatSkeleton } from "@/components/Chat";
 import { Match, MatchSkeleton } from "@/components/Match";
 import { useAuth } from "@/context/AuthContext";
 import { useLeagueMatch } from "@/hooks/useLeagueMatch";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 export const LeagueMatchPage = () => {
   const { id = "" } = useParams<{ id: string }>();

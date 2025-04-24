@@ -1,5 +1,5 @@
 import { JSX } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router";
 import { useAuth } from "./context/AuthContext";
 import { MainLayout } from "./layouts/MainLayout";
 import { HomePage } from "./pages/HomePage";

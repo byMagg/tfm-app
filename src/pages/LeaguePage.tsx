@@ -3,7 +3,7 @@ import { GroupCards } from "@/components/GroupCards";
 import { HistoryMatches } from "@/components/HistoryMatches";
 import { useLeague } from "@/hooks/useLeague";
 import { Button } from "react-day-picker";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 export const LeaguePage = () => {
   const { id = "" } = useParams<{ id: string }>();

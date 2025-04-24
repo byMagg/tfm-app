@@ -1,5 +1,5 @@
 import { useRanking } from "@/hooks/useRanking";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 export const RankingPage = () => {
   const { id = "" } = useParams<{ id: string }>();

@@ -2,7 +2,7 @@ import { usePlayer } from "@/hooks/usePlayer";
 import { Country } from "@/types";
 import { getPlayerImage } from "@/utils";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 export const PlayerPage = () => {
   const { id = "" } = useParams<{ id: string }>();

@@ -2,7 +2,7 @@ import { useMatch } from "@/hooks/useMatch";
 import { Country } from "@/types";
 import { getPlayerImage, parseDateString } from "@/utils";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 export const MatchPage = () => {
   const { id = "" } = useParams<{ id: string }>();
