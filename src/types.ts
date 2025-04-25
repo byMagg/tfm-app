@@ -81,8 +81,8 @@ export interface LeagueMatch {
   player1: User;
   player2: User;
   round: Round;
-  winner: string;
-  score: string;
+  winner?: string;
+  score?: string;
   date: string;
 }
 

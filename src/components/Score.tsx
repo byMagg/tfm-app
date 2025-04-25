@@ -37,6 +37,13 @@ const toStringScore = (score: { player1: number; player2: number }[]) => {
 };
 
 const parseScore = (score: string) => {
+  if (!score)
+    return [
+      { player1: 0, player2: 0 },
+      { player1: 0, player2: 0 },
+      { player1: 0, player2: 0 },
+    ];
+
   const sets = score.split(" ").map((set) => {
     const [player1, player2] = set.split("-").map(Number);
     return { player1, player2 };
@@ -64,15 +71,7 @@ const scoreSchema = z
   );
 
 export function Score({ match }: { match: LeagueMatch }) {
-  const initialScore = match.score
-    ? parseScore(match.score)
-    : [
-        { player1: 0, player2: 0 },
-        { player1: 0, player2: 0 },
-        { player1: 0, player2: 0 },
-      ];
-
-  const [score, setScore] = useState(initialScore);
+  const [score, setScore] = useState(parseScore(match.score));
 
   const [error, setError] = useState<string | null>(null);
   const [winner, setWinner] = useState<string>(
