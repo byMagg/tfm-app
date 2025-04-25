@@ -13,12 +13,17 @@ export default function ProfilePage() {
     <>
       {user && (
         <section className="flex flex-col items-center">
-          <img
-            src="/images/placeholder.jpg"
-            className="rounded-full w-32 h-32 m-5"
-            alt="placeholder"
-            style={{ viewTransitionName: "profile-img" }}
-          />
+          <div className="flex flex-col items-center m-4 gap-2">
+            <img
+              src="/images/placeholder.jpg"
+              className="rounded-full w-32 h-32"
+              alt="placeholder"
+              style={{ viewTransitionName: "profile-img" }}
+            />
+            <h3 className="font-light text-2xl">
+              Bienvenido, {user.displayName}
+            </h3>
+          </div>
           <SignoutButton />
           <ProfileMatches />
         </section>
