@@ -20,7 +20,7 @@ export function useRound({ leagueId }: { leagueId: string }) {
       setLoading(false);
     };
     fetch();
-  }, []);
+  }, [token, leagueId]);
 
   return { round, loading };
 }

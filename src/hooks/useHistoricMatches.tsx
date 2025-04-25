@@ -22,7 +22,7 @@ export function useHistoricMatches({ leagueId }: { leagueId: string }) {
       setLoading(false);
     };
     fetch();
-  }, []);
+  }, [token, leagueId]);
 
   return { matches, loading };
 }

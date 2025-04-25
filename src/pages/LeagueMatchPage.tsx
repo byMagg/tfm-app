@@ -5,7 +5,7 @@ import { useLeagueMatch } from "@/hooks/useLeagueMatch";
 import { useParams } from "react-router";
 
 export default function LeagueMatchPage() {
-  const { id = "" } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
 
   const { match, loading } = useLeagueMatch({ id });

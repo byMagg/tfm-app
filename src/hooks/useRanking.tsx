@@ -22,7 +22,7 @@ export function useRanking({ id }: { id: string }) {
       setLoading(false);
     };
     fetch();
-  }, []);
+  }, [token, id]);
 
   return { ranking, loading };
 }

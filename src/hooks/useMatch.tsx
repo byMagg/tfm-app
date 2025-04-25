@@ -18,7 +18,7 @@ export function useMatch({ id }: { id: string }) {
       setLoading(false);
     };
     fetch();
-  }, []);
+  }, [token, id]);
 
   return { match, loading };
 }

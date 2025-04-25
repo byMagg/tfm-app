@@ -19,11 +19,11 @@ export function usePlayersFromLeague({ playerIds }: { playerIds: string[] }) {
       });
 
       setPlayers(data);
-      setCount(players.length);
+      setCount(data.length);
       setLoading(false);
     };
     fetching();
-  }, [playerIds]);
+  }, [token, playerIds]);
 
   return { players, count, loading };
 }

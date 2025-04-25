@@ -22,7 +22,7 @@ export function useCheckPlayerInLeague() {
       setLoading(false);
     };
     fetch();
-  }, []);
+  }, [token, user]);
 
   return { leagues, loading };
 }

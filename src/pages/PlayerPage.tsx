@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 export default function PlayerPage() {
-  const { id = "" } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
 
   const { player } = usePlayer({ id });
 

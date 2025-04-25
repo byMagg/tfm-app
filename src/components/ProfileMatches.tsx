@@ -19,11 +19,7 @@ export const ProfileMatches = () => {
             key={league._id}
             className="w-full flex flex-col justify-center items-center my-3"
           >
-            <Link
-              viewTransition
-              to={`/leagues/${league._id}`}
-              className="w-full"
-            >
+            <Link to={`/leagues/${league._id}`} className="w-full">
               <p
                 className="text-center font-bold text-2xl"
                 style={{ viewTransitionName: `league-${league._id}` }}
@@ -38,7 +34,6 @@ export const ProfileMatches = () => {
                 {league.matches?.map((match: LeagueMatch) => (
                   <li key={match._id}>
                     <Link
-                      viewTransition
                       to={`/league-matches/${match._id}`}
                       style={{
                         viewTransitionName: `match-${match._id}`,

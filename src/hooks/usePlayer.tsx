@@ -17,7 +17,7 @@ export function usePlayer({ id }: { id: string }) {
       setLoading(false);
     };
     fetch();
-  }, []);
+  }, [token, id]);
 
   return { player, loading };
 }

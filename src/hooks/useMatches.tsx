@@ -29,7 +29,7 @@ export function useMatches({
       setLoading(false);
     };
     fetch();
-  }, [page]);
+  }, [token, page, limit]);
 
   return { matches, count, loading };
 }

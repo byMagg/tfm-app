@@ -20,7 +20,7 @@ export function useLeague({ id }: { id: string }) {
       setLoading(false);
     };
     fetch();
-  }, []);
+  }, [token, id]);
 
   return { league, loading };
 }

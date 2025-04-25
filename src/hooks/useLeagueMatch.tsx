@@ -19,7 +19,7 @@ export function useLeagueMatch({ id }: { id: string }) {
       setLoading(false);
     };
     fetch();
-  }, []);
+  }, [token, id]);
 
   return { match, loading };
 }

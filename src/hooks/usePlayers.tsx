@@ -29,7 +29,7 @@ export function usePlayers({
       setLoading(false);
     };
     fetch();
-  }, [page]);
+  }, [token, page, limit]);
 
   return { players, count, loading };
 }

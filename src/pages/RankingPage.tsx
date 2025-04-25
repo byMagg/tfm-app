@@ -2,7 +2,7 @@ import { useRanking } from "@/hooks/useRanking";
 import { useParams } from "react-router";
 
 export default function RankingPage() {
-  const { id = "" } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
 
   const { ranking } = useRanking({ id });
 

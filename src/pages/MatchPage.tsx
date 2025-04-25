@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 export default function MatchPage() {
-  const { id = "" } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
 
   const { match } = useMatch({ id });
 

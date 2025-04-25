@@ -25,7 +25,7 @@ export function useLeagues({ limit, page }: { limit?: number; page: number }) {
       setLoading(false);
     };
     fetch();
-  }, [page]);
+  }, [token, page, limit]);
 
   return { leagues, count, loading };
 }

@@ -27,7 +27,7 @@ export function useRankings({
       setLoading(false);
     };
     fetch();
-  }, [page]);
+  }, [token, page, limit]);
 
   return { rankings, count, loading };
 }
