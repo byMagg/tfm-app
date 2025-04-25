@@ -11,15 +11,13 @@ export default function LeaguePage() {
 
   const { league, loading } = useLeague({ id });
 
-  if (loading) return <LeagueSkeleton id={id} />;
-
   return (
     <>
-      {league && (
+      {!loading && league && (
         <div className="flex flex-col gap-4 items-center">
           <h1
             className="font-bold text-2xl"
-            style={{ viewTransitionName: `league-${league._id}` }}
+            // style={{ viewTransitionName: `league-${league._id}` }}
           >
             {league.name}
           </h1>
