@@ -86,7 +86,10 @@ export function CalendarForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-5 flex flex-col items-center sm:items-start"
+      >
         <FormField
           control={form.control}
           name="time"

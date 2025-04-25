@@ -29,13 +29,9 @@ export default function LeagueMatchPage() {
   const from = match.player1._id === user?.uid ? match.player1 : match.player2;
 
   return (
-    <div className="flex">
-      <div className="w-1/2">
-        <Match match={match} />
-      </div>
-      <div className="w-1/2">
-        <Chat from={from} to={to} />
-      </div>
+    <div className="flex flex-col sm:flex-row justify-around">
+      <Match match={match} />
+      <Chat from={from} to={to} />
     </div>
   );
 }

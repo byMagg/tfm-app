@@ -32,8 +32,6 @@ export const ChatSkeleton = () => {
 };
 
 export const Chat = ({ from, to }: { from: User; to: User }) => {
-  //TODO: mirar porque accede al mismo chat
-
   const [message, setMessage] = useState<ChatMessage>();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
@@ -83,7 +81,7 @@ export const Chat = ({ from, to }: { from: User; to: User }) => {
   };
 
   return (
-    <section className="flex flex-col gap-2 relative">
+    <section className="flex flex-col gap-2 relative w-100">
       <h1 className="text-2xl font-semibold text-black dark:text-white">
         Chatea con {to.name}
       </h1>

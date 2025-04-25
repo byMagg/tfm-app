@@ -126,11 +126,14 @@ export function Score({ match }: { match: LeagueMatch }) {
   };
 
   return (
-    <form onSubmit={validateAndSubmit}>
+    <form
+      onSubmit={validateAndSubmit}
+      className="flex flex-col items-center gap-4 my-5 w-fit"
+    >
       {error && <p className="text-red-500">{error}</p>}
       {winner && <p>El ganador es {winner}</p>}
       {score.map((set, i) => (
-        <div key={i} className="flex items-center justify-center space-x-4">
+        <div key={i} className="flex items-center justify-center gap-2">
           <span>Set {i + 1}</span>
           <Button type="button" onClick={() => incrementScore(i, "player1")}>
             {set.player1}

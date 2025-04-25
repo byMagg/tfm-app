@@ -5,23 +5,16 @@ import { Skeleton } from "./ui/skeleton";
 
 export const Match = ({ match }: { match: LeagueMatch }) => {
   return (
-    match && (
-      <div>
-        <div
-          className="my-2 w-fit bg-white px-4 py-2 rounded text-black text-center font-semibold text-2xl"
-          style={{ viewTransitionName: `match-${match._id}` }}
-        >
-          {match.player1 && match.player1.name} vs{" "}
-          {match.player2 && match.player2.name}
-        </div>
+    <div className="flex flex-col items-center sm:items-start">
+      <div
+        className="my-2 w-fit bg-white px-4 py-2 rounded text-black text-center font-semibold text-2xl"
+        style={{ viewTransitionName: `match-${match._id}` }}
+      >
+        {match.player1.name} vs {match.player2.name}
+      </div>
 
-        {match && !match.winner && (
-          <div>
-            <p>Aún no se ha disputado el partido</p>
-            <Score match={match} />
-          </div>
-        )}
-        {match && match.winner && (
+      <div className="py-2">
+        {match.winner && (
           <>
             <p>
               El ganador es{" "}
@@ -32,16 +25,22 @@ export const Match = ({ match }: { match: LeagueMatch }) => {
             <span>{match.score}</span>
           </>
         )}
-        <div className="my-5">
-          {match && (
-            <CalendarForm
-              matchId={match._id}
-              maxDate={new Date(match.round.endDate)}
-            />
-          )}
-        </div>
+
+        {!match.winner && (
+          <>
+            <p>Aún no se ha disputado el partido</p>
+            <Score match={match} />
+          </>
+        )}
       </div>
-    )
+
+      <div className="my-5">
+        <CalendarForm
+          matchId={match._id}
+          maxDate={new Date(match.round.endDate)}
+        />
+      </div>
+    </div>
   );
 };
 
