@@ -13,26 +13,7 @@ export const Match = ({ match }: { match: LeagueMatch }) => {
         {match.player1.name} vs {match.player2.name}
       </div>
 
-      <div className="py-2">
-        {match.winner && (
-          <>
-            <p>
-              El ganador es{" "}
-              {match.winner === match.player1._id
-                ? match.player1.name
-                : match.player2.name}
-            </p>
-            <span>{match.score}</span>
-          </>
-        )}
-
-        {!match.winner && (
-          <>
-            <p>Aún no se ha disputado el partido</p>
-            <Score match={match} />
-          </>
-        )}
-      </div>
+      <Score match={match} />
 
       <div className="my-5">
         <CalendarForm

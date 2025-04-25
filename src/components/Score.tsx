@@ -36,6 +36,17 @@ const toStringScore = (score: { player1: number; player2: number }[]) => {
   return score.map((set) => `${set.player1}-${set.player2}`).join(" ");
 };
 
+const parseScore = (score: string) => {
+  const sets = score.split(" ").map((set) => {
+    const [player1, player2] = set.split("-").map(Number);
+    return { player1, player2 };
+  });
+
+  while (sets.length < 3) sets.push({ player1: 0, player2: 0 });
+
+  return sets;
+};
+
 const scoreSchema = z
   .object({
     player1: z.number(),
@@ -53,14 +64,24 @@ const scoreSchema = z
   );
 
 export function Score({ match }: { match: LeagueMatch }) {
-  const [score, setScore] = useState([
-    { player1: 0, player2: 0 },
-    { player1: 0, player2: 0 },
-    { player1: 0, player2: 0 },
-  ]);
+  const initialScore = match.score
+    ? parseScore(match.score)
+    : [
+        { player1: 0, player2: 0 },
+        { player1: 0, player2: 0 },
+        { player1: 0, player2: 0 },
+      ];
+
+  const [score, setScore] = useState(initialScore);
 
   const [error, setError] = useState<string | null>(null);
-  const [winner, setWinner] = useState<any>(null);
+  const [winner, setWinner] = useState<string>(
+    match.winner
+      ? match.player1._id === match.winner
+        ? match.player1.name
+        : match.player2.name
+      : null,
+  );
 
   const { token } = useAuth();
 
@@ -128,12 +149,13 @@ export function Score({ match }: { match: LeagueMatch }) {
   return (
     <form
       onSubmit={validateAndSubmit}
-      className="flex flex-col items-center gap-4 my-5 w-fit"
+      className="flex flex-col items-center gap-4 my-2"
     >
       {error && <p className="text-red-500">{error}</p>}
       {winner && <p>El ganador es {winner}</p>}
+      {!winner && <p>Aun no se ha disputado</p>}
       {score.map((set, i) => (
-        <div key={i} className="flex items-center justify-center gap-2">
+        <div key={i} className="flex items-center justify-center space-x-4">
           <span>Set {i + 1}</span>
           <Button type="button" onClick={() => incrementScore(i, "player1")}>
             {set.player1}
