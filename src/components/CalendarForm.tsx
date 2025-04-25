@@ -23,6 +23,8 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { toast } from "sonner";
 
+import { useAuth } from "@/context/AuthContext";
+import { setMatchDate } from "@/controllers";
 import { es } from "date-fns/locale";
 
 const FormSchema = z.object({
@@ -38,16 +40,18 @@ export function CalendarForm({
   matchId: string;
   maxDate?: Date;
 }) {
+  const { token } = useAuth();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      // await actions.setMatchDate({
-      //   matchId,
-      //   date: data.time.toUTCString(),
-      // });
+      await setMatchDate({
+        matchId,
+        date: data.time.toISOString(),
+        token,
+      });
 
       toast.success(
         `Seleccionada fecha del partido: ${format(data.time, "PPPP HH:mm", {
@@ -55,6 +59,7 @@ export function CalendarForm({
         })}`,
       );
     } catch (error) {
+      console.error(error);
       toast.error("Error al seleccionar la fecha del partido.");
     }
   }
@@ -67,7 +72,7 @@ export function CalendarForm({
 
   function handleTimeChange(type: "hour" | "minute", value: string) {
     const currentDate = form.getValues("time") || new Date();
-    let newDate = new Date(currentDate);
+    const newDate = new Date(currentDate);
 
     if (type === "hour") {
       const hour = parseInt(value, 10);
