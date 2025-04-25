@@ -5,6 +5,11 @@ export default [
   route("/", "./pages/HomePage.tsx"),
   route("profile", "./pages/ProfilePage.tsx"),
 
+  route("leagues", "./pages/LeaguesPage.tsx"),
+  route("leagues/:id", "./pages/LeaguePage.tsx"),
+
+  route("league-matches/:id", "./pages/LeagueMatchPage.tsx"),
+
   route("matches", "./pages/MatchesPage.tsx"),
   route("matches/:id", "./pages/MatchPage.tsx"),
 
@@ -13,7 +18,4 @@ export default [
 
   route("rankings", "./pages/RankingsPage.tsx"),
   route("rankings/:id", "./pages/RankingPage.tsx"),
-
-  route("leagues", "./pages/LeaguesPage.tsx"),
-  route("leagues/:id", "./pages/LeaguePage.tsx"),
 ] satisfies RouteConfig;
