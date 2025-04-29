@@ -56,7 +56,7 @@ export const HistoryMatches = ({
                           </span>
                         </span>
                         <span className="text-sm leading-[1.6] font-normal text-neutral-500 dark:text-gray-400">
-                          {new Date(match.date).toLocaleDateString()}
+                          {new Date(match.submitDate).toLocaleDateString()}
                         </span>
                       </div>
                     </CardContent>
