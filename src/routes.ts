@@ -1,21 +1,26 @@
-import { type RouteConfig, route } from "@react-router/dev/routes";
+import {
+  type RouteConfig,
+  index,
+  layout,
+  route,
+} from "@react-router/dev/routes";
 
 export default [
-  // * matches all URLs, the ? makes it optional so it will match / as well
-  route("/", "./pages/HomePage.tsx"),
-  route("profile", "./pages/ProfilePage.tsx"),
+  layout("layouts/protected.tsx", [
+    index("./routes/home.tsx"),
+    route("leagues", "./routes/leagues.tsx"),
+    route("leagues/:id", "./routes/league.tsx"),
 
-  route("leagues", "./pages/LeaguesPage.tsx"),
-  route("leagues/:id", "./pages/LeaguePage.tsx"),
+    route("league-matches/:id", "./routes/league-match.tsx"),
 
-  route("league-matches/:id", "./pages/LeagueMatchPage.tsx"),
+    route("matches", "./routes/matches.tsx"),
+    route("matches/:id", "./routes/match.tsx"),
 
-  route("matches", "./pages/MatchesPage.tsx"),
-  route("matches/:id", "./pages/MatchPage.tsx"),
+    route("players", "./routes/players.tsx"),
+    route("players/:id", "./routes/player.tsx"),
 
-  route("players", "./pages/PlayersPage.tsx"),
-  route("players/:id", "./pages/PlayerPage.tsx"),
-
-  route("rankings", "./pages/RankingsPage.tsx"),
-  route("rankings/:id", "./pages/RankingPage.tsx"),
+    route("rankings", "./routes/rankings.tsx"),
+    route("rankings/:id", "./routes/ranking.tsx"),
+  ]),
+  route("profile", "./routes/profile.tsx"),
 ] satisfies RouteConfig;

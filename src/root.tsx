@@ -7,10 +7,12 @@ import {
   ScrollRestoration,
   useLocation,
 } from "react-router";
+import { AuthProvider } from "./context/AuthContext";
+
 import { Toaster } from "sonner";
 import { NavigationBar } from "./components/NavigationBar";
-import { AuthProvider } from "./context/AuthContext";
 import { cn } from "./lib/utils";
+import "./styles/globals.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
