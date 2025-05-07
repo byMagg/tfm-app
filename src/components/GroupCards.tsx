@@ -41,7 +41,7 @@ export const GroupCards = ({
             align: "start",
           }}
           orientation="vertical"
-          className="w-full max-w-sm"
+          className="w-full max-w-sm cursor-grab"
         >
           <CarouselContent className="h-[250px]">
             {round?.groups.map((group, index) => (

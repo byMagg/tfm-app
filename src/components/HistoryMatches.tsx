@@ -32,7 +32,10 @@ export const HistoryMatches = ({
         <div
           className={`flex flex-col items-center justify-center w-full ${className}`}
         >
-          <Carousel plugins={[plugin.current]} className="w-full max-w-lg">
+          <Carousel
+            plugins={[plugin.current]}
+            className="w-full max-w-lg cursor-grab"
+          >
             <CarouselContent>
               {matches.map((match, index) => (
                 <CarouselItem key={index} className="w-full max-w-52">
