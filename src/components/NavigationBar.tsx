@@ -16,7 +16,7 @@ const HOME_URL = import.meta.env.VITE_LANDING_URL || "/";
 
 export function NavigationBar({ isProfilePage }: { isProfilePage: boolean }) {
   return (
-    <NavigationMenu className="mx-auto py-2">
+    <NavigationMenu className="mx-auto py-2 select-none">
       <NavigationMenuList>
         <NavigationMenuItem>
           <Link
