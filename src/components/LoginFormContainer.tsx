@@ -1,10 +1,6 @@
 import { app } from "@/lib/firebase/client";
 import { cn } from "@/lib/utils";
-import {
-  getAuth,
-  inMemoryPersistence,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -12,7 +8,6 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
 const auth = getAuth(app);
-auth.setPersistence(inMemoryPersistence);
 
 const validateField = (field: string, value: string) => {
   let error;
