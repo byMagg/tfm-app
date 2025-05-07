@@ -18,6 +18,8 @@ jobs:
           node-version: lts/*
       - uses: pnpm/action-setup@v4
         name: Install pnpm
+        with:
+          version: 10
       - name: Install Vercel CLI
         run: pnpm add --global vercel@latest
       - name: Pull Vercel Environment Information
@@ -34,8 +36,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
-      - name: Enable pnpm via Corepack
-        run: corepack enable && corepack prepare pnpm@latest --activate
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 10
       - name: Install dependencies
         run: pnpm install
       - name: Install Playwright Browsers
@@ -59,6 +63,8 @@ jobs:
           node-version: lts/*
       - uses: pnpm/action-setup@v4
         name: Install pnpm
+        with:
+          version: 10
       - name: Install Vercel CLI
         run: pnpm add --global vercel@latest
       - name: Pull Vercel Environment Information
