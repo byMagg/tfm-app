@@ -1,6 +1,8 @@
+import { useAuth } from "@/context/AuthContext";
+import { getPlayerImage } from "@/controllers";
 import { usePlayer } from "@/hooks/usePlayer";
 import { Country } from "@/types";
-import { getPlayerImage } from "@/utils";
+import {} from "@/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
@@ -11,14 +13,18 @@ export default function PlayerPage() {
 
   const [imgSrc, setImgSrc] = useState("");
 
+  const { token } = useAuth();
+
   useEffect(() => {
     const fetch = async () => {
       if (!player) return;
-      setImgSrc(await getPlayerImage(player.player_id ?? 0));
+      setImgSrc(
+        await getPlayerImage({ playerId: player.player_id ?? 0, token }),
+      );
     };
 
     fetch();
-  }, [player]);
+  }, [player, token]);
 
   return (
     <>
