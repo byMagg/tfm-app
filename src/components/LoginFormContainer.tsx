@@ -1,6 +1,10 @@
 import { app } from "@/lib/firebase/client";
 import { cn } from "@/lib/utils";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  inMemoryPersistence,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -8,7 +12,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
 const auth = getAuth(app);
-auth.setPersistence;
+auth.setPersistence(inMemoryPersistence);
 
 const validateField = (field: string, value: string) => {
   let error;
@@ -82,8 +86,6 @@ export function LoginForm() {
       await signInWithEmailAndPassword(auth, formData.email, formData.password);
 
       toast.dismiss();
-
-      navigate("/");
     } catch (error: any) {
       toast.dismiss();
       toast.error(error.message);

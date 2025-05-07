@@ -1,12 +1,16 @@
 import { useAuth } from "@/context/AuthContext";
-import { Navigate, Outlet } from "react-router";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router";
 
 export default function ProtectedLayout() {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
-  if (!user) {
-    return <Navigate to="/profile" />;
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate("/profile", { replace: true });
+    }
+  }, [user, navigate]);
 
   return <Outlet />;
 }
