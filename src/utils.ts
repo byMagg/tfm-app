@@ -104,38 +104,6 @@ export function parseDateString(date: number) {
   return parsedDate;
 }
 
-export async function getPlayerImage(playerId: number): Promise<string> {
-  //TODO
-
-  let imgSrc = "/images/placeholder.jpg";
-  return imgSrc;
-
-  // const data = await fetchAPI(query);
-  // const player = data.getPlayerByPlayerId;
-
-  // let imgFilename,
-  //   a,
-  //   b = undefined;
-
-  // if (!player) return imgSrc;
-
-  // const wikidata = await fetchWikidata("/entities/items/" + player.wikidata_id);
-
-  // if (!wikidata) return imgSrc;
-  // const imageObject = wikidata.statements.P18;
-
-  // if (imageObject) {
-  //   imgFilename = wikidata.statements.P18[0].value.content.replace(/ /g, "_");
-  //   const imgHash = md5(imgFilename);
-  //   a = imgHash.slice(0, 1);
-  //   b = imgHash.slice(0, 2);
-  // }
-
-  // if (!imgFilename) return imgSrc;
-
-  // return `https://upload.wikimedia.org/wikipedia/commons/${a}/${b}/${imgFilename}`;
-}
-
 export function parseSessionCookie(cookieData: string) {
   const cookies = cookieData.split(";");
 

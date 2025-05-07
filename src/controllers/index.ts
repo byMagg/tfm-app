@@ -1,4 +1,5 @@
-import { fetchAPI } from "@/utils";
+import { fetchAPI, fetchWikidata } from "@/utils";
+import md5 from "md5";
 
 export const getUsers = async ({
   limit = 10,
@@ -263,7 +264,7 @@ export const getPlayer = async ({
   id,
   token,
 }: {
-  id: string;
+  id: number;
   token: string;
 }) => {
   return await fetchAPI({
@@ -326,4 +327,42 @@ export const getHistoricMatches = async ({
     endpoint: `/leagues/${leagueId}/matches`,
     token,
   });
+};
+
+export const getPlayerImage = async ({
+  playerId,
+  token,
+}: {
+  playerId: number;
+  token: string;
+}) => {
+  const imgSrc = "/images/placeholder.jpg";
+
+  const { data: player } = await getPlayer({ id: playerId, token });
+
+  let imgFilename,
+    a,
+    b = undefined;
+
+  if (!player) return imgSrc;
+
+  const wikidata = await fetchWikidata("/entities/items/" + player.wikidata_id);
+
+  console.log("wikidata", wikidata);
+
+  if (!wikidata) return imgSrc;
+  const imageObject = wikidata.statements.P18;
+
+  if (imageObject) {
+    imgFilename = wikidata.statements.P18[0].value.content.replace(/ /g, "_");
+    const imgHash = md5(imgFilename);
+    a = imgHash.slice(0, 1);
+    b = imgHash.slice(0, 2);
+  }
+
+  if (!imgFilename) return imgSrc;
+
+  console.log("imgFilename", imgFilename);
+
+  return `https://upload.wikimedia.org/wikipedia/commons/${a}/${b}/${imgFilename}`;
 };

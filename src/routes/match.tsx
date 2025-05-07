@@ -1,6 +1,8 @@
+import { useAuth } from "@/context/AuthContext";
+import { getPlayerImage } from "@/controllers";
 import { useMatch } from "@/hooks/useMatch";
 import { Country } from "@/types";
-import { getPlayerImage, parseDateString } from "@/utils";
+import { parseDateString } from "@/utils";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
@@ -12,15 +14,17 @@ export default function MatchPage() {
   const [winnerImg, setWinnerImg] = useState<string>();
   const [loserImg, setLoserImg] = useState<string>();
 
+  const { token } = useAuth();
+
   useEffect(() => {
     const fetch = async () => {
       if (!match) return;
 
-      setWinnerImg(await getPlayerImage(match.winner_id));
-      setLoserImg(await getPlayerImage(match.loser_id));
+      setWinnerImg(await getPlayerImage({ playerId: match.winner_id, token }));
+      setLoserImg(await getPlayerImage({ playerId: match.loser_id, token }));
     };
     fetch();
-  }, [match]);
+  }, [match, token]);
 
   return (
     <>
