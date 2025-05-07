@@ -1,6 +1,6 @@
 {
   "rewrites": [{ "source": "/(.*)", "destination": "/" }],
   "github": {
-    "autoJobCancelation": true
+    "deploymentEnabled": false
   }
 }
