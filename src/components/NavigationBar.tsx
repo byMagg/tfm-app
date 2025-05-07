@@ -12,12 +12,18 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 
+const HOME_URL = import.meta.env.VITE_LANDING_URL || "/";
+
 export function NavigationBar({ isProfilePage }: { isProfilePage: boolean }) {
   return (
     <NavigationMenu className="mx-auto py-2">
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link viewTransition to="/" className={navigationMenuTriggerStyle()}>
+          <Link
+            viewTransition
+            to={HOME_URL}
+            className={navigationMenuTriggerStyle()}
+          >
             Inicio
           </Link>
         </NavigationMenuItem>
