@@ -17,7 +17,7 @@ import "./styles/globals.css";
 export function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
 
-  const isProfilePage = location.pathname === "/profile";
+  const isProfilePage = location.pathname === "/";
   return (
     <html className="dark" lang="en">
       <head>

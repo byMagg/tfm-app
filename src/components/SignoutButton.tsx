@@ -6,7 +6,7 @@ export function SignoutButton() {
   const navigate = useNavigate();
   async function signout() {
     await getAuth().signOut();
-    navigate("/profile");
+    navigate("/", { replace: true });
   }
 
   return <Button onClick={signout}>Cerrar sesión</Button>;

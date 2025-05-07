@@ -89,7 +89,7 @@ export function NavigationBar({ isProfilePage }: { isProfilePage: boolean }) {
           {!isProfilePage && (
             <Link
               viewTransition
-              to="/profile"
+              to="/"
               className={navigationMenuTriggerStyle()}
             >
               <img

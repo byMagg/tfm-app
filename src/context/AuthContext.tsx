@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     await auth.signOut();
     setUser(null);
     setToken(null);
-    navigate("/profile");
+    navigate("/", { replace: true });
   };
 
   if (loading) return null;

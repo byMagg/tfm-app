@@ -6,7 +6,7 @@ import {
 } from "@react-router/dev/routes";
 
 export default [
-  index("./routes/home.tsx"),
+  index("./routes/profile.tsx"),
   layout("layouts/protected.tsx", [
     route("leagues", "./routes/leagues.tsx"),
     route("leagues/:id", "./routes/league.tsx"),
@@ -22,5 +22,4 @@ export default [
     route("rankings", "./routes/rankings.tsx"),
     route("rankings/:id", "./routes/ranking.tsx"),
   ]),
-  route("profile", "./routes/profile.tsx"),
 ] satisfies RouteConfig;
