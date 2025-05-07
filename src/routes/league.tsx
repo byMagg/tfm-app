@@ -34,8 +34,8 @@ export default function LeaguePage() {
         </div>
       )}
 
-      <GroupCards className="my-16" leagueId={id} />
-      <HistoryMatches className="my-16" leagueId={id} />
+      <GroupCards className="mb-16 mt-8" leagueId={id} />
+      <HistoryMatches className="my-10" leagueId={id} />
     </>
   );
 }

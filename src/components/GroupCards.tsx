@@ -22,6 +22,19 @@ export const GroupCards = ({
       className={`flex flex-col items-center justify-center w-full ${className}`}
     >
       {loading && <Spinner size="lg" className="bg-black dark:bg-white" />}
+      {round && (
+        <>
+          <h2 className="font-semibold text-xl mb-4">Jornada {round.round}</h2>
+          <span className="text-sm text-gray-500 dark:text-gray-400 mb-16">
+            La jornada finaliza el{" "}
+            {new Date(round.endDate).toLocaleDateString("es-ES", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            })}
+          </span>
+        </>
+      )}
       {
         <Carousel
           opts={{

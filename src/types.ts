@@ -93,6 +93,7 @@ export interface Round {
   endDate: string;
   league_id: string;
   standings: Standing[];
+  round: number;
   groups: [{ players: User[] }];
 }
 
