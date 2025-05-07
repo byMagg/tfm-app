@@ -2,6 +2,8 @@ import AddPlayersForm from "@/components/AddPlayersForm";
 import { GroupCards } from "@/components/GroupCards";
 import { HistoryMatches } from "@/components/HistoryMatches";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useAuth } from "@/context/AuthContext";
+import { startSeason } from "@/controllers";
 import { useLeague } from "@/hooks/useLeague";
 import { Button } from "react-day-picker";
 import { useParams } from "react-router";
@@ -11,23 +13,23 @@ export default function LeaguePage() {
 
   const { league, loading } = useLeague({ id });
 
+  const { token } = useAuth();
+
+  const handleStartSeason = async () => {
+    if (!id) return;
+
+    await startSeason({ leagueId: id, token });
+  };
+
   return (
     <>
       {!loading && league && (
         <div className="flex flex-col gap-4 items-center">
-          <h1
-            className="font-bold text-2xl"
-            // style={{ viewTransitionName: `league-${league._id}` }}
-          >
-            {league.name}
-          </h1>
+          <h1 className="font-bold text-2xl">{league.name}</h1>
           {league.startedAt ? (
             <h3 className="font-semibold text-xl text-green-200 ">EN JUEGO</h3>
           ) : (
-            <Button>Start season</Button>
-            // <form method="POST" action={actions.startSeason}>
-            //   <input type="hidden" name="leagueId" value={league._id} />
-            // </form>
+            <Button onClick={handleStartSeason}>Start season</Button>
           )}
 
           <AddPlayersForm leagueId={id} />
