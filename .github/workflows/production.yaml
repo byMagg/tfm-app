@@ -2,6 +2,7 @@ name: Vercel Production Deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  BASE_URL: ${{ vars.PREVIEW_BASE_URL }}
 on:
   push:
     branches:
@@ -45,8 +46,6 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright Tests on Preview
-        env:
-          BASE_URL: ${{ needs.preview.outputs.preview_url }}
         run: |
           echo "Testing URL: $BASE_URL"
           npx playwright test
